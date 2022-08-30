@@ -1,8 +1,8 @@
 import * as React from 'react';
 
+import TicketSection from '@/components/Home/TicketSection';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
-import Ticket from '@/components/Ticket';
 
 import { TicketType } from '@/types';
 
@@ -18,24 +18,19 @@ import { TicketType } from '@/types';
 // Before you begin editing, follow all comments with `STARTERCONF`,
 // to customize the default configuration.
 
+const tickets = generateDummyTickets(100);
+
 export default function HomePage() {
   return (
     <Layout>
       <Seo templateTitle='Home' />
       <main>
         <section className=' h-full bg-dark'>
-          <div className='flex h-full	w-full items-start justify-start overflow-scroll'>
-            {renderTickets()}
-          </div>
+          <TicketSection tickets={tickets} />
         </section>
       </main>
     </Layout>
   );
-}
-
-function renderTickets() {
-  const tickets = generateDummyTickets(100);
-  return tickets.map((ticket) => <Ticket ticket={ticket} key={ticket.id} />);
 }
 
 function generateDummyTickets(count: number): TicketType[] {
@@ -43,7 +38,11 @@ function generateDummyTickets(count: number): TicketType[] {
   for (let i = 0; i < count; i++) {
     tickets.push({
       id: i + 1,
-      sold: Math.random() > 0.3 ? undefined : `0x00${i + 1}`,
+      isSelected: false,
+      sold:
+        Math.random() > 0.3
+          ? undefined
+          : `0x2C1a07a4cCEeeDBbb2f8134867cbDe7cC812652D`,
     });
   }
   return tickets;

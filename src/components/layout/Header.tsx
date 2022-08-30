@@ -21,8 +21,7 @@ export default function Header() {
             className='text-white hover:text-moonbeam-blue'
           >
             <MetaMaskIcon />
-
-            <p className='ml-2 '>
+            <p className='ml-2'>
               {`${address.substring(0, 4)}...${address.substring(
                 address.length - 4
               )}`}
@@ -30,7 +29,8 @@ export default function Header() {
           </Button>
         ) : (
           <Button variant='outline' onClick={connectWithMetamask}>
-            <p>Connect to Metamask</p>
+            <MetaMaskIcon />
+            <p className='ml-2 '>Connect to MetaMask</p>
           </Button>
         )}
       </div>
