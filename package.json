@@ -18,7 +18,10 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@thirdweb-dev/react": "^2.8.1",
+    "@thirdweb-dev/sdk": "^2.4.1",
     "clsx": "^1.2.1",
+    "ethers": "^5.7.0",
     "next": "^12.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

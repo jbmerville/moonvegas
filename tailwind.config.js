@@ -23,6 +23,13 @@ module.exports = {
           800: 'rgb(var(--tw-color-primary-800) / <alpha-value>)',
           900: 'rgb(var(--tw-color-primary-900) / <alpha-value>)',
         },
+        'moonbeam-blue': 'var(--color-moonbeam-blue)',
+        'moonbeam-cyan-light': 'var(--color-moonbeam-cyan-light)',
+        'moonbeam-pink': 'var(--color-moonbeam-pink)',
+        'moonbeam-purple-light': 'var(--color-moonbeam-purple-light)',
+        'moonbeam-purple-dark': 'var(--color-moonbeam-purple-dark)',
+        'moonbeam-grey-dark': 'var(--color-moonbeam-grey-dark)',
+        'moonbeam-grey-light': 'var(--color-moonbeam-grey-light)',
         dark: '#0e0f22',
       },
       keyframes: {

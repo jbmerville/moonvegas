@@ -23,9 +23,7 @@ export default function HomePage() {
     <Layout>
       <Seo templateTitle='Home' />
       <main>
-        <section className='h-full bg-dark'>
-          {/* <h2 className='text-lg md:text-xl'>Customize Colors</h2> */}
-
+        <section className=' h-full bg-dark'>
           <div className='flex h-full	w-full items-start justify-start overflow-scroll'>
             {renderTickets()}
           </div>

@@ -26,6 +26,13 @@
   --color-primary-800: rgb(var(--tw-color-primary-800)); /* #075985 */
   --color-primary-900: rgb(var(--tw-color-primary-900)); /* #0c4a6e */
   /* #endregion  /**======== Primary Color =========== */
+  --color-moonbeam-cyan-light: #94dfdf;
+  --color-moonbeam-blue: #222b60;
+  --color-moonbeam-pink: #e1117b;
+  --color-moonbeam-purple-light: #2e1646;
+  --color-moonbeam-purple-dark: #0f0717;
+  --color-moonbeam-grey-dark: #1d1d1d;
+  --color-moonbeam-grey-light: #272727;
 }
 
 @layer base {
@@ -119,9 +126,14 @@
 
 /* Self created styles */
 
-.neonText {
-  color: #e0157b;
-  text-shadow: 0 0 4px #dc66a1, 0 0 5px #dc66a1, 0 0 21px #e0157b,
-    0 0 10px #ea00ff, 0 0 82px #ea00ff, 0 0 92px #ea00ff, 0 0 102px #ea00ff,
-    0 0 151px #ea00ff;
+.neonTextPink {
+  color: var(--color-moonbeam-pink);
+  text-shadow: 0 0 4px #e7b3cd, 0 0 5px #dc66a1, 0 0 12px #e0157b,
+    0 0 20px #ea00ff;
+}
+
+.neonTextBlue {
+  color: var(--color-moonbeam-cyan-light);
+  text-shadow: 0 0 4px #848484, 0 0 5px #94dfdf, 0 0 12px #94dfdf,
+    0 0 20px #94dfdf;
 }

@@ -16,20 +16,27 @@ const Ticket = (props: TicketPropsType) => {
     [props.ticket.sold]
   );
 
-  if (isSold) {
+  if (isSold && props.ticket.sold) {
+    const address = props.ticket.sold;
     return (
-      <div className='mx-2 flex h-[200px] min-w-[200px] cursor-pointer flex-col rounded bg-primary-700 px-4 py-2 transition-all'>
-        <div className='neonText rounded-full text-3xl'>{props.ticket.id}</div>
-        <div className='rounded-full text-xl text-white'>
-          {props.ticket.sold}
+      <div className='mx-2 flex h-[200px] min-w-[200px] cursor-pointer flex-col rounded bg-moonbeam-blue px-4 py-2 transition-all'>
+        <div className='neonTextPink rounded-full text-3xl'>
+          {props.ticket.id}
+        </div>
+        <div className='rounded-full text-white'>
+          {`${address.substring(0, 4)}...${address.substring(
+            address.length - 4
+          )}`}
         </div>
       </div>
     );
   }
 
   return (
-    <div className='mx-2 flex h-[350px] min-w-[200px] cursor-pointer flex-col rounded bg-primary-500 px-4 py-2 transition-all hover:mt-[100px] hover:bg-primary-300'>
-      <div className='neonText rounded-full text-3xl'>{props.ticket.id}</div>
+    <div className='mx-2 flex h-[350px] min-w-[200px] cursor-pointer flex-col rounded bg-moonbeam-cyan-light px-4 py-2 transition-all hover:mt-[100px]'>
+      <div className='neonTextPink rounded-full text-3xl'>
+        {props.ticket.id}
+      </div>
       <div className='flex grow items-center justify-center'>
         <div className='mb-8'>
           <Image
