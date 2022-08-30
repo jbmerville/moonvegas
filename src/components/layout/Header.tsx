@@ -28,10 +28,15 @@ export default function Header() {
             </p>
           </Button>
         ) : (
-          <Button variant='outline' onClick={connectWithMetamask}>
-            <MetaMaskIcon />
-            <p className='ml-2 '>Connect to MetaMask</p>
-          </Button>
+          <div className='flex w-[400px] justify-between'>
+            <Button variant='dark'>
+              <p className='ml-2'>Have a referral?</p>
+            </Button>
+            <Button variant='outline' onClick={connectWithMetamask}>
+              <MetaMaskIcon />
+              <p className='ml-2 '>Connect to MetaMask</p>
+            </Button>
+          </div>
         )}
       </div>
     </header>

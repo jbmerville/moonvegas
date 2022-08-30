@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import React, { ReactNode } from 'react';
-import Countdown from 'react-countdown';
 
 import moonbeam from '../../../public/images/moonbeam-token.png';
 
@@ -35,14 +34,8 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
   };
   return (
     <div className='flex h-[240px] w-[800px] flex-col items-start justify-start rounded p-4 '>
-      <div className='flex min-w-full grow flex-row justify-between'>
-        <p className='mb-5 text-2xl text-moonbeam-cyan-light'>
-          Selected Tickets
-        </p>
-        <p className='mb-5 text-2xl text-moonbeam-cyan-light'>
-          <Countdown date={Date.now() + 1000 * 60 * 60 * 24 * 3} /> until draft
-        </p>
-      </div>
+      <p className='mb-5 text-2xl text-moonbeam-cyan-light'>Selected Tickets</p>
+
       <div className='flex w-[768px] items-center justify-start overflow-scroll pl-5'>
         {props.selectedTickets.map(renderMiniatureSelectedTicket)}
       </div>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Countdown from 'react-countdown';
 
 import Button from '@/components/buttons/Button';
 import Ticket from '@/components/Home/Ticket';
@@ -12,6 +13,8 @@ interface TicketSectionPropsType {
 
 const TicketSection = (props: TicketSectionPropsType) => {
   const [selectedTickets, setSelectedTickets] = useState<TicketType[]>([]);
+  const [amountSold, setAmountSold] = useState(0);
+
   const toggleSelectedTickets = (ticket: TicketType): void => {
     if (selectedTickets.includes(ticket)) {
       setSelectedTickets((selectedTickets) =>
@@ -28,8 +31,25 @@ const TicketSection = (props: TicketSectionPropsType) => {
     }
   };
 
+  useEffect(() => {
+    setAmountSold(
+      props.tickets.filter((ticket) => ticket.sold === undefined).length
+    );
+  }, [props.tickets]);
+
   return (
     <>
+      <div className='flex min-w-full grow flex-row justify-between'>
+        <div className='layout mt-10 mb-10 flex  items-center justify-between'>
+          <p className='text-2xl text-moonbeam-pink'>
+            {100 - amountSold}/{100} tickets left
+          </p>
+          <p className='text-2xl text-moonbeam-pink'>
+            <Countdown date={Date.now() + 1000 * 60 * 60 * 24 * 3} /> until
+            draft
+          </p>
+        </div>
+      </div>
       <div className='flex h-full	w-full items-start justify-start overflow-scroll'>
         {props.tickets.map((ticket) => (
           <Ticket
@@ -44,7 +64,7 @@ const TicketSection = (props: TicketSectionPropsType) => {
           selectedTickets={selectedTickets}
           toggleSelectedTickets={toggleSelectedTickets}
         />
-        <Button variant='outline'>
+        <Button variant='outline' className='mt-10'>
           <p className='ml-2 '>
             Buy {selectedTickets.length} Tickets for {selectedTickets.length}{' '}
             GLMR
