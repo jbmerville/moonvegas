@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Countdown from 'react-countdown';
 
 import Button from '@/components/buttons/Button';
-import Ticket from '@/components/Home/Ticket';
-import TicketsSelected from '@/components/Home/TicketsSelected';
+import Ticket from '@/components/ticket/Ticket';
+import TicketsSelected from '@/components/ticket/TicketsSelected';
 
 import { TicketType } from '@/types';
 
@@ -41,10 +41,10 @@ const TicketSection = (props: TicketSectionPropsType) => {
     <>
       <div className='flex min-w-full grow flex-row justify-between'>
         <div className='layout mt-10 mb-10 flex  items-center justify-between'>
-          <p className='text-2xl text-moonbeam-pink'>
-            {100 - amountSold}/{100} tickets left
+          <p className='text-2xl uppercase text-moonbeam-pink'>
+            {100 - amountSold - selectedTickets.length}/{100} tickets left
           </p>
-          <p className='text-2xl text-moonbeam-pink'>
+          <p className='text-2xl uppercase text-moonbeam-pink'>
             <Countdown date={Date.now() + 1000 * 60 * 60 * 24 * 3} /> until
             draft
           </p>

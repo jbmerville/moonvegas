@@ -1,8 +1,9 @@
 import * as React from 'react';
 
-import TicketSection from '@/components/Home/TicketSection';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
+import StatsSections from '@/components/ticket/StatsSections';
+import TicketSection from '@/components/ticket/TicketSection';
 
 import { TicketType } from '@/types';
 
@@ -28,12 +29,13 @@ export default function HomePage() {
         <section className=' h-full bg-dark'>
           <TicketSection tickets={tickets} />
         </section>
+        <StatsSections />
       </main>
     </Layout>
   );
 }
 
-function generateDummyTickets(count: number): TicketType[] {
+export function generateDummyTickets(count: number): TicketType[] {
   const tickets: TicketType[] = [];
   for (let i = 0; i < count; i++) {
     tickets.push({
