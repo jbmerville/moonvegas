@@ -40,14 +40,27 @@ const TicketSection = (props: TicketSectionPropsType) => {
   return (
     <>
       <div className='flex min-w-full grow flex-row justify-between'>
-        <div className='layout mt-10 mb-10 flex  items-center justify-between'>
-          <p className='text-2xl uppercase text-moonbeam-pink'>
-            {100 - amountSold - selectedTickets.length}/{100} tickets left
-          </p>
-          <p className='text-2xl uppercase text-moonbeam-pink'>
-            <Countdown date={Date.now() + 1000 * 60 * 60 * 24 * 3} /> until
-            draft
-          </p>
+        <div className='layout mt-10 mb-10 flex items-center justify-between'>
+          <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
+            <p className='text uppercase text-white opacity-75'>tickets left</p>
+            <p className='text-2xl font-bold uppercase text-white'>
+              {100 - amountSold - selectedTickets.length}/{100}
+            </p>
+          </div>
+          <div className='mx-5 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
+            <p className='text uppercase text-white opacity-75'>
+              How does it work?
+            </p>
+            <p className='cursor-pointer text-2xl font-bold uppercase text-white transition-all hover:text-moonbeam-cyan-light'>
+              Read the Rules
+            </p>
+          </div>
+          <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
+            <p className='text uppercase text-white opacity-75'>Draft start</p>
+            <p className='min-w-[150px] text-center text-2xl font-bold uppercase text-white'>
+              <Countdown date={Date.now() + 1000 * 60 * 60 * 24 * 3} />
+            </p>
+          </div>
         </div>
       </div>
       <div className='flex h-full	w-full items-start justify-start overflow-scroll'>
