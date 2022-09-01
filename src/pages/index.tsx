@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
-import StatsSections from '@/components/ticket/StatsSections';
+import LastSalesSection from '@/components/ticket/LastSalesSection';
 import TicketSection from '@/components/ticket/TicketSection';
 
 import { TicketType } from '@/types';
@@ -29,7 +29,7 @@ export default function HomePage() {
         <section className=' h-full bg-dark'>
           <TicketSection tickets={tickets} />
         </section>
-        <StatsSections />
+        <LastSalesSection />
       </main>
     </Layout>
   );
