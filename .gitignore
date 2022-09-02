@@ -37,3 +37,9 @@ yarn-error.log*
 robots.txt
 sitemap.xml
 sitemap-*.xml
+
+# hardhat
+hardhat/secrets.json
+hardhat/artifacts
+hardhat/cache
+hardhat/node_modules
