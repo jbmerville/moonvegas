@@ -7,8 +7,8 @@ on:
   pull_request: {}
 
 jobs:
-  lint:
-    name: ⬣ ESLint
+  lintClient:
+    name: ⬣ Client - ESLint
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -28,8 +28,8 @@ jobs:
       - name: 🔬 Lint
         run: yarn lint:strict
 
-  typecheck:
-    name: ʦ TypeScript
+  typecheckClient:
+    name: Client - ʦ TypeScript
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -49,8 +49,8 @@ jobs:
       - name: 🔎 Type check
         run: yarn typecheck
 
-  prettier:
-    name: 💅 Prettier
+  prettierClient:
+    name: Client - 💅 Prettier
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -70,8 +70,8 @@ jobs:
       - name: 🔎 Type check
         run: yarn format:check
 
-  test:
-    name: 🃏 Test
+  testClient:
+    name: Client - 🃏 Test
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -90,3 +90,57 @@ jobs:
 
       - name: 🃏 Run jest
         run: yarn test
+
+  prettierSmartContract:
+    name: SmartContract - 💅 Prettier
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./hardhat
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ./hardhat
+
+      - name: 🔎 Type check
+        run: yarn format:check
+        working-directory: ./hardhat
+
+  testSmartContract:
+    name: SmartContract - 🃏 Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./hardhat
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v2
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ./hardhat
+
+      - name: 🃏 Run tests
+        run: yarn run compile
+        working-directory: ./hardhat

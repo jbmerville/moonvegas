@@ -1,6 +1,6 @@
 # Moonbeam Raffle
 
-Front end + SmartConract for raffle on [Moonbeam](https://moonbeam.network/).
+Frontend + SmartContract for raffle on [Moonbeam](https://moonbeam.network/).
 
 ## Setup SmartContract development environment (MacOS)
 
@@ -19,3 +19,14 @@ yarn install # Install dependencies
 yarn run compile # Compile the SmartContracts anytime you make changes
 yarn run deploy:localhost # Deploy the compiled SmartContracts to the node running locally
 ```
+
+## Frontend development environment
+
+First, run the development server:
+
+```bash
+yarn install # Install dependencies
+yarn dev # Run front-end locally
+```
+
+Open http://localhost:3000 with your browser to see the result.

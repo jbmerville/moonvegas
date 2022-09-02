@@ -43,3 +43,4 @@ hardhat/secrets.json
 hardhat/artifacts
 hardhat/cache
 hardhat/node_modules
+hardhat/typechain-types

@@ -37,7 +37,7 @@ const LastSalesSection = () => {
   const hasTransactions = transactions.length > 0;
 
   useEffect(() => {
-    setTransactions(generateDummyTransactions(10));
+    setTransactions(generateDummyTransactions(4));
   }, []);
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
