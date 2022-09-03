@@ -11,8 +11,8 @@
     "lint:strict": "eslint --max-warnings=0 src",
     "typecheck": "tsc --noEmit --incremental false",
     "test:watch": "jest --watch",
-    "test": "jest",
-    "format": "prettier -w .",
+    "test": "jest ./src",
+    "format": "prettier -w ./src",
     "format:check": "prettier -c ./src",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "prepare": "husky install"

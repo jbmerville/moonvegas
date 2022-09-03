@@ -26,13 +26,9 @@ const Ticket = (props: TicketPropsType) => {
     const address = props.ticket.sold;
     return (
       <div className='mx-1 flex h-[100px] min-w-[100px] cursor-pointer flex-col rounded bg-moonbeam-grey-light px-4 py-2 transition-all md:mx-2 md:h-[200px] md:min-w-[200px]'>
-        <div className='neonTextPink rounded-full text-2xl md:text-4xl'>
-          {props.ticket.id}
-        </div>
+        <div className='neonTextPink rounded-full text-2xl md:text-4xl'>{props.ticket.id}</div>
         <div className='rounded-full text-xs text-white md:text-lg'>
-          {`${address.substring(0, 4)}...${address.substring(
-            address.length - 4
-          )}`}
+          {`${address.substring(0, 4)}...${address.substring(address.length - 4)}`}
         </div>
         <p className='mb-4 flex grow items-center justify-center text-lg text-white md:text-4xl'>
           SOLD
@@ -56,27 +52,13 @@ const Ticket = (props: TicketPropsType) => {
           props.ticket.isSelected ? 'bg-moonbeam-cyan' : 'bg-moonbeam-blue'
         } border px-4 py-2 transition-all`}
       >
-        <div className='neonTextPink rounded-full text-2xl md:text-4xl'>
-          {props.ticket.id}
-        </div>
+        <div className='neonTextPink rounded-full text-2xl md:text-4xl'>{props.ticket.id}</div>
         <div className='flex grow items-center justify-center'>
           <div className='mb-8 hidden md:block'>
-            <Image
-              src={moonbeam}
-              layout='fixed'
-              height='100px'
-              width='100px'
-              alt=''
-            />
+            <Image src={moonbeam} layout='fixed' height='100px' width='100px' alt='' />
           </div>
           <div className='mb-8 block md:hidden'>
-            <Image
-              src={moonbeam}
-              layout='fixed'
-              height='50px'
-              width='50px'
-              alt=''
-            />
+            <Image src={moonbeam} layout='fixed' height='50px' width='50px' alt='' />
           </div>
         </div>
       </div>

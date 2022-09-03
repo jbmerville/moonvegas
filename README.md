@@ -11,7 +11,7 @@ docker pull purestake/moonbeam:v0.25.0 # Download Moonbeam docker image (only ru
 docker run --rm --name moonbeam_development -p 9944:9944 -p 9933:9933 purestake/moonbeam:v0.25.0 --dev --ws-external --rpc-external # Run the node
 ```
 
-Once the node is running you can deploy the SmartContracts to that node:
+Once the node is running, deploy the SmartContracts to that node:
 
 ```bash
 cd hardhat # All the SmartContracts files are located in the ./hardhat directory
@@ -20,9 +20,9 @@ yarn run compile # Compile the SmartContracts anytime you make changes
 yarn run deploy:localhost # Deploy the compiled SmartContracts to the node running locally
 ```
 
-## Frontend development environment
+## Setup Frontend development environment
 
-First, run the development server:
+Run the development server:
 
 ```bash
 yarn install # Install dependencies

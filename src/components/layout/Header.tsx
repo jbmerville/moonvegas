@@ -27,15 +27,10 @@ export default function Header() {
             </div>
           </div>
           {address ? (
-            <Button
-              variant='outline'
-              className='bg-orange/10 text-white hover:bg-moonbeam-cyan/40'
-            >
+            <Button variant='outline' className='bg-orange/10 text-white hover:bg-moonbeam-cyan/40'>
               <MetaMaskIcon />
               <p className='ml-2'>
-                {`${address.substring(0, 4)}...${address.substring(
-                  address.length - 4
-                )}`}
+                {`${address.substring(0, 4)}...${address.substring(address.length - 4)}`}
               </p>
             </Button>
           ) : (

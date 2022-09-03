@@ -20,28 +20,14 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
         onClick={() => props.toggleSelectedTickets(ticket)}
         className='z-10  mx-2 ml-[-20px] flex h-[90px] min-w-[40px] cursor-pointer flex-col rounded bg-moonbeam-cyan px-4 py-2 shadow-[0_0px_20px_-4px_rgb(0,0,0)] transition-all md:h-[150px] md:min-w-[90px]  md:shadow-[0_0px_52px_-7px_rgb(0,0,0)]'
       >
-        <div className='neonTextPink rounded-full text-lg md:text-2xl'>
-          {ticket.id}
-        </div>
+        <div className='neonTextPink rounded-full text-lg md:text-2xl'>{ticket.id}</div>
         <div className='flex grow items-center justify-center'>
           <div className='mb-3'>
             <div className='mb-8 hidden md:block'>
-              <Image
-                src={moonbeam}
-                layout='fixed'
-                height='50px'
-                width='50px'
-                alt=''
-              />
+              <Image src={moonbeam} layout='fixed' height='50px' width='50px' alt='' />
             </div>
             <div className='block md:hidden'>
-              <Image
-                src={moonbeam}
-                layout='fixed'
-                height='25px'
-                width='25px'
-                alt=''
-              />
+              <Image src={moonbeam} layout='fixed' height='25px' width='25px' alt='' />
             </div>
           </div>
         </div>
@@ -64,8 +50,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             className='mb-3 mt-5 flex bg-moonbeam-cyan/20 hover:bg-moonbeam-cyan/40 md:mt-10'
           >
             <p className='ml-2 '>
-              Buy {props.selectedTickets.length} Tickets for{' '}
-              {props.selectedTickets.length} GLMR{' '}
+              Buy {props.selectedTickets.length} Tickets for {props.selectedTickets.length} GLMR{' '}
             </p>
             <div className='mb-[-3px] ml-2'>
               <MoonbeamIcon />

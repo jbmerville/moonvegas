@@ -46,13 +46,7 @@ const LastSalesSection = () => {
         <div className='neonTextPink text'>{ticket.id}</div>
         <div className='flex grow items-center justify-center'>
           <div className=''>
-            <Image
-              src={moonbeam}
-              layout='fixed'
-              height='15px'
-              width='15px'
-              alt=''
-            />
+            <Image src={moonbeam} layout='fixed' height='15px' width='15px' alt='' />
           </div>
         </div>
       </div>
@@ -100,34 +94,23 @@ const LastSalesSection = () => {
                     <p className='block md:hidden'>{`${transaction.address.substring(
                       0,
                       6
-                    )}...${transaction.address.substring(
-                      transaction.address.length - 6
-                    )}`}</p>
+                    )}...${transaction.address.substring(transaction.address.length - 6)}`}</p>
                   </td>
                   <td className='p-1 md:p-4'>
-                    <p className='hidden md:block'>
-                      {transaction.date.toLocaleString()}
-                    </p>
-                    <p className='block md:hidden'>
-                      {transaction.date.toLocaleDateString()}
-                    </p>
+                    <p className='hidden md:block'>{transaction.date.toLocaleString()}</p>
+                    <p className='block md:hidden'>{transaction.date.toLocaleDateString()}</p>
                   </td>
                   <td className='p-1 md:p-4'>
                     <p className='hidden md:block'>
                       <div className='flex w-[220px] items-center justify-start overflow-scroll pl-5'>
-                        {transaction.ticketsBought.map(
-                          renderMiniatureSelectedTicket
-                        )}
+                        {transaction.ticketsBought.map(renderMiniatureSelectedTicket)}
                       </div>
                     </p>
-                    <p className='block md:hidden'>
-                      {transaction.ticketsBought.length}
-                    </p>
+                    <p className='block md:hidden'>{transaction.ticketsBought.length}</p>
                   </td>
                   <td className='p-1 md:p-4'>
                     <div className='flex items-center justify-center'>
-                      <p className='mr-1'>{transaction.price}</p>{' '}
-                      <MoonbeamIcon />
+                      <p className='mr-1'>{transaction.price}</p> <MoonbeamIcon />
                     </div>
                   </td>
                   <td className='p-1 md:p-4'>
@@ -140,9 +123,7 @@ const LastSalesSection = () => {
                     <p className='block md:hidden'>{`${transaction.address.substring(
                       0,
                       4
-                    )}...${transaction.address.substring(
-                      transaction.address.length - 4
-                    )}`}</p>
+                    )}...${transaction.address.substring(transaction.address.length - 4)}`}</p>
                   </td>
                 </tr>
               ))}

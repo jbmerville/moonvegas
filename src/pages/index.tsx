@@ -41,10 +41,7 @@ export function generateDummyTickets(count: number): TicketType[] {
     tickets.push({
       id: i + 1,
       isSelected: false,
-      sold:
-        Math.random() > 0.3
-          ? undefined
-          : `0x2C1a07a4cCEeeDBbb2f8134867cbDe7cC812652D`,
+      sold: Math.random() > 0.3 ? undefined : `0x2C1a07a4cCEeeDBbb2f8134867cbDe7cC812652D`,
     });
   }
   return tickets;
