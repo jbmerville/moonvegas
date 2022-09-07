@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Countdown from 'react-countdown';
+
+import useRaffle from '@/hooks/useRaffle';
 
 import { TicketType } from '@/types';
 
 interface RaffleInfoCardsSectionPropsType {
-  tickets: TicketType[];
   selectedTickets: TicketType[];
 }
 
 const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
-  const [amountSold, setAmountSold] = useState(0);
-
-  useEffect(() => {
-    setAmountSold(props.tickets.filter((ticket) => ticket.sold === undefined).length);
-  }, [props.tickets]);
+  const { draftTime, ticketsLeft, tickets } = useRaffle();
 
   return (
     <>
@@ -25,7 +22,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
           <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
             <p className='text uppercase text-white opacity-75'>tickets left</p>
             <p className='text-2xl font-bold uppercase text-white'>
-              {100 - amountSold - props.selectedTickets.length}/{100}
+              {ticketsLeft.length - props.selectedTickets.length}/{tickets.length}
             </p>
           </div>
           <div className='mx-5 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
@@ -36,9 +33,9 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
           </div>
           <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
             <p className='text uppercase text-white opacity-75'>Draft start</p>
-            <p className='min-w-[150px] text-center text-2xl font-bold uppercase text-white'>
-              <Countdown date={Date.now() + 1000 * 60 * 60 * 24 * 3} />
-            </p>
+            <div className='min-w-[150px] text-center text-2xl font-bold uppercase text-white'>
+              <Countdown date={draftTime?.getTime()} />
+            </div>
           </div>
         </div>
       </div>
@@ -51,13 +48,13 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
             <div className='mr-3 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
               <p className='text uppercase text-white opacity-75'>tickets left</p>
               <p className='text-xl font-bold uppercase text-white'>
-                {100 - amountSold - props.selectedTickets.length}/{100}
+                {/* {ticketsLeft.length - props.selectedTickets.length}/{tickets.length} */}
               </p>
             </div>
             <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
               <p className='text uppercase text-white opacity-75'>Draft start</p>
               <p className='min-w-[130px] text-center text-xl font-bold uppercase text-white'>
-                <Countdown date={Date.now() + 1000 * 60 * 60 * 24 * 3} />
+                {/* <Countdown date={draftTime} /> */}
               </p>
             </div>
           </div>

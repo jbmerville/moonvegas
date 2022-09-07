@@ -1,12 +1,11 @@
-import { useAddress, useMetamask } from '@thirdweb-dev/react';
+import { useEthers } from '@usedapp/core';
 import * as React from 'react';
 
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 
 export default function Header() {
-  const connectWithMetamask = useMetamask();
-  const address = useAddress();
+  const { account, deactivate, activateBrowserWallet } = useEthers();
 
   return (
     <>
@@ -26,11 +25,15 @@ export default function Header() {
               Beta
             </div>
           </div>
-          {address ? (
-            <Button variant='outline' className='bg-orange/10 text-white hover:bg-moonbeam-cyan/40'>
+          {account ? (
+            <Button
+              variant='outline'
+              className='bg-orange/10 text-white hover:bg-moonbeam-cyan/40'
+              onClick={deactivate}
+            >
               <MetaMaskIcon />
               <p className='ml-2'>
-                {`${address.substring(0, 4)}...${address.substring(address.length - 4)}`}
+                {`${account.substring(0, 4)}...${account.substring(account.length - 4)}`}
               </p>
             </Button>
           ) : (
@@ -40,7 +43,7 @@ export default function Header() {
               </Button>
               <Button
                 variant='outline'
-                onClick={connectWithMetamask}
+                onClick={activateBrowserWallet}
                 className='bg-moonbeam-cyan/20 hover:bg-moonbeam-cyan/40'
               >
                 <MetaMaskIcon />

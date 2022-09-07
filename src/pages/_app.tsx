@@ -1,19 +1,24 @@
-/**
- * !STARTERCONF info
- * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too
- */
-import { ThirdwebProvider } from '@thirdweb-dev/react';
+import { Config, DAppProvider } from '@usedapp/core';
 import { AppProps } from 'next/app';
 
 import '@/styles/globals.css';
-// !STARTERCONF This is for demo purpo ses, remove @/styles/colors.css import immediately
-// import '@/styles/colors.css';
+
+import { currentNetworkChainId, dappConfig } from '@/config';
+
+// To override the currentNetwork, set the ENV variable to "production" in .env
+export const currentDappConfig = dappConfig[currentNetworkChainId] as Config;
+
+// eslint-disable-next-line no-console
+console.log({
+  currentNetworkChainId,
+  currentDappConfig,
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThirdwebProvider desiredChainId={1287}>
+    <DAppProvider config={currentDappConfig}>
       <Component {...pageProps} />
-    </ThirdwebProvider>
+    </DAppProvider>
   );
 }
 export default MyApp;

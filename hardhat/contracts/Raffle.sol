@@ -11,6 +11,11 @@ contract Raffle is Ownable {
     uint256 ticketAmount;
   }
 
+  struct TicketBought {
+    address owner;
+    uint256 ticketId;
+  }
+
   uint256 public draftTime; // When the draft ends
   uint256 public maxTicketAmount; // Max amount of tickets in the current raffle
   uint256 public nextRaffleMaxTicketAmount; // Max amount of tickets in the next raffle
@@ -22,6 +27,7 @@ contract Raffle is Ownable {
   mapping(uint256 => address payable) public ticketsOwner; // Mapping of ticketId to address that bought this ticket
   mapping(address => uint256[]) public ticketsBoughtByPlayer; // Mapping of address to all the tickets bought by this address
   RaffleHistory[] public rafflesHistoy; // History of all the previous raffles excluding the current one
+  TicketBought[] public ticketsBought; // All the ticketIds that have been bought already
 
   event PurchasedTickets(address player, uint256[] ticketsBought);
   event RaffleEnd(address winner, uint256 winningTicket, uint256 ticketAmount);
@@ -72,7 +78,7 @@ contract Raffle is Ownable {
   }
 
   /**
-   * @param _ticketIds Array containing the ids of ticket to purchase
+   * @param _ticketIds Array containing the ids of ticket to bed purchased
    */
   function purchase(uint256[] memory _ticketIds) external payable {
     require(block.timestamp <= draftTime, "Can't buy ticket after raffle is draft time is passed");
@@ -89,6 +95,8 @@ contract Raffle is Ownable {
       require(ticketsOwner[_ticketIds[i]] == address(0), 'Ticket should not be purchased already');
       ticketsOwner[_ticketIds[i]] = payable(msg.sender);
       ticketsBoughtByPlayer[msg.sender].push(_ticketIds[i]);
+      ticketsBought.push(TicketBought(msg.sender, _ticketIds[i])); // TODO add test to verify that this is populated properly
+
       currTicketAmount++;
     }
     currentPlayers.push(msg.sender);
@@ -145,5 +153,9 @@ contract Raffle is Ownable {
           )
         )
       ) % maxTicketAmount) + 1;
+  }
+
+  function getTicketsBought() public view returns (TicketBought[] memory) {
+    return ticketsBought;
   }
 }

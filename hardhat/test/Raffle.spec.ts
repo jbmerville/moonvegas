@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { BigNumber } from 'ethers';
 import { ethers } from 'hardhat';
 
-import { Raffle } from '../typechain-types';
+import { Raffle } from '../types';
 
 describe('Raffle', function () {
   const PRICE = ethers.utils.parseEther('20');

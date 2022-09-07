@@ -3,8 +3,6 @@ import React, { ReactNode, useEffect, useState } from 'react';
 
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 
-import { generateDummyTickets } from '@/pages';
-
 import moonbeam from '../../../public/images/moonbeam-token.png';
 
 import { TicketType } from '@/types';
@@ -15,6 +13,18 @@ interface TransactionType {
   ticketsBought: TicketType[];
   price: number;
   transactionHash: string;
+}
+
+export function generateDummyTickets(count: number): TicketType[] {
+  const tickets: TicketType[] = [];
+  for (let i = 0; i < count; i++) {
+    tickets.push({
+      id: i + 1,
+      isSelected: false,
+      owner: Math.random() > 0.3 ? undefined : `0x2C1a07a4cCEeeDBbb2f8134867cbDe7cC812652D`,
+    });
+  }
+  return tickets;
 }
 
 function generateDummyTransactions(count: number): TransactionType[] {
@@ -42,7 +52,10 @@ const LastSalesSection = () => {
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
     return (
-      <div className='mx-2 ml-[-15px] flex h-[55px] w-[40px] flex-col items-center justify-center rounded border bg-moonbeam-blue px-2 py-2 shadow-[0_0px_20px_-7px_rgb(0,0,0)]  transition-all'>
+      <div
+        key={ticket.id}
+        className='mx-2 ml-[-15px] flex h-[55px] w-[40px] flex-col items-center justify-center rounded border bg-moonbeam-blue px-2 py-2 shadow-[0_0px_20px_-7px_rgb(0,0,0)]  transition-all'
+      >
         <div className='neonTextPink text'>{ticket.id}</div>
         <div className='flex grow items-center justify-center'>
           <div className=''>
@@ -84,9 +97,9 @@ const LastSalesSection = () => {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((transaction) => (
+              {transactions.map((transaction, i) => (
                 <tr
-                  key={transaction.transactionHash}
+                  key={i}
                   className='box-border border-t border-moonbeam-cyan bg-dark text-center'
                 >
                   <td className='p-1 md:p-4'>
@@ -101,11 +114,11 @@ const LastSalesSection = () => {
                     <p className='block md:hidden'>{transaction.date.toLocaleDateString()}</p>
                   </td>
                   <td className='p-1 md:p-4'>
-                    <p className='hidden md:block'>
+                    <div className='hidden md:block'>
                       <div className='flex w-[220px] items-center justify-start overflow-scroll pl-5'>
                         {transaction.ticketsBought.map(renderMiniatureSelectedTicket)}
                       </div>
-                    </p>
+                    </div>
                     <p className='block md:hidden'>{transaction.ticketsBought.length}</p>
                   </td>
                   <td className='p-1 md:p-4'>

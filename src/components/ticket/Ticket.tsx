@@ -10,20 +10,20 @@ interface TicketPropsType {
   toggleSelectedTickets: (ticket: TicketType) => void;
 }
 const Ticket = (props: TicketPropsType) => {
-  const [isSold, setIsSold] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
   useEffect(() => {
-    setIsSold(props.ticket.sold !== undefined);
-  }, [props.ticket.sold]);
+    setIsOwner(props.ticket.owner !== undefined);
+  }, [props.ticket.owner]);
 
   const toggleHover = () => {
     setIsHover((isHoverVal) => !isHoverVal);
   };
 
-  // Ticket is sold
-  if (isSold && props.ticket.sold) {
-    const address = props.ticket.sold;
+  // Ticket is owner
+  if (isOwner && props.ticket.owner) {
+    const address = props.ticket.owner;
     return (
       <div className='mx-1 flex h-[100px] min-w-[100px] cursor-pointer flex-col rounded bg-moonbeam-grey-light px-4 py-2 transition-all md:mx-2 md:h-[200px] md:min-w-[200px]'>
         <div className='neonTextPink rounded-full text-2xl md:text-4xl'>{props.ticket.id}</div>
@@ -37,7 +37,7 @@ const Ticket = (props: TicketPropsType) => {
     );
   }
 
-  // Ticket is not sold
+  // Ticket is not owner
   return (
     <div
       onMouseEnter={toggleHover}

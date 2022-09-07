@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 
+import useRaffle from '@/hooks/useRaffle';
+
 import RaffleInfoCardsSection from '@/components/ticket/RaffleInfoCardsSection';
 import Ticket from '@/components/ticket/Ticket';
 import TicketsSelected from '@/components/ticket/TicketsSelected';
 
 import { TicketType } from '@/types';
 
-interface TicketSectionPropsType {
-  tickets: TicketType[];
-}
-
-const TicketSection = (props: TicketSectionPropsType) => {
+const TicketSection = () => {
   const [selectedTickets, setSelectedTickets] = useState<TicketType[]>([]);
+  const { tickets } = useRaffle();
 
   const toggleSelectedTickets = (ticket: TicketType): void => {
     if (selectedTickets.includes(ticket)) {
@@ -29,9 +28,9 @@ const TicketSection = (props: TicketSectionPropsType) => {
 
   return (
     <>
-      <RaffleInfoCardsSection tickets={props.tickets} selectedTickets={selectedTickets} />
+      <RaffleInfoCardsSection selectedTickets={selectedTickets} />
       <div className='flex h-full	w-full items-start justify-start overflow-scroll'>
-        {props.tickets.map((ticket) => (
+        {tickets.map((ticket) => (
           <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
         ))}
       </div>

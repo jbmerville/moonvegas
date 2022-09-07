@@ -1,5 +1,15 @@
+import { BigNumber } from 'ethers';
+
 export interface TicketType {
   id: number;
-  sold?: string;
+  owner?: string;
   isSelected: boolean;
+}
+
+export interface RaffleState {
+  tickets: TicketType[];
+  ticketsLeft: TicketType[];
+  ticketsBought: TicketType[];
+  draftTime: Date;
+  ticketPrice: BigNumber;
 }

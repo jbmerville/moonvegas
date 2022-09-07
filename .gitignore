@@ -29,6 +29,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env
 
 # vercel
 .vercel
@@ -43,4 +44,4 @@ hardhat/secrets.json
 hardhat/artifacts
 hardhat/cache
 hardhat/node_modules
-hardhat/typechain-types
+hardhat/types
