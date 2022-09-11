@@ -26,6 +26,10 @@ const TicketSection = () => {
     }
   };
 
+  const resetTicketsSelected = () => {
+    setSelectedTickets([]);
+  };
+
   return (
     <>
       <RaffleInfoCardsSection selectedTickets={selectedTickets} />
@@ -38,6 +42,7 @@ const TicketSection = () => {
         <TicketsSelected
           selectedTickets={selectedTickets}
           toggleSelectedTickets={toggleSelectedTickets}
+          resetTicketsSelected={resetTicketsSelected}
         />
       </div>
     </>

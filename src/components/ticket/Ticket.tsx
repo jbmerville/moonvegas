@@ -48,7 +48,7 @@ const Ticket = (props: TicketPropsType) => {
       <div
         className={`mx-1 md:mx-2 ${
           isHover || props.ticket.isSelected ? 'mt-10' : ''
-        } flex h-[150px] min-w-[100px] cursor-pointer flex-col rounded md:h-[350px] md:min-w-[200px] ${
+        } flex h-[165px] min-w-[100px] cursor-pointer flex-col rounded md:h-[350px] md:min-w-[200px] ${
           props.ticket.isSelected ? 'bg-moonbeam-cyan' : 'bg-moonbeam-blue'
         } border px-4 py-2 transition-all`}
       >
@@ -57,7 +57,7 @@ const Ticket = (props: TicketPropsType) => {
           <div className='mb-8 hidden md:block'>
             <Image src={moonbeam} layout='fixed' height='100px' width='100px' alt='' />
           </div>
-          <div className='mb-8 block md:hidden'>
+          <div className='mb-4 block md:hidden'>
             <Image src={moonbeam} layout='fixed' height='50px' width='50px' alt='' />
           </div>
         </div>

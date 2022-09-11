@@ -7,6 +7,7 @@ import { BigNumber, utils } from 'ethers';
 import raffleArtifacts from 'hardhat/artifacts/contracts/Raffle.sol/Raffle.json';
 import { Raffle } from 'hardhat/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { contractConfig, currentNetworkChainId } from '@/config';
 
@@ -27,14 +28,14 @@ export function generateTickets(maxTicketCount: number): TicketType[] {
 }
 
 const useRaffle = () => {
-  const { account, library, chainId } = useEthers();
+  const { account, library, chainId, switchNetwork } = useEthers();
 
   const contract = useMemo(
     () => new Contract(raffleAddress, raffleAbi, library) as Raffle,
     [library]
   );
 
-  const { send } = useContractFunction(contract, 'purchase');
+  const { send, state } = useContractFunction(contract, 'purchase');
 
   const [purchasing, setPurchasing] = useState<boolean>(false);
   const [raffleState, setRaffleState] = useState<RaffleState>({
@@ -47,29 +48,36 @@ const useRaffle = () => {
 
   const purchase = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async (tickets: TicketType[], options?: any) => {
-      console.log('Pressed purchase');
+    async (tickets: TicketType[], resetTicketsSelected: () => void, options?: any) => {
       if (chainId !== currentNetworkChainId) {
+        toast.error('You are not the correct network. Add Moonbase Alpha to MetaMask.');
         await switchNetwork(currentNetworkChainId);
       }
+
       const ticketIds = tickets.map((ticket) => ticket.id);
       const price = raffleState.ticketPrice.mul(ticketIds.length);
+
       try {
         if (account && library) {
-          const accountBalance = await library.getBalance(account);
-          console.log({ account, accountBalance });
           setPurchasing(true);
+          toast.info('Sending purchase transaction');
           const res = await send(ticketIds, { value: price, ...options });
-          console.log({ res });
+          if (res?.status == 1) {
+            toast.success('Successfully purchased tickets');
+          } else {
+            toast.error(`Transaction unsuccessful: ${state.errorMessage}`);
+          }
+          resetTicketsSelected();
           setPurchasing(false);
         } else {
+          toast.error('Please login to MetaMask to purchase');
           console.error(`Account not found`);
         }
       } catch (e) {
         console.error('Something went wrong', e);
       }
     },
-    [account, send, raffleState.ticketPrice, library, chainId]
+    [account, send, raffleState.ticketPrice, library, chainId, switchNetwork, state.errorMessage]
   );
 
   // Log info about the chain and the smart contract. Fields must be explictly disabled. Defaults to logging all values.
@@ -174,6 +182,3 @@ const useRaffle = () => {
 };
 
 export default useRaffle;
-function switchNetwork(currentNetworkChainId: number) {
-  throw new Error('Function not implemented.');
-}
