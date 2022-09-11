@@ -1,9 +1,13 @@
+import { getExplorerAddressLink } from '@usedapp/core';
 import * as React from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
 import Header from '@/components/layout/Header';
+import UnderlineLink from '@/components/links/UnderlineLink';
+
+import { currentNetworkChainId, currentRaffleAddress } from '@/config';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   // Put Header or Footer Here
@@ -22,11 +26,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         draggable
         pauseOnHover
       />
-      <div className='layout z-50 flex items-center justify-between '>
-        <div className='mb:text flex w-full items-center justify-center pt-2 pb-6 text-center text-xs text-white/50'>
+      <div className='layout z-50 flex flex-col items-center justify-center pt-2 pb-6'>
+        <div className='mb:text flex w-full items-center justify-center  text-center text-xs text-white/50'>
           MoonVegas is not available in Excluded Jurisdictions. By accessing and using the interface
           you agree with our Terms & Conditions.
         </div>
+        <p className='text-xs text-white/50'>
+          View Raffle Smart Contract in explorer:{' '}
+          <UnderlineLink href={getExplorerAddressLink(currentRaffleAddress, currentNetworkChainId)}>
+            {currentRaffleAddress}
+          </UnderlineLink>
+        </p>
       </div>
     </>
   );

@@ -1,18 +1,9 @@
-import { Config, DAppProvider } from '@usedapp/core';
+import { DAppProvider } from '@usedapp/core';
 import { AppProps } from 'next/app';
 
 import '@/styles/globals.css';
 
-import { currentNetworkChainId, dappConfig } from '@/config';
-
-// To override the currentNetwork, set the NEXT_PUBLIC_ENV variable to "production" in .env
-export const currentDappConfig = dappConfig[currentNetworkChainId] as Config;
-
-// eslint-disable-next-line no-console
-console.log({
-  currentNetworkChainId,
-  currentDappConfig,
-});
+import { currentDappConfig } from '@/config';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

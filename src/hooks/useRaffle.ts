@@ -9,12 +9,11 @@ import { Raffle } from 'hardhat/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { contractConfig, currentNetworkChainId } from '@/config';
+import { currentNetworkChainId, currentRaffleAddress } from '@/config';
 
 import { RaffleState, TicketType } from '@/types';
 
 const raffleAbi = new utils.Interface(raffleArtifacts.abi);
-const raffleAddress = contractConfig[currentNetworkChainId].raffleAddress;
 
 export function generateTickets(maxTicketCount: number): TicketType[] {
   const tickets: TicketType[] = [];
@@ -31,7 +30,7 @@ const useRaffle = () => {
   const { account, library, chainId, switchNetwork } = useEthers();
 
   const contract = useMemo(
-    () => new Contract(raffleAddress, raffleAbi, library) as Raffle,
+    () => new Contract(currentRaffleAddress, raffleAbi, library) as Raffle,
     [library]
   );
 

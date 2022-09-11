@@ -60,3 +60,8 @@ export const contractConfig = {
 export const currentNetworkChainId = isMoonbaseAlpha
   ? MoonbaseAlpha.chainId
   : LocalhostChain.chainId;
+
+export const currentRaffleAddress = contractConfig[currentNetworkChainId].raffleAddress;
+
+// To override the currentNetwork, set the NEXT_PUBLIC_ENV variable to "production" in .env
+export const currentDappConfig = dappConfig[currentNetworkChainId] as Config;

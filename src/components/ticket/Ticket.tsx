@@ -1,4 +1,4 @@
-import { useEthers } from '@usedapp/core';
+import { shortenAddress, useEthers } from '@usedapp/core';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
@@ -24,7 +24,7 @@ const Ticket = (props: TicketPropsType) => {
   };
 
   // Ticket is not owned by the current account
-  if (props.ticket.owner == account) {
+  if (props.ticket.owner && props.ticket.owner === account) {
     return (
       <div className='h-[210px] md:h-[400px]'>
         <div
@@ -55,9 +55,7 @@ const Ticket = (props: TicketPropsType) => {
     return (
       <div className='mx-1 flex h-[100px] min-w-[100px] cursor-pointer flex-col rounded bg-moonbeam-grey-light px-4 py-2 transition-all md:mx-2 md:h-[200px] md:min-w-[200px]'>
         <div className='neonTextPink rounded-full text-2xl md:text-4xl'>{props.ticket.id}</div>
-        <div className='rounded-full text-xs text-white md:text-lg'>
-          {`${address.substring(0, 4)}...${address.substring(address.length - 4)}`}
-        </div>
+        <div className='rounded-full text-xs text-white md:text-lg'>{shortenAddress(address)}</div>
         <p className='mb-4 flex grow items-center justify-center text-lg text-white md:text-4xl'>
           SOLD
         </p>
