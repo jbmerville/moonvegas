@@ -1,53 +1,75 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { getExplorerTransactionLink } from '@usedapp/core';
+import { BigNumber, utils } from 'ethers';
+import raffleArtifacts from 'hardhat/artifacts/contracts/Raffle.sol/Raffle.json';
 import Image from 'next/image';
 import React, { ReactNode, useEffect, useState } from 'react';
 
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
+import UnderlineLink from '@/components/links/UnderlineLink';
+
+import { currentNetworkChainId, currentRaffleAddress } from '@/config';
 
 import moonbeam from '../../../public/images/moonbeam-token.png';
 
 import { TicketType } from '@/types';
 
+const raffleAbi = new utils.Interface(raffleArtifacts.abi);
+
 interface TransactionType {
   address: string;
   date: Date;
   ticketsBought: TicketType[];
-  price: number;
-  transactionHash: string;
+  price: string;
+  hash: string;
+  block: string;
 }
-
-export function generateDummyTickets(count: number): TicketType[] {
-  const tickets: TicketType[] = [];
-  for (let i = 0; i < count; i++) {
-    tickets.push({
-      id: i + 1,
-      isSelected: false,
-      owner: Math.random() > 0.3 ? undefined : `0x2C1a07a4cCEeeDBbb2f8134867cbDe7cC812652D`,
-    });
-  }
-  return tickets;
-}
-
-function generateDummyTransactions(count: number): TransactionType[] {
-  const transactions: TransactionType[] = [];
-  for (let i = 0; i < count; i++) {
-    const ticketsBought = Math.round(Math.random() * 10);
-    transactions.push({
-      address: `0x2C1a07a4cCEeeDBbb2f8134867cbDe7cC812652D`,
-      date: new Date(Date.now()),
-      ticketsBought: generateDummyTickets(Math.round(Math.random() * 10) + 1),
-      price: ticketsBought,
-      transactionHash: '0x2C1a07a4cCEeeDBbb2f8134867cbDe7cC812652D',
-    });
-  }
-  return transactions;
-}
+const MOONBASE_ALPHA_RPC_API_BASE_URL = 'https://api-moonbase.moonscan.io/api';
 
 const LastSalesSection = () => {
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
   const hasTransactions = transactions.length > 0;
 
   useEffect(() => {
-    setTransactions(generateDummyTransactions(4));
+    const fetchHistory = async () => {
+      const result = await fetch(
+        `${MOONBASE_ALPHA_RPC_API_BASE_URL}?module=account&action=txlist&address=${currentRaffleAddress}`
+      );
+      const json = await result.json();
+
+      const parseTxInput = (tx: any) => {
+        try {
+          const decodedArgs = raffleAbi.decodeFunctionData(tx.input.slice(0, 10), tx.input);
+          const functionName = raffleAbi.getFunction(tx.input.slice(0, 10)).name;
+          if (functionName == 'purchase') {
+            return decodedArgs[0].map((ticketId: BigNumber) => ({
+              id: ticketId.toNumber(),
+              owner: tx.from,
+              isSelected: false,
+            })) as TicketType[];
+          }
+          return [];
+        } catch (e) {
+          return [];
+        }
+      };
+
+      const txHistory = json.result
+        .filter((tx: any) => tx.isError === '0')
+        .map((tx: any) => {
+          return {
+            address: tx.from,
+            date: new Date(parseInt(tx.timeStamp) * 1000),
+            ticketsBought: parseTxInput(tx),
+            price: utils.formatEther(BigNumber.from(tx.value)),
+            hash: tx.hash,
+            block: tx.blockNumber,
+          } as TransactionType;
+        }) as TransactionType[];
+      setTransactions(txHistory.sort((a, b) => (a.date > b.date ? -1 : 1)));
+    };
+
+    fetchHistory();
   }, []);
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
@@ -127,16 +149,24 @@ const LastSalesSection = () => {
                     </div>
                   </td>
                   <td className='p-1 md:p-4'>
-                    <p className='hidden md:block'>{`${transaction.transactionHash.substring(
-                      0,
-                      10
-                    )}...${transaction.transactionHash.substring(
-                      transaction.transactionHash.length - 10
-                    )}`}</p>
-                    <p className='block md:hidden'>{`${transaction.address.substring(
-                      0,
-                      4
-                    )}...${transaction.address.substring(transaction.address.length - 4)}`}</p>
+                    <p className='hidden md:block'>
+                      <UnderlineLink
+                        href={getExplorerTransactionLink(transaction.hash, currentNetworkChainId)}
+                      >
+                        {`${transaction.hash.substring(0, 10)}...${transaction.hash.substring(
+                          transaction.hash.length - 10
+                        )}`}
+                      </UnderlineLink>
+                    </p>
+                    <p className='block md:hidden'>
+                      <UnderlineLink
+                        href={getExplorerTransactionLink(transaction.hash, currentNetworkChainId)}
+                      >
+                        {`${transaction.hash.substring(0, 4)}...${transaction.hash.substring(
+                          transaction.hash.length - 4
+                        )}`}
+                      </UnderlineLink>
+                    </p>
                   </td>
                 </tr>
               ))}

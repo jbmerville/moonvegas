@@ -1,4 +1,4 @@
-import { useEthers } from '@usedapp/core';
+import { shortenAddress, useEthers } from '@usedapp/core';
 import * as React from 'react';
 
 import Button from '@/components/buttons/Button';
@@ -32,9 +32,7 @@ export default function Header() {
               onClick={deactivate}
             >
               <MetaMaskIcon />
-              <p className='ml-2'>
-                {`${account.substring(0, 7)}...${account.substring(account.length - 7)}`}
-              </p>
+              <p className='ml-2'>{shortenAddress(account)}</p>
             </Button>
           ) : (
             <div className='flex w-fit justify-between md:w-[370px]'>

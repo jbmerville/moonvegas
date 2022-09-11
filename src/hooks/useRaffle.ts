@@ -13,7 +13,7 @@ import { currentNetworkChainId, currentRaffleAddress } from '@/config';
 
 import { RaffleState, TicketType } from '@/types';
 
-const raffleAbi = new utils.Interface(raffleArtifacts.abi);
+export const raffleAbi = new utils.Interface(raffleArtifacts.abi);
 
 export function generateTickets(maxTicketCount: number): TicketType[] {
   const tickets: TicketType[] = [];
@@ -120,7 +120,7 @@ const useRaffle = () => {
   const refresh = useCallback(async () => {
     try {
       if (contract && library) {
-        await logBlockchainInfo();
+        // await logBlockchainInfo();
 
         const [maxTicketAmount, ticketPrice, draftTime, ticketsBoughtData] = await Promise.all([
           contract.maxTicketAmount(),
@@ -162,7 +162,7 @@ const useRaffle = () => {
     } catch (e) {
       console.error('Something went wrong', e);
     }
-  }, [contract, library, logBlockchainInfo]);
+  }, [contract, library]);
 
   useEffect(() => {
     refresh();
