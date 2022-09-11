@@ -20,7 +20,7 @@ interface TicketsSelectedPropsType {
 
 const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const { networks } = useConfig();
-  const { ticketPrice } = useRaffle();
+  const { ticketPrice, purchase } = useRaffle();
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
     return (
@@ -64,6 +64,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
           <Button
             variant='outline'
             className='mb-3 mt-5 flex bg-moonbeam-cyan/20 hover:bg-moonbeam-cyan/40 md:mt-10'
+            onClick={() => purchase(props.selectedTickets)}
           >
             <p className='ml-2 '>
               Buy {props.selectedTickets.length} Tickets for{' '}
@@ -75,7 +76,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             </div>
           </Button>
           <p className='text-xs text-white '>
-            Get test tokens at the{' '}
+            Get DEV tokens at the{' '}
             <UnderlineLink href='https://apps.moonbeam.network/moonbase-alpha/faucet/'>
               Moonbase Alpha Faucet
             </UnderlineLink>

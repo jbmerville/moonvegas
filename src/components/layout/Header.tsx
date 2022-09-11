@@ -33,7 +33,7 @@ export default function Header() {
             >
               <MetaMaskIcon />
               <p className='ml-2'>
-                {`${account.substring(0, 4)}...${account.substring(account.length - 4)}`}
+                {`${account.substring(0, 7)}...${account.substring(account.length - 7)}`}
               </p>
             </Button>
           ) : (

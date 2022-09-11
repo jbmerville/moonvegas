@@ -21,7 +21,7 @@ const Ticket = (props: TicketPropsType) => {
     setIsHover((isHoverVal) => !isHoverVal);
   };
 
-  // Ticket is owner
+  // Ticket is owned
   if (isOwner && props.ticket.owner) {
     const address = props.ticket.owner;
     return (
@@ -37,7 +37,7 @@ const Ticket = (props: TicketPropsType) => {
     );
   }
 
-  // Ticket is not owner
+  // Ticket is not owned
   return (
     <div
       onMouseEnter={toggleHover}

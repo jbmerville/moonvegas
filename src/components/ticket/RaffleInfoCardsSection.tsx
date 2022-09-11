@@ -32,7 +32,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
             </p>
           </div>
           <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-4'>
-            <p className='text uppercase text-white opacity-75'>Draft start</p>
+            <p className='text uppercase text-white opacity-75'>Ends</p>
             <div className='min-w-[150px] text-center text-2xl font-bold uppercase text-white'>
               <Countdown date={draftTime?.getTime()} />
             </div>
@@ -52,7 +52,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
               </p>
             </div>
             <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
-              <p className='text-sm uppercase text-white opacity-75'>Draft start</p>
+              <p className='text-sm uppercase text-white opacity-75'>Ends</p>
               <p className='min-w-[130px] text-center text-base font-bold uppercase text-white'>
                 <Countdown date={draftTime.getTime()} />
               </p>

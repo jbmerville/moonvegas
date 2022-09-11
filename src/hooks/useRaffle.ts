@@ -47,17 +47,29 @@ const useRaffle = () => {
 
   const purchase = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async (ticketIds: number[], options: any) => {
+    async (tickets: TicketType[], options?: any) => {
+      console.log('Pressed purchase');
+      if (chainId !== currentNetworkChainId) {
+        await switchNetwork(currentNetworkChainId);
+      }
+      const ticketIds = tickets.map((ticket) => ticket.id);
+      const price = raffleState.ticketPrice.mul(ticketIds.length);
       try {
-        if (account && options) {
+        if (account && library) {
+          const accountBalance = await library.getBalance(account);
+          console.log({ account, accountBalance });
           setPurchasing(true);
-          await send(ticketIds, options);
+          const res = await send(ticketIds, { value: price, ...options });
+          console.log({ res });
+          setPurchasing(false);
+        } else {
+          console.error(`Account not found`);
         }
       } catch (e) {
-        console.log('Something went wrong', e);
+        console.error('Something went wrong', e);
       }
     },
-    [account, send]
+    [account, send, raffleState.ticketPrice, library, chainId]
   );
 
   // Log info about the chain and the smart contract. Fields must be explictly disabled. Defaults to logging all values.
@@ -80,7 +92,7 @@ const useRaffle = () => {
           const code = await library.getCode(contract.address);
           const contractBalance = await library.getBalance(contract.address);
           const draftTime = (await contract.draftTime()).toString();
-          const ticketPrice = await contract.ticketPrice();
+          const ticketPrice = (await contract.ticketPrice()).toString();
           const ticketsBought = await contract.getTicketsBought();
           if (code != '0x0') {
             console.log(
@@ -162,3 +174,6 @@ const useRaffle = () => {
 };
 
 export default useRaffle;
+function switchNetwork(currentNetworkChainId: number) {
+  throw new Error('Function not implemented.');
+}
