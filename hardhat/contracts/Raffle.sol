@@ -78,7 +78,7 @@ contract Raffle is Ownable {
   }
 
   /**
-   * @param _ticketIds Array containing the ids of ticket to bed purchased
+   * @param _ticketIds Array containing the ids of ticket to be purchased
    */
   function purchase(uint256[] memory _ticketIds) external payable {
     require(block.timestamp <= draftTime, "Can't buy ticket after raffle is draft time is passed");

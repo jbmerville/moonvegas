@@ -80,7 +80,7 @@ const useRaffle = () => {
           const code = await library.getCode(contract.address);
           const contractBalance = await library.getBalance(contract.address);
           const draftTime = (await contract.draftTime()).toString();
-          const ticketPrice = (await contract.ticketPrice()).toString();
+          const ticketPrice = await contract.ticketPrice();
           const ticketsBought = await contract.getTicketsBought();
           if (code != '0x0') {
             console.log(

@@ -15,8 +15,8 @@ export const LocalhostChain: Chain = {
   rpcUrl: 'http://127.0.0.1:9933',
   blockExplorerUrl: 'https://tutorialchain.etherscan.io',
   nativeCurrency: {
-    name: 'GLMR',
-    symbol: 'GLMR',
+    name: 'LOCAL',
+    symbol: 'LOCAL',
     decimals: 18,
   },
 };
@@ -53,7 +53,7 @@ export const contractConfig = {
     raffleAddress: raffleAddress,
   },
   [MoonbaseAlpha.chainId]: {
-    raffleAddress: '0x978d47Cd36049C5f3f5959E0B21d4fEDCA727E89',
+    raffleAddress: '0x51D139132bDa837d5d83A529Fac06E79cf068977',
   },
 };
 

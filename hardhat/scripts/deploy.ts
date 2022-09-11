@@ -16,7 +16,7 @@ async function main() {
   const ONE_WEEK_IN_SECS = 7 * ONE_DAY_IN_SECS;
 
   const draftTime = currentTimestampInSeconds + ONE_WEEK_IN_SECS;
-  const ticketPrice = '0.0001';
+  const ticketPrice = '0.01';
   const maxTicketAmount = 100;
 
   const Raffle = await ethers.getContractFactory('Raffle');

@@ -5,7 +5,7 @@ import '@/styles/globals.css';
 
 import { currentNetworkChainId, dappConfig } from '@/config';
 
-// To override the currentNetwork, set the ENV variable to "production" in .env
+// To override the currentNetwork, set the NEXT_PUBLIC_ENV variable to "production" in .env
 export const currentDappConfig = dappConfig[currentNetworkChainId] as Config;
 
 // eslint-disable-next-line no-console
