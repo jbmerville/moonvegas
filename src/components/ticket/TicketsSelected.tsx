@@ -117,11 +117,6 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             </UnderlineLink>
             .
           </p>
-          <p className='mt-2 text-xs text-white'>
-            <UnderlineLink href='https://docs.moonbeam.network/tokens/connect/metamask/'>
-              Add Moonbase Alpha to MetaMask.{' '}
-            </UnderlineLink>
-          </p>
         </div>
       </div>
     </div>

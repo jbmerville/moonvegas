@@ -60,7 +60,13 @@ export const contractConfig = {
 export const currentNetworkChainId = isMoonbaseAlpha
   ? MoonbaseAlpha.chainId
   : LocalhostChain.chainId;
-
+export const currentNetwork: Chain = isMoonbaseAlpha
+  ? {
+      ...MoonbaseAlpha,
+      nativeCurrency: { decimals: 18, symbol: 'DEV', name: 'DEV' },
+      rpcUrl: 'https://rpc.api.moonbase.moonbeam.network',
+    }
+  : LocalhostChain;
 export const currentRaffleAddress = contractConfig[currentNetworkChainId].raffleAddress;
 
 // To override the currentNetwork, set the NEXT_PUBLIC_ENV variable to "production" in .env

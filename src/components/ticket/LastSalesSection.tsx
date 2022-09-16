@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getExplorerTransactionLink } from '@usedapp/core';
 import { BigNumber, utils } from 'ethers';
 import raffleArtifacts from 'hardhat/artifacts/contracts/Raffle.sol/Raffle.json';
 import Image from 'next/image';
 import React, { ReactNode, useEffect, useState } from 'react';
 
+import useRaffle from '@/hooks/useRaffle';
+
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
 
-import { currentNetworkChainId, currentRaffleAddress } from '@/config';
+import { currentNetwork, currentRaffleAddress } from '@/config';
 
 import moonbeam from '../../../public/images/moonbeam-token.png';
 
@@ -29,6 +30,7 @@ const MOONBASE_ALPHA_RPC_API_BASE_URL = 'https://api-moonbase.moonscan.io/api';
 const LastSalesSection = () => {
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
   const hasTransactions = transactions.length > 0;
+  const { tickets } = useRaffle();
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -70,7 +72,7 @@ const LastSalesSection = () => {
     };
 
     fetchHistory();
-  }, []);
+  }, [tickets]); // Refresh when tickets updates (some tickets have been bought)
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
     return (
@@ -151,7 +153,7 @@ const LastSalesSection = () => {
                   <td className='p-1 md:p-4'>
                     <p className='hidden md:block'>
                       <UnderlineLink
-                        href={getExplorerTransactionLink(transaction.hash, currentNetworkChainId)}
+                        href={currentNetwork.getExplorerTransactionLink(transaction.hash)}
                       >
                         {`${transaction.hash.substring(0, 10)}...${transaction.hash.substring(
                           transaction.hash.length - 10
@@ -160,7 +162,7 @@ const LastSalesSection = () => {
                     </p>
                     <p className='block md:hidden'>
                       <UnderlineLink
-                        href={getExplorerTransactionLink(transaction.hash, currentNetworkChainId)}
+                        href={currentNetwork.getExplorerTransactionLink(transaction.hash)}
                       >
                         {`${transaction.hash.substring(0, 4)}...${transaction.hash.substring(
                           transaction.hash.length - 4
