@@ -30,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           MoonVegas is not available in Excluded Jurisdictions. By accessing and using the interface
           you agree with our Terms & Conditions.
         </div>
-        <p className='text-xs text-white/50'>
+        <p className='text-center text-xs text-white/50'>
           View Raffle Smart Contract in explorer:{' '}
           <UnderlineLink href={currentNetwork.getExplorerAddressLink(currentRaffleAddress)}>
             {currentRaffleAddress}

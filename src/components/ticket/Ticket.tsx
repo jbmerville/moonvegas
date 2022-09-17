@@ -23,16 +23,18 @@ const Ticket = (props: TicketPropsType) => {
     setIsHover((isHoverVal) => !isHoverVal);
   };
 
-  // Ticket is not owned by the current account
+  // Ticket is sold and is owned by the current account
   if (props.ticket.owner && props.ticket.owner === account) {
     return (
       <div className='h-[210px] md:h-[400px]'>
         <div
           className={`mx-1 md:mx-2 ${
             isHover || props.ticket.isSelected ? 'mt-10' : ''
-          }  flex h-[165px] min-w-[100px] cursor-pointer flex-col rounded border bg-moonbeam-pink px-4 py-2 transition-all md:h-[350px] md:min-w-[200px]`}
+          }  flex h-[165px] min-w-[100px] cursor-pointer flex-col rounded border bg-moonbeam-pink px-2 py-2 transition-all md:h-[350px] md:min-w-[200px]`}
         >
-          <div className='neonTextBlue rounded-full text-2xl md:text-4xl'>{props.ticket.id}</div>
+          <div className='neonTextBlue rounded-full text-2xl md:mt-[-10px] md:text-4xl'>
+            {props.ticket.id}
+          </div>
           <div className='flex grow items-center justify-center'>
             <div className='mt-16 hidden md:block'>
               <Image src={moonbeam} layout='fixed' height='100px' width='100px' alt='' />
@@ -49,16 +51,18 @@ const Ticket = (props: TicketPropsType) => {
     );
   }
 
-  // Ticket is owned by someone other than the current account
+  // Ticket is sold and is owned by someone other than the current account
   if (isOwner && props.ticket.owner) {
     const address = props.ticket.owner;
     return (
-      <div className='mx-1 flex h-[100px] min-w-[100px] cursor-pointer flex-col rounded bg-moonbeam-grey-light px-4 py-2 transition-all md:mx-2 md:h-[200px] md:min-w-[200px]'>
-        <div className='neonTextPink rounded-full text-2xl md:text-4xl'>{props.ticket.id}</div>
+      <div className='mx-1 flex h-[130px] min-w-[100px] cursor-pointer flex-col justify-between rounded bg-moonbeam-grey-light px-2 py-2 transition-all md:mx-2 md:h-[250px] md:min-w-[200px]'>
+        <div className='neonTextPink text-2xl md:mt-[-10px] md:text-4xl'>{props.ticket.id}</div>
+        <div className='flex grow items-center justify-center'>
+          <p className='mb-4 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-moonbeam-blue p-5 text-base font-bold text-white md:h-[100px] md:w-[100px] md:text-2xl'>
+            SOLD
+          </p>
+        </div>
         <div className='rounded-full text-xs text-white md:text-lg'>{shortenAddress(address)}</div>
-        <p className='mb-4 flex grow items-center justify-center text-lg text-white md:text-4xl'>
-          SOLD
-        </p>
       </div>
     );
   }
@@ -76,9 +80,11 @@ const Ticket = (props: TicketPropsType) => {
           isHover || props.ticket.isSelected ? 'mt-10' : ''
         } flex h-[165px] min-w-[100px] cursor-pointer flex-col rounded md:h-[350px] md:min-w-[200px] ${
           props.ticket.isSelected ? 'bg-moonbeam-cyan' : 'bg-moonbeam-blue'
-        } border px-4 py-2 transition-all`}
+        } border px-2 py-2 transition-all`}
       >
-        <div className='neonTextPink rounded-full text-2xl md:text-4xl'>{props.ticket.id}</div>
+        <div className='neonTextPink rounded-full text-2xl md:mt-[-10px] md:text-4xl'>
+          {props.ticket.id}
+        </div>
         <div className='flex grow items-center justify-center'>
           <div className='mb-8 hidden md:block'>
             <Image src={moonbeam} layout='fixed' height='100px' width='100px' alt='' />

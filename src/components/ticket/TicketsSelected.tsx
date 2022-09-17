@@ -1,3 +1,5 @@
+import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useConfig } from '@usedapp/core';
 import { utils } from 'ethers';
 import Image from 'next/image';
@@ -29,12 +31,14 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
       <div
         key={ticket.id}
         onClick={() => props.toggleSelectedTickets(ticket)}
-        className='z-10  mx-2 ml-[-20px] flex h-[90px] min-w-[40px] cursor-pointer flex-col rounded bg-moonbeam-cyan px-4 py-2 shadow-[0_0px_20px_-4px_rgb(0,0,0)] transition-all md:h-[150px] md:min-w-[90px]  md:shadow-[0_0px_52px_-7px_rgb(0,0,0)]'
+        className='z-10  mx-2 ml-[-20px] flex h-[90px] min-w-[40px] cursor-pointer flex-col rounded bg-moonbeam-cyan px-2 py-2 shadow-[0_0px_20px_-4px_rgb(0,0,0)] transition-all md:h-[150px] md:min-w-[90px]  md:shadow-[0_0px_52px_-7px_rgb(0,0,0)]'
       >
-        <div className='neonTextPink rounded-full text-lg md:text-2xl'>{ticket.id}</div>
+        <div className='neonTextPink rounded-full text-lg md:mt-[-10px] md:text-2xl'>
+          {ticket.id}
+        </div>
         <div className='flex grow items-center justify-center'>
           <div className='mb-3'>
-            <div className='mb-8 hidden md:block'>
+            <div className='mb-2 hidden md:block'>
               <Image src={moonbeam} layout='fixed' height='50px' width='50px' alt='' />
             </div>
             <div className='block md:hidden'>
@@ -64,11 +68,16 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
   return (
     <div className='layout mx-10 flex items-center justify-between md:mx-4'>
       <div className='flex w-full flex-col items-start justify-start rounded '>
-        <p className='mb-1 text-xl uppercase text-moonbeam-cyan md:mb-3 md:text-xl'>
-          Selected Tickets
-        </p>
-        <div className='flex w-full flex-col items-center justify-start  rounded border border-moonbeam-cyan p-2 md:p-5 '>
-          <div className='flex w-full items-center justify-start overflow-scroll pl-5'>
+        <div className='mb-1 flex w-full items-center md:mb-3'>
+          <p className='mr-2 w-5 rotate-90 text-xs text-moonbeam-cyan md:mr-3 md:w-7'>
+            <FontAwesomeIcon icon={faMoneyBill} size='xs' />
+          </p>
+          <p className=' text-center text-xl uppercase text-moonbeam-cyan md:text-xl'>
+            Selected Tickets
+          </p>
+        </div>
+        <div className='flex w-full flex-col items-center justify-start  rounded border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5 '>
+          <div className='flex w-full items-center justify-start overflow-x-scroll pl-5'>
             {props.selectedTickets.map(renderMiniatureSelectedTicket)}
           </div>
           <Button

@@ -20,6 +20,10 @@
   },
   "dependencies": {
     "@ethersproject/contracts": "^5.7.0",
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-regular-svg-icons": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@typechain/ethers-v5": "^10.1.0",
     "@usedapp/core": "^1.1.5",
     "clsx": "^1.2.1",

@@ -29,6 +29,7 @@
   --color-primary-900: rgb(var(--tw-color-primary-900)); /* #0c4a6e */
   /* #endregion  /**======== Primary Color =========== */
   --color-moonbeam-cyan: 148 223 223;
+  --color-moonbeam-blue-dark: #070b20;
   --color-moonbeam-blue: #222b60;
   --color-moonbeam-pink: #e1117b;
   --color-moonbeam-purple-light: #2e1646;
@@ -128,10 +129,24 @@
 
 .neonTextPink {
   color: var(--color-moonbeam-pink);
-  text-shadow: 0 0 4px #e7b3cd, 0 0 5px #dc66a1, 0 0 12px #e0157b, 0 0 20px #ea00ff;
+  font-family: 'Pacifico', cursive;
 }
 
 .neonTextBlue {
   color: rgb(var(--color-moonbeam-cyan));
-  text-shadow: 0 0 4px #848484, 0 0 5px #94dfdf, 0 0 12px #94dfdf, 0 0 20px #94dfdf;
+  font-family: 'Pacifico', cursive;
+}
+
+/* Scroll bar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #dfdfdf;
+  border-radius: 10px;
 }
