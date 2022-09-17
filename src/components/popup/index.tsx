@@ -2,16 +2,23 @@ import React, { ReactNode } from 'react';
 
 interface PopUpProps {
   children: ReactNode;
+  isVisible: boolean;
+  setIsVisible: (isVisible: boolean) => void;
 }
 
 const PopUp = (props: PopUpProps) => {
-  const { children } = props;
+  const { children, isVisible, setIsVisible } = props;
   return (
-    <div className='h-modal fixed top-0 right-0 left-0 z-50 hidden overflow-y-auto overflow-x-hidden md:inset-0 md:h-full'>
-      <div className='relative h-full w-full max-w-md p-4 md:h-auto'>
-        <div className='relative rounded-lg bg-white shadow dark:bg-gray-700'>
+    <div
+      className={`h-modal fixed top-0 right-0 left-0 z-50 ${
+        isVisible ? 'block' : 'hidden'
+      } flex h-full items-center justify-center overflow-y-auto overflow-x-hidden bg-moonbeam-blue-dark/[.8] md:inset-0`}
+    >
+      <div className='relative h-fit w-fit max-w-md  p-4 md:h-auto'>
+        <div className='relative h-fit w-fit list-inside list-disc space-y-1 rounded-lg  border border-white/20 bg-moonbeam-blue-dark text-gray-500 text-white/80 shadow-md shadow-black/50 dark:bg-gray-700	 dark:text-gray-400'>
           <button
             type='button'
+            onClick={() => setIsVisible(false)}
             className='absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white'
           >
             <svg
@@ -24,7 +31,7 @@ const PopUp = (props: PopUpProps) => {
             </svg>
             <span className='sr-only'>Close modal</span>
           </button>
-          <div className='p-6 text-center'>{children}</div>
+          <div className='h-fit w-fit p-6'>{children}</div>
         </div>
       </div>
     </div>
