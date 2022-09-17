@@ -1,4 +1,4 @@
-# Moonbeam Raffle
+# MoonVegas
 
 Frontend + SmartContract for raffle on [Moonbeam](https://moonbeam.network/).
 

@@ -59,6 +59,7 @@ export default function Seo(props: SeoProps) {
       <meta name='twitter:title' content={meta.title} />
       <meta name='twitter:description' content={meta.description} />
       <meta name='twitter:image' content={meta.image} />
+
       {meta.date && (
         <>
           <meta property='article:published_time' content={meta.date} />
@@ -66,7 +67,6 @@ export default function Seo(props: SeoProps) {
           <meta name='author' property='article:author' content='Theodorus Clarence' />
         </>
       )}
-
       {/* Favicons */}
       {favicons.map((linkProps) => (
         <link key={linkProps.href} {...linkProps} />

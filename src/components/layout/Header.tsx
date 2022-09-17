@@ -47,15 +47,15 @@ export default function Header() {
       <header className='sticky top-0 z-50 bg-dark '>
         <div className='layout z-50 my-5 flex items-center justify-between py-4 md:h-14 md:py-10'>
           <div className='hidden md:flex'>
-            <h2 className='neonTextBlue  text-3xl'>Moon</h2>
-            <h2 className='neonTextPink  mr-4 text-3xl'>Vegas</h2>
-            <div className='rounded-full border-2 border-orange bg-orange/20 py-1 px-2 text-orange'>
+            <h2 className='logo text-3xl text-moonbeam-cyan'>Moon</h2>
+            <h2 className='logo mr-4 text-3xl text-moonbeam-pink'>Vegas</h2>
+            <div className='my-[2px] flex items-center justify-center rounded-full border-2 border-orange bg-orange/20 px-2 text-xs text-orange'>
               Beta
             </div>
           </div>
           <div className='flex md:hidden'>
-            <h2 className='neonTextBlue text-3xl'>M</h2>
-            <h2 className='neonTextPink  mr-4 text-3xl'>V</h2>
+            <h2 className='logo text-3xl text-moonbeam-cyan'>M</h2>
+            <h2 className='logo mr-4 text-3xl text-moonbeam-pink'>V</h2>
             <div className='flex items-center justify-center rounded-full border-2 border-orange bg-orange/20 px-2 text-xs text-orange'>
               Beta
             </div>

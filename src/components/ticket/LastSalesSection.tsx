@@ -91,8 +91,8 @@ const LastSalesSection = () => {
   };
   return (
     <div className='flex min-w-full grow flex-row justify-between text-white'>
-      <div className='layout mt-10 mb-10 flex flex-col items-start justify-between'>
-        <p className='mb:mb-3 mb-1 text-xl uppercase text-moonbeam-pink md:text-xl'>
+      <div className='layout mt-16 mb-10 flex flex-col items-start justify-between'>
+        <p className='mb:mb-3 mb-3 text-xl uppercase text-moonbeam-pink md:text-xl'>
           Last tickets sold
         </p>
         <div
