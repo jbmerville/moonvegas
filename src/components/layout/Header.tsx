@@ -1,11 +1,14 @@
 import { shortenAddress, useEthers } from '@usedapp/core';
 import { utils } from 'ethers';
+import Image from 'next/image';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 
 import { currentNetwork, currentNetworkChainId } from '@/config';
+
+import moonVegasLogo from '../../../public/images/moonvegas-logo.png';
 
 export default function Header() {
   const { account, deactivate, activateBrowserWallet, switchNetwork } = useEthers();
@@ -45,18 +48,16 @@ export default function Header() {
   return (
     <>
       <header className='sticky top-0 z-50 bg-dark '>
-        <div className='layout z-50 my-5 flex items-center justify-between py-4 md:h-14 md:py-10'>
-          <div className='hidden md:flex'>
-            <h2 className='logo text-3xl text-moonbeam-cyan'>Moon</h2>
-            <h2 className='logo mr-4 text-3xl text-moonbeam-pink'>Vegas</h2>
-            <div className='my-[2px] flex items-center justify-center rounded-full border-2 border-orange bg-orange/20 px-2 text-xs text-orange'>
+        <div className='layout z-50 flex items-center justify-between py-4 md:my-5 md:h-14 md:py-10'>
+          <div className='hidden items-center justify-center md:flex '>
+            <Image src={moonVegasLogo} layout='fixed' height='150px' width='150px' alt='' />
+            <div className='my-[2px] ml-3 flex h-10 items-center justify-center rounded-full border-2 border-orange bg-orange/20 px-2 text-xs text-orange'>
               Beta
             </div>
           </div>
-          <div className='flex md:hidden'>
-            <h2 className='logo text-3xl text-moonbeam-cyan'>M</h2>
-            <h2 className='logo mr-4 text-3xl text-moonbeam-pink'>V</h2>
-            <div className='flex items-center justify-center rounded-full border-2 border-orange bg-orange/20 px-2 text-xs text-orange'>
+          <div className='flex items-center justify-center md:hidden'>
+            <Image src={moonVegasLogo} layout='fixed' height='100px' width='100px' alt='' />
+            <div className='ml-2 flex h-10 items-center  justify-center rounded-full border-2 border-orange bg-orange/20 px-2 text-xs text-orange'>
               Beta
             </div>
           </div>
