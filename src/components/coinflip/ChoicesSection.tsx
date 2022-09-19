@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
+import UnderlineLink from '@/components/links/UnderlineLink';
 
 import { currentNetwork } from '@/config';
 
@@ -29,8 +30,8 @@ const ChoicesSection = () => {
         </p>
         <p className=' text-center text-xl uppercase text-moonbeam-cyan md:text-xl'>Choices</p>
       </div>
-      <div className='w-full rounded border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5'>
-        <div className='grid grid-cols-2 grid-rows-4 gap-2.5 md:grid-cols-4 md:grid-rows-2	'>
+      <div className='flex w-full flex-col items-center rounded border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5'>
+        <div className='grid w-full grid-cols-2 grid-rows-4 gap-2.5 md:grid-cols-4 md:grid-rows-2	'>
           {Object.entries(BetAmount)
             .filter((v) => !isNaN(Number(v[0])))
             .map((entry) => (
@@ -56,6 +57,13 @@ const ChoicesSection = () => {
             Double or nothing
           </span>
         </button>
+        <p className='mt-2 text-xs text-white'>
+          Get DEV tokens at the{' '}
+          <UnderlineLink href='https://apps.moonbeam.network/moonbase-alpha/faucet/'>
+            Moonbase Alpha Faucet
+          </UnderlineLink>
+          .
+        </p>
       </div>
     </>
   );

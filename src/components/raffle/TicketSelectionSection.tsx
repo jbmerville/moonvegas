@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 
 import useRaffle from '@/hooks/useRaffle';
 
-import RaffleInfoCardsSection from '@/components/ticket/RaffleInfoCardsSection';
-import Ticket from '@/components/ticket/Ticket';
-import TicketsSelected from '@/components/ticket/TicketsSelected';
+import RaffleInfoCardsSection from '@/components/raffle/RaffleInfoCardsSection';
+import Ticket from '@/components/raffle/Ticket';
+import TicketsSelected from '@/components/raffle/TicketsSelected';
 
 import { TicketType } from '@/types';
 
-const TicketSection = () => {
+const TicketSelectionSection = () => {
   const [selectedTickets, setSelectedTickets] = useState<TicketType[]>([]);
   const { tickets } = useRaffle();
 
@@ -49,4 +49,4 @@ const TicketSection = () => {
   );
 };
 
-export default TicketSection;
+export default TicketSelectionSection;

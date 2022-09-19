@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
+import LastSalesSection from '@/components/raffle/LastSalesSection';
+import TicketSelectionSection from '@/components/raffle/TicketSelectionSection';
 import Seo from '@/components/Seo';
-import LastSalesSection from '@/components/ticket/LastSalesSection';
-import TicketSection from '@/components/ticket/TicketSection';
 
 /**
  * SVGR Support
@@ -23,7 +23,7 @@ export default function HomePage() {
       <Seo templateTitle='Raffle' />
       <main>
         <section className=' h-full bg-dark'>
-          <TicketSection />
+          <TicketSelectionSection />
         </section>
         <LastSalesSection />
       </main>
