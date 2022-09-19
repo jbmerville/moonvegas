@@ -20,7 +20,7 @@ import TicketSection from '@/components/ticket/TicketSection';
 export default function HomePage() {
   return (
     <Layout>
-      <Seo templateTitle='Home' />
+      <Seo templateTitle='Raffle' />
       <main>
         <section className=' h-full bg-dark'>
           <TicketSection />

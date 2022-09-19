@@ -15,11 +15,11 @@ const PopUp = (props: PopUpProps) => {
       } flex h-full items-center justify-center overflow-y-auto overflow-x-hidden bg-moonbeam-blue-dark/[.8] md:inset-0`}
     >
       <div className='relative h-fit w-fit max-w-md  p-4 md:h-auto'>
-        <div className='relative h-fit w-fit list-inside list-disc space-y-1 rounded-lg  border border-white/20 bg-moonbeam-blue-dark text-gray-500 text-white/80 shadow-md shadow-black/50 dark:bg-gray-700	 dark:text-gray-400'>
+        <div className='relative h-fit w-fit list-inside list-disc space-y-1 rounded-lg  border border-white/20 bg-moonbeam-blue-dark text-gray-500 text-white/80 shadow-md shadow-black/50 '>
           <button
             type='button'
             onClick={() => setIsVisible(false)}
-            className='absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white'
+            className='absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 '
           >
             <svg
               className='h-5 w-5'

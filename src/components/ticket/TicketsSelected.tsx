@@ -1,4 +1,4 @@
-import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { faReceipt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useConfig } from '@usedapp/core';
 import { utils } from 'ethers';
@@ -69,9 +69,11 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
     <div className='layout mx-10 flex items-center justify-between md:mx-4'>
       <div className='flex w-full flex-col items-start justify-start rounded '>
         <div className='mb-1 flex w-full items-center md:mb-3'>
-          <p className='mr-2 w-5 rotate-90 text-xs text-moonbeam-cyan md:mr-3 md:w-7'>
-            <FontAwesomeIcon icon={faMoneyBill} size='xs' />
-          </p>
+          <FontAwesomeIcon
+            icon={faReceipt}
+            size='xs'
+            className='mr-2 w-3 text-xs text-moonbeam-cyan md:mr-2 md:w-6'
+          />
           <p className=' text-center text-xl uppercase text-moonbeam-cyan md:text-xl'>
             Selected Tickets
           </p>

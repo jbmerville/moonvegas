@@ -1,23 +1,13 @@
-import { faBook, faCircleInfo, faClock, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faCircleInfo, faCoins, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import Countdown from 'react-countdown';
-
-import useRaffle from '@/hooks/useRaffle';
 
 import UnderlineLink from '@/components/links/UnderlineLink';
 import PopUp from '@/components/popup';
 
 import { currentNetwork } from '@/config';
 
-import { TicketType } from '@/types';
-
-interface RaffleInfoCardsSectionPropsType {
-  selectedTickets: TicketType[];
-}
-
-const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
-  const { draftTime, ticketsLeft, tickets } = useRaffle();
+const CoinFlipInfoCardsSection = () => {
   const [isReadRulesPopUpOpen, setIsReadRulesPopUpOpen] = useState(false);
 
   const onReadRulesClick = () => {
@@ -33,12 +23,10 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
         <div className='layout my-10 flex items-center justify-between'>
           <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-3'>
             <div className='text flex uppercase text-white opacity-75'>
-              <FontAwesomeIcon icon={faHourglassEnd} size='xs' className='mr-2 w-3' />
-              tickets left
+              <FontAwesomeIcon icon={faCoins} size='xs' className='mr-2 w-4' />
+              Total Flips
             </div>
-            <div className='flex text-xl font-bold uppercase text-white'>
-              {ticketsLeft.length - props.selectedTickets.length}/{tickets.length}
-            </div>
+            <div className='flex text-xl font-bold uppercase text-white'>10</div>
           </div>
           <div className='mx-5 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-3'>
             <div className='text flex uppercase text-white opacity-75'>
@@ -54,11 +42,11 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
           </div>
           <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-3'>
             <div className='text flex uppercase text-white opacity-75'>
-              <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-4' />
-              Ends
+              <FontAwesomeIcon icon={faDollarSign} size='xs' className='mr-2 w-3' />
+              Total Volume
             </div>
             <div className='min-w-[150px] text-center text-xl font-bold uppercase text-white'>
-              <Countdown date={draftTime?.getTime()} />
+              10 {currentNetwork.nativeCurrency?.symbol}
             </div>
           </div>
         </div>
@@ -71,20 +59,18 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
           <div className='flex grow items-stretch justify-between'>
             <div className='mr-3 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
               <div className='flex text-sm uppercase text-white opacity-75'>
-                <FontAwesomeIcon icon={faHourglassEnd} size='xs' className='mr-2 w-2' />
-                tickets left
+                <FontAwesomeIcon icon={faCoins} size='xs' className='mr-2 w-3' />
+                Total flips
               </div>
-              <p className='text-base font-bold uppercase text-white'>
-                {ticketsLeft.length - props.selectedTickets.length}/{tickets.length}
-              </p>
+              <p className='text-base font-bold uppercase text-white'>10</p>
             </div>
             <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
               <div className='flex text-sm uppercase text-white opacity-75'>
-                <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-3' />
-                Ends
+                <FontAwesomeIcon icon={faDollarSign} size='xs' className='mr-2 w-2' />
+                Total Volume
               </div>
               <p className='min-w-[130px] text-center text-base font-bold uppercase text-white'>
-                <Countdown date={draftTime.getTime()} />
+                15 {currentNetwork.nativeCurrency?.symbol}
               </p>
             </div>
           </div>
@@ -108,7 +94,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
             <div className='mr-3  w-5'>
               <FontAwesomeIcon icon={faCircleInfo} />
             </div>
-            Raffle Rules
+            CoinFlip Rules
           </div>
           <ul className='mt-4 list-inside list-disc space-y-1 text-sm text-gray-300'>
             <li className='!my-4 flex items-center'>
@@ -125,8 +111,8 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                 ></path>
               </svg>
               <span>
-                Each ticket has the <span className=' px-1 font-extrabold '> same chance </span>
-                of being selected.
+                Select either <span className=' pl-1 font-extrabold '> HEADS or TAILS</span>, then
+                choose the amount of {currentNetwork.nativeCurrency?.symbol} to flip.
               </span>
             </li>
             <li className='!my-4 flex items-center'>
@@ -142,11 +128,12 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                   clipRule='evenodd'
                 ></path>
               </svg>
-
               <span>
-                Winner is picked when either all tickets are{' '}
-                <span className='px-1 font-extrabold'>sold out or the timer ends</span>. Whichever
-                comes first.
+                The SmartContract randomly flips a coin. If it is the one you picked, you win and
+                you get back
+                <span className='px-1 font-extrabold'>2x</span>your{' '}
+                {currentNetwork.nativeCurrency?.symbol}. If it&apos;s not the one you picked, you
+                lose your {currentNetwork.nativeCurrency?.symbol}. The house keeps 5% of all wins.
               </span>
             </li>
             <li className='!my-4 flex items-center'>
@@ -167,7 +154,6 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                 ensure randomeness is not deterministic.
               </span>
             </li>
-
             <li className='!my-4 flex items-center'>
               <svg
                 className='mr-1.5 h-4 w-4 flex-shrink-0  text-blue-500 dark:text-green-400'
@@ -182,26 +168,8 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                 ></path>
               </svg>
               <span>
-                Winner receives <span className='px-1 font-extrabold'>95%</span> of all the{' '}
-                {currentNetwork.nativeCurrency?.symbol} in the pool. The house keeps 5%.
-              </span>
-            </li>
-            <li className='!my-4 flex items-center'>
-              <svg
-                className='mr-1.5 h-4 w-4 flex-shrink-0  text-blue-500 dark:text-green-400'
-                fill='currentColor'
-                viewBox='0 0 20 20'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-              <span>
-                Winner also receives an{' '}
-                <span className='px-1 font-extrabold'>NFT of the winning ticket</span>.
+                Winner also might receives an{' '}
+                <span className='pl-1 font-extrabold'>NFT of a MoonVegas CoinFlip coin</span>.
               </span>
             </li>
           </ul>
@@ -211,4 +179,4 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
   );
 };
 
-export default RaffleInfoCardsSection;
+export default CoinFlipInfoCardsSection;

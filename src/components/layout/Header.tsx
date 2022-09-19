@@ -67,7 +67,7 @@ export default function Header() {
               onClick={deactivate}
             >
               <MetaMaskIcon />
-              <p className='ml-2'>{shortenAddress(account)}</p>
+              <p>{shortenAddress(account)}</p>
             </Button>
           ) : (
             <div className='flex w-fit justify-between md:w-[370px]'>
@@ -80,7 +80,7 @@ export default function Header() {
                 className='bg-moonbeam-cyan/20 hover:bg-moonbeam-cyan/40'
               >
                 <MetaMaskIcon />
-                <p className='ml-2 text-sm md:text-base'>Connect MetaMask</p>
+                <p className=' text-sm md:text-base'>Connect MetaMask</p>
               </Button>
             </div>
           )}

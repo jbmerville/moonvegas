@@ -38,7 +38,7 @@ const TicketSection = () => {
           <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
         ))}
       </div>
-      <div className='flex flex-col items-center justify-center'>
+      <div className='mt-5 flex flex-col items-center justify-center md:mt-10'>
         <TicketsSelected
           selectedTickets={selectedTickets}
           toggleSelectedTickets={toggleSelectedTickets}
