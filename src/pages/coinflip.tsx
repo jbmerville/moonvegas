@@ -9,11 +9,11 @@ const CoinFlip = () => {
   return (
     <Layout>
       <Seo templateTitle='CoinFlip' />
-      <main>
-        <section className=' h-full bg-dark'>
+      <main className='h-full w-full overflow-y-auto bg-dark'>
+        <section className='h-full'>
           <Choose />
+          <LastSalesSection />
         </section>
-        <LastSalesSection />
       </main>
     </Layout>
   );

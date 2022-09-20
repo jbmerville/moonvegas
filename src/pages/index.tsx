@@ -21,11 +21,11 @@ export default function HomePage() {
   return (
     <Layout>
       <Seo templateTitle='Raffle' />
-      <main>
-        <section className=' h-full bg-dark'>
+      <main className='h-full w-full overflow-y-auto bg-dark'>
+        <section className='h-full'>
           <TicketSelectionSection />
+          <LastSalesSection />
         </section>
-        <LastSalesSection />
       </main>
     </Layout>
   );

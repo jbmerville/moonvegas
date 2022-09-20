@@ -8,7 +8,7 @@ import useRaffle from '@/hooks/useRaffle';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import PopUp from '@/components/popup';
 
-import { currentNetwork } from '@/config';
+import { currentNetwork, currentRaffleAddress } from '@/config';
 
 import { TicketType } from '@/types';
 
@@ -205,6 +205,12 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
               </span>
             </li>
           </ul>
+          <p className='text-center text-xs text-white/50'>
+            View Raffle Smart Contract in explorer:{' '}
+            <UnderlineLink href={currentNetwork.getExplorerAddressLink(currentRaffleAddress)}>
+              {currentRaffleAddress}
+            </UnderlineLink>
+          </p>
         </div>
       </PopUp>
     </>

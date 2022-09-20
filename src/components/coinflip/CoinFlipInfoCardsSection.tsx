@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import PopUp from '@/components/popup';
 
-import { currentNetwork } from '@/config';
+import { currentNetwork, currentRaffleAddress } from '@/config';
 
 const CoinFlipInfoCardsSection = () => {
   const [isReadRulesPopUpOpen, setIsReadRulesPopUpOpen] = useState(false);
@@ -173,6 +173,12 @@ const CoinFlipInfoCardsSection = () => {
               </span>
             </li>
           </ul>
+          <p className='text-center text-xs text-white/50'>
+            View Raffle Smart Contract in explorer:{' '}
+            <UnderlineLink href={currentNetwork.getExplorerAddressLink(currentRaffleAddress)}>
+              {currentRaffleAddress}
+            </UnderlineLink>
+          </p>
         </div>
       </PopUp>
     </>

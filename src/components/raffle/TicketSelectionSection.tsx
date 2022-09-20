@@ -33,7 +33,7 @@ const TicketSelectionSection = () => {
   return (
     <>
       <RaffleInfoCardsSection selectedTickets={selectedTickets} />
-      <div className='flex h-full	w-full items-start justify-start overflow-x-scroll	'>
+      <div className='flex w-full items-start justify-start overflow-x-scroll	'>
         {tickets.map((ticket) => (
           <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
         ))}

@@ -31,7 +31,7 @@ const LastSalesSection = () => {
   const [transactions, setTransactions] = useState<TransactionType[]>([
     {
       address: '0xaa71b125c07487a818b3098b992ff27ac546ca67',
-      date: new Date(),
+      date: new Date('10/09/2022'),
       amount: 5,
       choice: CoinFace.HEADS,
       isWin: false,
@@ -39,7 +39,7 @@ const LastSalesSection = () => {
     },
     {
       address: '0xaa71b125c07487a818b3098b992ff27ac546ca67',
-      date: new Date(),
+      date: new Date('10/09/2022'),
       amount: 10,
       choice: CoinFace.HEADS,
       isWin: true,
@@ -115,22 +115,20 @@ const LastSalesSection = () => {
                       </div>
                     </td>
                     <td className='p-1 md:p-2'>
-                      <div className='flex items-center justify-center'>
+                      <div className='flex items-center justify-center py-2'>
                         {transaction.choice === CoinFace.HEADS ? (
-                          <Image src={coin} layout='fixed' height='20px' width='20px' alt='' />
+                          <Image src={coin} layout='fixed' height='40px' width='40px' alt='' />
                         ) : (
-                          <Image src={coin} layout='fixed' height='20px' width='20px' alt='' />
+                          <Image src={coin} layout='fixed' height='40px' width='40px' alt='' />
                         )}
                       </div>
                     </td>
                     <td className='p-1 md:p-2'>
-                      <p className='block'>
-                        <UnderlineLink
-                          href={currentNetwork.getExplorerTransactionLink(transaction.hash)}
-                        >
-                          {shortenTransactionHash(transaction.hash)}
-                        </UnderlineLink>
-                      </p>
+                      <UnderlineLink
+                        href={currentNetwork.getExplorerTransactionLink(transaction.hash)}
+                      >
+                        {shortenTransactionHash(transaction.hash)}
+                      </UnderlineLink>
                     </td>
                   </tr>
                 ))}

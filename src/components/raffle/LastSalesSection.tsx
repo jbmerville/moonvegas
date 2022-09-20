@@ -96,9 +96,9 @@ const LastSalesSection = () => {
     <div className='flex min-w-full grow flex-row justify-between text-white'>
       <div className='layout mt-16 mb-10 flex flex-col items-start justify-between'>
         <div className='mb-1 flex w-full items-center md:mb-3'>
-          <p className='mr-2 w-4 text-xs text-moonbeam-cyan md:mr-3 md:w-6'>
+          <div className='mr-2 w-4 text-xs text-moonbeam-cyan md:mr-3 md:w-6'>
             <FontAwesomeIcon icon={faClockRotateLeft} size='xs' />
-          </p>
+          </div>
           <p className=' text-center text-xl uppercase text-moonbeam-cyan md:text-xl'>
             Last tickets sold
           </p>

@@ -150,3 +150,28 @@
   background-color: #dfdfdf;
   border-radius: 10px;
 }
+
+.navbar-container {
+  grid-template-areas:
+    'nav header header'
+    'nav main aside'
+    'nav main aside';
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto;
+}
+
+.navbar-navbar {
+  grid-area: nav;
+}
+
+.navbar-header {
+  grid-area: header;
+}
+
+@layer components {
+  html,
+  body,
+  #__next {
+    @apply h-full w-full bg-dark;
+  }
+}

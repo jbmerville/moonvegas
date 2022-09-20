@@ -34,6 +34,9 @@ module.exports = {
         orange: 'rgb(var(--color-orange) / <alpha-value>)',
         dark: '#0e0f22',
       },
+      transitionProperty: {
+        width: 'width',
+      },
       keyframes: {
         flicker: {
           '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': {
