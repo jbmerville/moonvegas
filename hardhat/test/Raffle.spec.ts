@@ -84,7 +84,7 @@ describe('Raffle', function () {
 
         // Assert
         await expect(actual).to.be.revertedWith(
-          "Can't buy ticket after raffle is draft time is passed"
+          "Can't buy ticket after raffle draft time has passed"
         );
       });
 
@@ -168,8 +168,8 @@ describe('Raffle', function () {
         const ticketAmount = 20;
         const ticketIds = new Array(ticketAmount).fill(0).map((_, i) => i + 1);
         const totalPrice = PRICE.mul(ticketAmount);
-        const raffleCut = totalPrice.mul(50).div(1000);
-        const winnerCut = totalPrice.sub(raffleCut);
+        const ownerFees = totalPrice.mul(50).div(1000);
+        const winnerCut = totalPrice.sub(ownerFees);
         const account1 = (await ethers.getSigners())[1];
         const account2 = (await ethers.getSigners())[2];
         const account3 = (await ethers.getSigners())[3];
@@ -189,7 +189,7 @@ describe('Raffle', function () {
 
         // Assert
         expect(await ethers.provider.getBalance(account1.address)).to.eql(
-          account1Balance.add(raffleCut)
+          account1Balance.add(ownerFees)
         );
         expect(await ethers.provider.getBalance(account2.address)).to.eql(
           account2Balance.add(winnerCut)

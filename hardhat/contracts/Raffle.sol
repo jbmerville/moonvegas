@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
 // Import this file to use console.log
@@ -51,7 +52,7 @@ contract Raffle is Ownable {
    * @param _royalty The new royalty amount
    */
   function setRoyalty(uint16 _royalty) external onlyOwner {
-    require(_royalty >= 0, 'Royalty must be greater than or equal to 0%');
+    require(_royalty >= 0, 'Royalty should be greater than or equal to 0%');
 
     royalty = _royalty;
   }
@@ -81,7 +82,7 @@ contract Raffle is Ownable {
    * @param _ticketIds Array containing the ids of ticket to be purchased
    */
   function purchase(uint256[] memory _ticketIds) external payable {
-    require(block.timestamp <= draftTime, "Can't buy ticket after raffle is draft time is passed");
+    require(block.timestamp <= draftTime, "Can't buy ticket after raffle draft time has passed");
     require(
       _ticketIds.length * ticketPrice == msg.value,
       'Transaction value should match ticket price and number of tickets to be bought'
@@ -112,16 +113,22 @@ contract Raffle is Ownable {
     address payable winner = ticketsOwner[winningTicketId];
     uint256 balance = address(this).balance;
 
-    // Raffle cut
-    uint256 ownerCut = (balance * royalty) / 1000;
-    payable(owner()).transfer(ownerCut);
+    // Fees
+    uint256 feesAmount = payOwner();
 
-    // Winner cut
-    uint256 winnerCut = balance - ownerCut;
+    // Winner rewards
+    uint256 winnerCut = balance - feesAmount;
     winner.transfer(winnerCut);
 
     resetRaffle(RaffleHistory(winner, winningTicketId, maxTicketAmount));
     emit RaffleEnd(winner, winningTicketId, maxTicketAmount);
+  }
+
+  function payOwner() private returns (uint256) {
+    uint256 balance = address(this).balance;
+    uint256 feesAmount = (balance * royalty) / 1000;
+    payable(owner()).transfer(feesAmount);
+    return feesAmount;
   }
 
   function resetRaffle(RaffleHistory memory raffleHistoy) private {
