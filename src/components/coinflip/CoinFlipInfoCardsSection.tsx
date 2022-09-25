@@ -7,8 +7,14 @@ import PopUp from '@/components/popup';
 
 import { currentNetwork, currentRaffleAddress } from '@/config';
 
-const CoinFlipInfoCardsSection = () => {
+interface CoinFlipInfoCardsSectionProps {
+  totalFlips: number;
+  totalVolume: number;
+}
+
+const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
   const [isReadRulesPopUpOpen, setIsReadRulesPopUpOpen] = useState(false);
+  const { totalFlips, totalVolume } = props;
 
   const onReadRulesClick = () => {
     setIsReadRulesPopUpOpen(!isReadRulesPopUpOpen);
@@ -26,7 +32,7 @@ const CoinFlipInfoCardsSection = () => {
               <FontAwesomeIcon icon={faCoins} size='xs' className='mr-2 w-4' />
               Total Flips
             </div>
-            <div className='flex text-xl font-bold uppercase text-white'>10</div>
+            <div className='flex text-xl font-bold uppercase text-white'>{totalFlips}</div>
           </div>
           <div className='mx-5 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-3'>
             <div className='text flex uppercase text-white opacity-75'>
@@ -46,7 +52,7 @@ const CoinFlipInfoCardsSection = () => {
               Total Volume
             </div>
             <div className='min-w-[150px] text-center text-xl font-bold uppercase text-white'>
-              10 {currentNetwork.nativeCurrency?.symbol}
+              {totalVolume} {currentNetwork.nativeCurrency?.symbol}
             </div>
           </div>
         </div>
@@ -62,7 +68,7 @@ const CoinFlipInfoCardsSection = () => {
                 <FontAwesomeIcon icon={faCoins} size='xs' className='mr-2 w-3' />
                 Total flips
               </div>
-              <p className='text-base font-bold uppercase text-white'>10</p>
+              <p className='text-base font-bold uppercase text-white'>{totalFlips}</p>
             </div>
             <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
               <div className='flex text-sm uppercase text-white opacity-75'>
@@ -70,7 +76,7 @@ const CoinFlipInfoCardsSection = () => {
                 Total Volume
               </div>
               <p className='min-w-[130px] text-center text-base font-bold uppercase text-white'>
-                15 {currentNetwork.nativeCurrency?.symbol}
+                {totalVolume} {currentNetwork.nativeCurrency?.symbol}
               </p>
             </div>
           </div>

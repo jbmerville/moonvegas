@@ -62,12 +62,9 @@ contract CoinFlip is Ownable {
 
     // Winner rewards
     if (draw == _playerChoice) {
-      console.log('won');
       uint256 winnerCut = msg.value + (msg.value - feesAmount);
       payable(msg.sender).transfer(winnerCut);
-    } else {
-      console.log('lost');
-    }
+    } else {}
 
     emit Flip(round);
   }

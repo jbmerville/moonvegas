@@ -13,3 +13,25 @@ export interface RaffleState {
   draftTime: Date;
   ticketPrice: BigNumber;
 }
+
+export interface CoinFlipState {
+  totalVolume: number;
+  totalFlips: number;
+  contractBalance: number;
+}
+
+export enum CoinFace {
+  HEADS = 'HEADS',
+  TAILS = 'TAILS',
+}
+
+export enum BetAmount {
+  ONE = 1,
+  TWO = 2,
+  FIVE = 5,
+  TEN = 10,
+  FIFTEEN = 15,
+  TWENTY_FIVE = 25,
+  FIFTY = 50,
+  ONE_HUNDRED = 100,
+}

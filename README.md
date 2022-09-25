@@ -1,6 +1,6 @@
 # MoonVegas
 
-Frontend + SmartContract for raffle on [Moonbeam](https://moonbeam.network/).
+Frontend + SmartContract for raffle and coinflip on [Moonbeam](https://moonbeam.network/).
 
 ## Setup SmartContract development environment (MacOS)
 
@@ -18,6 +18,12 @@ cd hardhat # All the SmartContracts files are located in the ./hardhat directory
 yarn install # Install dependencies
 yarn run compile # Compile the SmartContracts anytime you make changes
 yarn run deploy:localhost # Deploy the compiled SmartContracts to the node running locally
+```
+
+You will also need an account with tokens to make transactions, to do so you can use any of the [Pre-funded Development Accounts](https://docs.moonbeam.network/builders/get-started/networks/moonbeam-dev/#pre-funded-development-accounts). Simply add one of the private keys to your MetaMask. For example:
+
+```
+0x5fb92d6e98884f76de468fa3f6278f8807c48bebc13595d45af5bdc4da702133
 ```
 
 ## Setup Frontend development environment

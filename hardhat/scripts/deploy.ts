@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { ethers } from 'hardhat';
 import { task } from 'hardhat/config';
 
@@ -10,14 +11,14 @@ task('accounts', 'Prints the list of accounts', async (taskArgs, hre) => {
   }
 });
 
-async function main() {
+async function deployRaffle() {
   const currentTimestampInSeconds = Math.round(Date.now() / 1000);
   const ONE_DAY_IN_SECS = 24 * 60 * 60;
   const ONE_WEEK_IN_SECS = 7 * ONE_DAY_IN_SECS;
 
   const draftTime = currentTimestampInSeconds + ONE_WEEK_IN_SECS;
   const ticketPrice = '0.01';
-  const maxTicketAmount = 100;
+  const maxTicketAmount = 10;
 
   const Raffle = await ethers.getContractFactory('Raffle');
   const raffle = await Raffle.deploy(
@@ -30,13 +31,29 @@ async function main() {
 
   await raffle.purchase([1, 3], { value: ethers.utils.parseEther(ticketPrice).mul(2) });
 
-  // TODO: write address to hardhat/artifacts/contracts/Raffle.sol/Raffle.json when deploying on localhost
-
+  fs.writeFileSync('Raffle.address.js', `module.exports = '${raffle.address}';`);
   console.log(
     `Raffle with ${maxTicketAmount} ticket at ${ticketPrice} GLMR and draft time ${new Date(
       draftTime * 1000
     ).toUTCString()} deployed to ${raffle.address}`
   );
+}
+
+async function deployCoinFlip() {
+  const CoinFlip = await ethers.getContractFactory('CoinFlip');
+  const coinFlip = await CoinFlip.deploy();
+
+  await coinFlip.deployed();
+
+  await coinFlip.loadFunds({ value: ethers.utils.parseEther('20') });
+
+  fs.writeFileSync('CoinFlip.address.js', `module.exports = '${coinFlip.address}';`);
+  console.log(`CoinFlip deployed to ${coinFlip.address}`);
+}
+
+async function main() {
+  await deployRaffle();
+  await deployCoinFlip();
 }
 
 // We recommend this pattern to be able to use async/await everywhere

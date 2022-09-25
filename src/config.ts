@@ -1,9 +1,10 @@
 import { Chain, Config, MoonbaseAlpha } from '@usedapp/core';
+import coinFlipAddress from 'hardhat/CoinFlip.address.js';
 import raffleAddress from 'hardhat/Raffle.address.js';
 
 export const LocalhostChain: Chain = {
   chainId: 1281,
-  chainName: 'Moonbeam localhost',
+  chainName: 'Moonbeam Localhost',
   isTestChain: true,
   isLocalChain: true,
   multicallAddress: '0x0000000000000000000000000000000000000000',
@@ -15,8 +16,8 @@ export const LocalhostChain: Chain = {
   rpcUrl: 'http://127.0.0.1:9933',
   blockExplorerUrl: 'https://tutorialchain.etherscan.io',
   nativeCurrency: {
-    name: 'LOCAL',
-    symbol: 'LOCAL',
+    name: 'GLMR',
+    symbol: 'GLMR',
     decimals: 18,
   },
 };
@@ -45,15 +46,14 @@ export const dappConfig = {
 export const isMoonbaseAlpha =
   process.env.NEXT_PUBLIC_ENV === 'production' || process.env.NEXT_PUBLIC_ENV === 'pipeline';
 
-// eslint-disable-next-line no-console
-console.log({ NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV, isMoonbaseAlpha });
-
 export const contractConfig = {
   [LocalhostChain.chainId]: {
     raffleAddress: raffleAddress,
+    coinFlipAddress: coinFlipAddress,
   },
   [MoonbaseAlpha.chainId]: {
-    raffleAddress: '0x51D139132bDa837d5d83A529Fac06E79cf068977',
+    raffleAddress: '0x7d3240ef17E7C18ebA590d2b8695eb11cb4A5A4f',
+    coinFlipAddress: '0x1D57d3f0602fFE881DBf71D40B60D642222b2967',
   },
 };
 
@@ -68,6 +68,13 @@ export const currentNetwork: Chain = isMoonbaseAlpha
     }
   : LocalhostChain;
 export const currentRaffleAddress = contractConfig[currentNetworkChainId].raffleAddress;
+export const currentCoinFlipAddress = contractConfig[currentNetworkChainId].coinFlipAddress;
 
 // To override the currentNetwork, set the NEXT_PUBLIC_ENV variable to "production" in .env
 export const currentDappConfig = dappConfig[currentNetworkChainId] as Config;
+
+// eslint-disable-next-line no-console
+console.log({
+  NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
+  currentNetwork: currentNetwork.chainName,
+});

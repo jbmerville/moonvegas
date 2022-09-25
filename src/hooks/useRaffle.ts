@@ -36,7 +36,7 @@ const useRaffle = () => {
 
   const { send, state } = useContractFunction(contract, 'purchase');
 
-  const [purchasing, setPurchasing] = useState<boolean>(false);
+  const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
   const [raffleState, setRaffleState] = useState<RaffleState>({
     tickets: [],
     ticketsLeft: [],
@@ -100,7 +100,7 @@ const useRaffle = () => {
 
       try {
         if (account && library) {
-          setPurchasing(true);
+          setIsTransactionPending(true);
           toast.info('Sending purchase transaction');
           const res = await send(ticketIds, { value: price, ...options });
           if (res?.status == 1) {
@@ -109,14 +109,15 @@ const useRaffle = () => {
             toast.error(`Transaction unsuccessful: ${state.errorMessage}`);
           }
           resetTicketsSelected();
-          setPurchasing(false);
+          setIsTransactionPending(false);
           await new Promise((resolve) => setTimeout(resolve, 1000)); // wait 1s
           refresh();
         } else {
-          toast.error('Please login to MetaMask to purchase');
+          toast.error('Please login to MetaMask');
           console.error(`Account not found`);
         }
       } catch (e) {
+        toast.error('Something went wrong');
         console.error('Something went wrong', e);
       }
     },
@@ -167,7 +168,7 @@ const useRaffle = () => {
 
   return {
     purchase,
-    purchasing,
+    isTransactionPending,
     tickets: raffleState.tickets,
     ticketsLeft: raffleState.ticketsLeft,
     ticketPrice: raffleState.ticketPrice,

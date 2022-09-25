@@ -24,7 +24,7 @@ interface TicketsSelectedPropsType {
 
 const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const { networks } = useConfig();
-  const { ticketPrice, purchase, purchasing } = useRaffle();
+  const { ticketPrice, purchase, isTransactionPending } = useRaffle();
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
     return (
@@ -87,7 +87,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             className='mb-3 mt-5 flex min-w-[200px] items-center justify-center bg-moonbeam-cyan/20 hover:bg-moonbeam-cyan/40 md:mt-10'
             onClick={onPurchasePressed}
           >
-            {purchasing ? (
+            {isTransactionPending ? (
               <>
                 <div role='status'>
                   <svg

@@ -8,12 +8,13 @@ import raffleArtifacts from 'hardhat/artifacts/contracts/Raffle.sol/Raffle.json'
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-import { CoinFace } from '@/components/coinflip/CoinSection';
 import UnderlineLink from '@/components/links/UnderlineLink';
 
 import { currentNetwork } from '@/config';
 
 import coin from '../../../public/images/coin.png';
+
+import { CoinFace } from '@/types';
 
 const raffleAbi = new utils.Interface(raffleArtifacts.abi);
 
