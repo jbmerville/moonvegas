@@ -7,8 +7,8 @@ import Button from '@/components/buttons/Button';
 import ChoicesSection from '@/components/coinflip/ChoicesSection';
 import CoinFlipInfoCardsSection from '@/components/coinflip/CoinFlipInfoCardsSection';
 
-import coin from '../../../public/images/coin.png';
-import coinSelected from '../../../public/images/coin-selected.png';
+import coinHeads from '../../../public/images/coin-heads.png';
+import coinTails from '../../../public/images/coin-tails.png';
 
 import { CoinFace } from '@/types';
 
@@ -30,9 +30,9 @@ const CoinSection = () => {
       {outcome ? (
         <div className='layout my-16 flex flex-col items-center justify-center'>
           {outcome.draw === CoinFace.HEADS ? (
-            <Image src={coin} layout='fixed' height='120px' width='120px' alt='' />
+            <Image src={coinHeads} layout='fixed' height='120px' width='120px' alt='' />
           ) : (
-            <Image src={coin} layout='fixed' height='120px' width='120px' alt='' />
+            <Image src={coinTails} layout='fixed' height='120px' width='120px' alt='' />
           )}
           {outcome.isWin ? (
             <div className='text-green-40 mt-5 text-2xl'>You Won</div>
@@ -52,30 +52,21 @@ const CoinSection = () => {
           {/* Desktop */}
           <div className='my-16 hidden flex-row items-center justify-center md:flex'>
             <div
-              className={`flex cursor-pointer flex-col items-center justify-center rounded px-4 py-3 ${
-                playerCoinFaceChoice === CoinFace.HEADS ? 'scale-125	' : ''
+              className={`flex cursor-pointer flex-col items-center justify-center rounded px-4 py-3 transition ${
+                playerCoinFaceChoice === CoinFace.HEADS ? 'scale-125	hue-rotate-15' : ''
               }`}
               onClick={() => setPlayerCoinFaceChoice(CoinFace.HEADS)}
             >
-              {playerCoinFaceChoice === CoinFace.HEADS ? (
-                <Image src={coinSelected} layout='fixed' height='120px' width='120px' alt='' />
-              ) : (
-                <Image src={coin} layout='fixed' height='120px' width='120px' alt='' />
-              )}
-
+              <Image src={coinHeads} layout='fixed' height='120px' width='120px' alt='' />
               <p className='mt-3 font-extrabold uppercase text-white'> HEADS</p>
             </div>
             <div
               className={`ml-10 flex cursor-pointer flex-col items-center justify-center rounded px-4 py-3 transition ${
-                playerCoinFaceChoice === CoinFace.TAILS ? 'scale-125	' : ''
+                playerCoinFaceChoice === CoinFace.TAILS ? 'scale-125	hue-rotate-15' : ''
               }`}
               onClick={() => setPlayerCoinFaceChoice(CoinFace.TAILS)}
             >
-              {playerCoinFaceChoice === CoinFace.TAILS ? (
-                <Image src={coinSelected} layout='fixed' height='120px' width='120px' alt='' />
-              ) : (
-                <Image src={coin} layout='fixed' height='120px' width='120px' alt='' />
-              )}{' '}
+              <Image src={coinTails} layout='fixed' height='120px' width='120px' alt='' />
               <p className='mt-3 font-extrabold	uppercase text-white'>TAILS</p>
             </div>
           </div>
@@ -83,30 +74,22 @@ const CoinSection = () => {
           {/* Mobile */}
           <div className='my-16 flex flex-row items-center justify-center md:hidden'>
             <div
-              className={`flex cursor-pointer flex-col items-center justify-center rounded px-4 py-3 ${
-                playerCoinFaceChoice === CoinFace.HEADS ? 'scale-125	' : ''
+              className={`flex cursor-pointer flex-col items-center justify-center rounded px-4 py-3  transition ${
+                playerCoinFaceChoice === CoinFace.HEADS ? 'scale-125	hue-rotate-15' : ''
               }`}
               onClick={() => setPlayerCoinFaceChoice(CoinFace.HEADS)}
             >
-              {playerCoinFaceChoice === CoinFace.HEADS ? (
-                <Image src={coinSelected} layout='fixed' height='100px' width='100px' alt='' />
-              ) : (
-                <Image src={coin} layout='fixed' height='100px' width='100px' alt='' />
-              )}
+              <Image src={coinHeads} layout='fixed' height='100px' width='100px' alt='' />
 
               <p className='mt-3 font-extrabold uppercase text-white'> HEADS</p>
             </div>
             <div
               className={`ml-10 flex cursor-pointer flex-col items-center justify-center rounded px-4 py-3 transition ${
-                playerCoinFaceChoice === CoinFace.TAILS ? 'scale-125	' : ''
+                playerCoinFaceChoice === CoinFace.TAILS ? 'scale-125	hue-rotate-15' : ''
               }`}
               onClick={() => setPlayerCoinFaceChoice(CoinFace.TAILS)}
             >
-              {playerCoinFaceChoice === CoinFace.TAILS ? (
-                <Image src={coinSelected} layout='fixed' height='100px' width='100px' alt='' />
-              ) : (
-                <Image src={coin} layout='fixed' height='100px' width='100px' alt='' />
-              )}{' '}
+              <Image src={coinTails} layout='fixed' height='100px' width='100px' alt='' />
               <p className='mt-3 font-extrabold	uppercase text-white'>TAILS</p>
             </div>
           </div>

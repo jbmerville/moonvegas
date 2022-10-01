@@ -3,11 +3,10 @@ import { faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { shortenAddress, shortenTransactionHash } from '@usedapp/core';
 import { BigNumber, utils } from 'ethers';
-import raffleArtifacts from 'hardhat/artifacts/contracts/Raffle.sol/Raffle.json';
 import Image from 'next/image';
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import useRaffle from '@/hooks/useRaffle';
+import useRaffle, { raffleAbi } from '@/hooks/useRaffle';
 
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
@@ -17,8 +16,6 @@ import { currentNetwork, currentRaffleAddress } from '@/config';
 import moonbeam from '../../../public/images/moonbeam-token.png';
 
 import { TicketType } from '@/types';
-
-const raffleAbi = new utils.Interface(raffleArtifacts.abi);
 
 interface TransactionType {
   address: string;
@@ -35,6 +32,23 @@ const LastSalesSection = () => {
   const hasTransactions = transactions.length > 0;
   const { tickets } = useRaffle();
 
+  const parseTxInput = (tx: any) => {
+    try {
+      const decodedArgs = raffleAbi.decodeFunctionData(tx.input.slice(0, 10), tx.input);
+      const functionName = raffleAbi.getFunction(tx.input.slice(0, 10)).name;
+      if (functionName == 'purchase') {
+        return decodedArgs[0].map((ticketId: BigNumber) => ({
+          id: ticketId.toNumber(),
+          owner: tx.from,
+          isSelected: false,
+        })) as TicketType[];
+      }
+      return [];
+    } catch (e) {
+      return [];
+    }
+  };
+
   useEffect(() => {
     const fetchHistory = async () => {
       const result = await fetch(
@@ -42,25 +56,8 @@ const LastSalesSection = () => {
       );
       const json = await result.json();
 
-      const parseTxInput = (tx: any) => {
-        try {
-          const decodedArgs = raffleAbi.decodeFunctionData(tx.input.slice(0, 10), tx.input);
-          const functionName = raffleAbi.getFunction(tx.input.slice(0, 10)).name;
-          if (functionName == 'purchase') {
-            return decodedArgs[0].map((ticketId: BigNumber) => ({
-              id: ticketId.toNumber(),
-              owner: tx.from,
-              isSelected: false,
-            })) as TicketType[];
-          }
-          return [];
-        } catch (e) {
-          return [];
-        }
-      };
-
       const txHistory = json.result
-        .filter((tx: any) => tx.isError === '0')
+        .filter((tx: any) => tx.isError === '0' && tx.to !== '') // Remove failed tx and the tx sent to deploy the SC
         .map((tx: any) => {
           return {
             address: tx.from,
