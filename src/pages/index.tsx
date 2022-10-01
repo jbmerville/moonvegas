@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import Footer from '@/components/layout/Footer';
 import Layout from '@/components/layout/Layout';
 import LastSalesSection from '@/components/raffle/LastSalesSection';
 import TicketSelectionSection from '@/components/raffle/TicketSelectionSection';
@@ -25,6 +26,7 @@ export default function HomePage() {
         <section className='h-full'>
           <TicketSelectionSection />
           <LastSalesSection />
+          <Footer />
         </section>
       </main>
     </Layout>
