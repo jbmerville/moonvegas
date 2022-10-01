@@ -1,11 +1,14 @@
 import { shortenAddress, useEthers } from '@usedapp/core';
 import { utils } from 'ethers';
+import Image from 'next/image';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 
 import { currentNetwork, currentNetworkChainId } from '@/config';
+
+import moonvegasLogo from '../../../public/images/moonvegas-logo.gif';
 
 export default function Header() {
   const { account, deactivate, activateBrowserWallet, switchNetwork } = useEthers();
@@ -45,13 +48,13 @@ export default function Header() {
   return (
     <header className='navbar-header top-0 z-50 bg-dark'>
       <div className='layout z-50 flex items-center justify-between py-2   md:py-5'>
-        <div className='hidden items-center justify-center md:flex '>
-          <h2 className='logo text-3xl text-moonbeam-cyan'>Moon</h2>
-          <h2 className='logo text-3xl text-moonbeam-pink'>Vegas</h2>{' '}
+        <div className='relative hidden h-[120px] w-[180px] items-center justify-center	md:block'>
+          <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
         </div>
         <div className='flex items-center justify-center md:hidden'>
-          <h2 className='logo text-3xl text-moonbeam-cyan'>M</h2>
-          <h2 className='logo mr-4 text-3xl text-moonbeam-pink'>V</h2>{' '}
+          <div className='relative block h-[70px] w-[70px] items-center justify-center	md:hidden'>
+            <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
+          </div>
           <div className='ml-2 flex h-10 items-center  justify-center rounded-full border-2 border-orange bg-orange/20 px-2 text-xs text-orange'>
             Beta
           </div>

@@ -45,3 +45,4 @@ hardhat/artifacts
 hardhat/cache
 hardhat/node_modules
 hardhat/types
+hardhat/*.address.js
