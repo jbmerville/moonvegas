@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import PopUp from '@/components/popup';
 
-import { currentNetwork, currentRaffleAddress } from '@/config';
+import { currentCoinFlipAddress, currentNetwork, currentRaffleAddress } from '@/config';
 
 interface CoinFlipInfoCardsSectionProps {
   totalFlips: number;
@@ -180,8 +180,8 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
             </li>
           </ul>
           <p className='text-center text-xs text-white/50'>
-            View Raffle Smart Contract in explorer:{' '}
-            <UnderlineLink href={currentNetwork.getExplorerAddressLink(currentRaffleAddress)}>
+            View CoinFlip Smart Contract in explorer:{' '}
+            <UnderlineLink href={currentNetwork.getExplorerAddressLink(currentCoinFlipAddress)}>
               {currentRaffleAddress}
             </UnderlineLink>
           </p>
