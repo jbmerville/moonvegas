@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import Footer from '@/components/layout/Footer';
-import Layout from '@/components/layout/Layout';
 import LastSalesSection from '@/components/raffle/LastSalesSection';
 import TicketSelectionSection from '@/components/raffle/TicketSelectionSection';
 import Seo from '@/components/Seo';
@@ -20,7 +19,7 @@ import Seo from '@/components/Seo';
 
 export default function HomePage() {
   return (
-    <Layout>
+    <>
       <Seo templateTitle='Raffle' />
       <main className='h-full w-full overflow-y-auto bg-dark'>
         <section className='h-full'>
@@ -29,6 +28,6 @@ export default function HomePage() {
           <Footer />
         </section>
       </main>
-    </Layout>
+    </>
   );
 }
