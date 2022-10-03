@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import Loading from '@/components/icons/Loading';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
+import PopOver from '@/components/popover';
 
 import { currentNetwork } from '@/config';
 
@@ -19,7 +21,7 @@ interface ChoicesSectionProps {
 }
 
 const ChoicesSection = (props: ChoicesSectionProps) => {
-  const { flip, playerCoinFaceChoice, contractBalance } = props;
+  const { flip, playerCoinFaceChoice, contractBalance, isTransactionPending } = props;
   const [playerBetAmount, setPlayerBetAmount] = useState<BetAmount | undefined>();
 
   const onFlipClick = () => {
@@ -46,7 +48,31 @@ const ChoicesSection = (props: ChoicesSectionProps) => {
             .map((entry) => {
               const isDisabled = parseInt(entry[0]) >= contractBalance / 4;
               const isSelected = playerBetAmount === entry[1];
-              return (
+              return isDisabled ? (
+                <PopOver
+                  key={entry[0]}
+                  title='Bet Amount Disabled'
+                  description={`CoinFlip pool currently holds ${contractBalance} ${
+                    currentNetwork.nativeCurrency?.symbol
+                  }. The pool needs a minimum of ${parseInt(entry[0]) * 4} ${
+                    currentNetwork.nativeCurrency?.symbol
+                  } to allow this bet amount.`}
+                >
+                  <div
+                    key={entry[0]}
+                    onClick={() => setPlayerBetAmount(entry[1] as BetAmount)}
+                    className={`relative inline-flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-md bg-gradient-to-r 
+                      p-0.5 text-sm font-medium text-white group-hover:bg-opacity-0 group-hover:from-purple-600 group-hover:to-blue-500`}
+                  >
+                    <span className='text relative inline-flex w-full items-center justify-center rounded bg-gray-900 px-1 py-2.5 pl-5 uppercase text-white/60 transition-all duration-75  ease-in  md:px-5'>
+                      {entry[0]} {currentNetwork.nativeCurrency?.symbol}
+                      <div className='ml-2 opacity-75'>
+                        <MoonbeamIcon />
+                      </div>
+                    </span>
+                  </div>
+                </PopOver>
+              ) : (
                 <button
                   key={entry[0]}
                   disabled={isDisabled}
@@ -55,14 +81,12 @@ const ChoicesSection = (props: ChoicesSectionProps) => {
                     isSelected
                       ? 'from-purple-600 to-blue-500 ring-blue-800'
                       : 'from-[#5258bd] to-[#6d388a]'
-                  } group relative inline-flex items-center  justify-center overflow-hidden rounded-md bg-gradient-to-r 
+                  } group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-gradient-to-r 
                       p-0.5 text-sm font-medium text-white group-hover:bg-opacity-0 group-hover:from-purple-600 group-hover:to-blue-500`}
                 >
                   <span
                     className={`text relative inline-flex w-full items-center justify-center rounded ${
-                      isDisabled
-                        ? 'bg-gray-900 text-white/60 '
-                        : isSelected
+                      isSelected
                         ? ' bg-opacity-0 group-hover:bg-opacity-0'
                         : 'bg-gray-900/50 bg-opacity-0 group-hover:bg-opacity-0'
                     } px-1 py-2.5 pl-5 uppercase transition-all duration-75  
@@ -79,12 +103,20 @@ const ChoicesSection = (props: ChoicesSectionProps) => {
         </div>
         <button
           key='button'
+          disabled={isTransactionPending}
           onClick={onFlipClick}
           className=' group  relative mt-8 mr-2 inline-flex w-full  items-center justify-center overflow-hidden rounded-md bg-gradient-to-r from-[#5258bd] to-[#6d388a] p-0.5 text-sm font-medium text-white hover:text-white focus:from-purple-600 focus:to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 dark:text-white dark:focus:ring-blue-800'
         >
-          <span className='relative w-full rounded bg-dark px-5 py-2.5 text-lg font-extrabold uppercase transition-all duration-75 ease-in	group-hover:bg-opacity-0 group-focus:bg-opacity-0 dark:bg-gray-900'>
-            Double or nothing
-          </span>
+          {isTransactionPending ? (
+            <div role='status' className='py-2.5'>
+              <Loading />
+              <span className='sr-only text-white'>Loading...</span>
+            </div>
+          ) : (
+            <span className='relative w-full rounded bg-dark px-5 py-2.5 text-lg font-extrabold uppercase transition-all duration-75 ease-in	group-hover:bg-opacity-0 group-focus:bg-opacity-0 dark:bg-gray-900'>
+              Double or nothing
+            </span>
+          )}
         </button>
         <p className='mt-2 text-xs text-white'>
           Get DEV tokens at the{' '}

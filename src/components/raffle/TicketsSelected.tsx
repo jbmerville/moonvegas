@@ -85,16 +85,15 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
           </div>
           <Button
             variant='outline'
+            disabled={isTransactionPending}
             className='mb-3 mt-5 flex min-w-[200px] items-center justify-center bg-moonbeam-cyan/20 hover:bg-moonbeam-cyan/40 md:mt-10'
             onClick={onPurchasePressed}
           >
             {isTransactionPending ? (
-              <>
-                <div role='status'>
-                  <Loading />
-                  <span className='sr-only text-white'>Loading...</span>
-                </div>
-              </>
+              <div role='status'>
+                <Loading />
+                <span className='sr-only text-white'>Loading...</span>
+              </div>
             ) : (
               <>
                 <p className='ml-2 '>
