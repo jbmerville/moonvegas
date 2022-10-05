@@ -41,7 +41,7 @@ const ChoicesSection = (props: ChoicesSectionProps) => {
         </p>
         <p className=' text-center text-xl uppercase text-moonbeam-cyan md:text-xl'>Choices</p>
       </div>
-      <div className='flex w-full flex-col items-center rounded border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5'>
+      <div className='flex w-full flex-col items-center rounded-lg border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5'>
         <div className='grid w-full grid-cols-2 grid-rows-4 gap-2.5 md:grid-cols-4 md:grid-rows-2	'>
           {Object.entries(BetAmount)
             .filter((v) => !isNaN(Number(v[0])))

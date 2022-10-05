@@ -102,7 +102,7 @@ const LastSalesSection = () => {
         </div>
         <div
           className={`${
-            hasTransactions ? 'rounded' : 'rounded-t'
+            hasTransactions ? 'rounded-lg' : 'rounded-t'
           }  h-full	w-full overflow-hidden border border-moonbeam-cyan`}
         >
           <div className='border-b border-moonbeam-cyan bg-gray-900 md:px-10'>

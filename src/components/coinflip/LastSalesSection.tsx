@@ -105,46 +105,46 @@ const LastSalesSection = () => {
         </div>
         <div
           className={`${
-            hasTransactions ? 'rounded' : 'rounded-t'
+            hasTransactions ? 'rounded-lg' : 'rounded-t'
           }  h-full	w-full overflow-hidden border border-moonbeam-cyan`}
         >
           <div className='relative z-10 mb-[-35px] h-10 w-full border-b border-moonbeam-cyan bg-gray-900' />
           <div className='bg-moonbeam-blue-dark md:px-10 md:pb-10 '>
             <table className=' w-full border-spacing-0 text-sm'>
               <thead>
-                <tr className='relative z-20 w-full text-moonbeam-cyan'>
-                  <th className='hidden md:table-cell md:p-2' scope='col'>
+                <tr className='relative z-20  w-full text-moonbeam-cyan'>
+                  <th className='hidden md:table-cell  ' scope='col'>
                     Date
                   </th>
-                  <th className='hidden md:table-cell md:p-2' scope='col'>
+                  <th className='hidden md:table-cell  ' scope='col'>
                     Address
                   </th>
-                  <th className='md:max-w-100 max-w-[50px] p-1 md:p-2' scope='col'>
+                  <th className='md:max-w-100 max-w-[50px]    ' scope='col'>
                     Result
                   </th>
-                  <th className='p-1 md:p-2' scope='col'>
+                  <th className='   ' scope='col'>
                     Choice
                   </th>
-                  <th className='hidden md:table-cell md:p-2' scope='col'>
+                  <th className='hidden md:table-cell  ' scope='col'>
                     TX
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className='relative top-4'>
                 {transactions.length > 0 ? (
                   transactions.map((transaction, i) => (
                     <tr key={i} className='box-border border-b border-moonbeam-cyan text-center'>
-                      <td className='hidden md:table-cell md:p-2'>
+                      <td className='hidden md:table-cell  '>
                         <p className=''>{transaction.date.toLocaleString()}</p>
                       </td>
-                      <td className='hidden md:table-cell md:p-2'>
+                      <td className='hidden md:table-cell  '>
                         <p className=''>{`${transaction.address.substring(
                           0,
                           8
                         )}...${transaction.address.substring(transaction.address.length - 6)}`}</p>
                       </td>
 
-                      <td className='p-1 md:p-2'>
+                      <td className='   '>
                         <p className='block text-xs md:hidden'>
                           {shortenAddress(transaction.address)} flipped{' '}
                           <span className='font-bold'>{transaction.price} </span>
@@ -166,7 +166,7 @@ const LastSalesSection = () => {
                           .
                         </p>
                       </td>
-                      <td className='p-1 md:p-2'>
+                      <td className='   '>
                         <div className='flex scale-75 items-center justify-center py-2 md:scale-100'>
                           {transaction.choice === CoinFace.HEADS ? (
                             <Image
@@ -187,7 +187,7 @@ const LastSalesSection = () => {
                           )}
                         </div>
                       </td>
-                      <td className='hidden md:table-cell md:p-2'>
+                      <td className='hidden md:table-cell  '>
                         <UnderlineLink
                           href={currentNetwork.getExplorerTransactionLink(transaction.hash)}
                         >

@@ -13,14 +13,14 @@ const SideBar = () => {
   const [isBetaPopUpOpen, setIsBetaPopUpOpen] = useState(true);
 
   return (
-    <aside
-      className={`navbar-navbar h-full w-0 ${
+    <nav
+      className={`navbar-navbar sticky w-0 ${
         isSideBarOpen ? 'md:w-[280px]' : 'md:w-[80px]'
       } transition transition-width duration-100 `}
       aria-label='Sidebar'
     >
-      <div className='item-center flex h-full w-full flex-col justify-between overflow-y-auto bg-gray-900 py-4 px-3'>
-        <div className='item-center flex h-full w-full flex-col '>
+      <div className=' item-center flex h-full w-full flex-col justify-between overflow-y-auto bg-gray-900 py-4 px-3'>
+        <div className='item-center sticky flex h-full w-full flex-col'>
           <ul className='space-y-2 '>
             <li>
               <div
@@ -114,7 +114,7 @@ const SideBar = () => {
           &copy;{new Date().getFullYear()} MoonVegas
         </div>
       </div>
-    </aside>
+    </nav>
   );
 };
 

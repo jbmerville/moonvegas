@@ -10,7 +10,7 @@ const PopUp = (props: PopUpProps) => {
   const { children, isVisible, setIsVisible } = props;
   return (
     <div
-      className={`animate fixed top-0 right-0 left-0 z-50 h-modal duration-150  ${
+      className={`animate fixed top-0 right-0 left-0 z-50 h-modal duration-300  ${
         isVisible ? 'z-10 opacity-100' : 'z-[-1] opacity-0'
       } flex h-full items-center justify-center overflow-y-auto overflow-x-hidden bg-moonbeam-blue-dark/[.8] md:inset-0`}
     >

@@ -46,9 +46,9 @@ export default function Header() {
   };
 
   return (
-    <header className='navbar-header top-0 z-50 bg-dark'>
+    <header className='navbar-header sticky top-0 z-50 bg-dark'>
       <div className='layout z-50 flex items-center justify-between py-1  md:py-1'>
-        <div className='relative hidden h-[100px] w-[160px] items-center justify-center	md:block'>
+        <div className='relative hidden h-[70px] w-[160px] items-center justify-center	md:block'>
           <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
         </div>
         <div className='flex items-center justify-center md:hidden'>

@@ -68,7 +68,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
 
   return (
     <div className='layout mx-10 flex items-center justify-between md:mx-4'>
-      <div className='flex w-full flex-col items-start justify-start rounded '>
+      <div className='flex w-full flex-col items-start justify-start '>
         <div className='mb-1 flex w-full items-center md:mb-3'>
           <FontAwesomeIcon
             icon={faReceipt}
@@ -79,7 +79,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             Selected Tickets
           </p>
         </div>
-        <div className='flex w-full flex-col items-center justify-start  rounded border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5 '>
+        <div className='flex w-full flex-col items-center justify-start  rounded-lg border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5 '>
           <div className='flex w-full items-center justify-start overflow-x-scroll pl-5'>
             {props.selectedTickets.map(renderMiniatureSelectedTicket)}
           </div>
