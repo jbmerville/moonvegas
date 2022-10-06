@@ -96,7 +96,7 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
       </div>
       <PopUp isVisible={isReadRulesPopUpOpen} setIsVisible={setIsReadRulesPopUpOpen}>
         <div className=' text-white md:w-[400px]'>
-          <div className='mb-6  flex items-center text-orange'>
+          <div className='mb-6  flex items-center text-lg text-orange'>
             <div className='mr-3  w-5'>
               <FontAwesomeIcon icon={faCircleInfo} />
             </div>
@@ -117,8 +117,8 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
                 ></path>
               </svg>
               <span>
-                Select either <span className=' pl-1 font-extrabold '> HEADS or TAILS</span>, then
-                choose the amount of {currentNetwork.nativeCurrency?.symbol} to flip.
+                Select either <span className=' font-extrabold '> HEADS or TAILS</span>, then choose
+                the amount of {currentNetwork.nativeCurrency?.symbol} to flip.
               </span>
             </li>
             <li className='!my-4 flex items-center'>
@@ -137,7 +137,7 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
               <span>
                 The SmartContract randomly flips a coin. If it is the one you picked, you win and
                 you get back
-                <span className='px-1 font-extrabold'>2x</span>your{' '}
+                <span className='font-extrabold'> 2x</span> your{' '}
                 {currentNetwork.nativeCurrency?.symbol}. If it&apos;s not the one you picked, you
                 lose your {currentNetwork.nativeCurrency?.symbol}. The house keeps 5% of all wins.
               </span>
@@ -156,8 +156,8 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
                 ></path>
               </svg>
               <span>
-                The SmartContract uses an <span className='px-1 font-extrabold'>Oracle</span> to
-                ensure randomeness is not deterministic.
+                The SmartContract uses an <span className='font-extrabold'>Oracle</span> to ensure
+                randomeness is not deterministic.
               </span>
             </li>
             <li className='!my-4 flex items-center'>
@@ -174,8 +174,8 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
                 ></path>
               </svg>
               <span>
-                Winner also might receives an{' '}
-                <span className='pl-1 font-extrabold'>NFT of a MoonVegas CoinFlip coin</span>.
+                Winner also might receives an <span className='font-extrabold'>NFT </span> of a
+                MoonVegas CoinFlip coin.
               </span>
             </li>
           </ul>

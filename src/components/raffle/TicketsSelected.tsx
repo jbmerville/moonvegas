@@ -75,7 +75,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             size='xs'
             className='mr-2 w-3 text-xs text-moonbeam-cyan md:mr-2 md:w-6'
           />
-          <p className=' text-center text-xl uppercase text-moonbeam-cyan md:text-xl'>
+          <p className=' text-center text-lg uppercase text-moonbeam-cyan md:text-xl'>
             Selected Tickets
           </p>
         </div>

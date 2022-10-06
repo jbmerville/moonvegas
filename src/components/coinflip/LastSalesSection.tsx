@@ -99,7 +99,7 @@ const LastSalesSection = () => {
           <p className='mr-2 w-4 text-xs text-moonbeam-cyan md:mr-3 md:w-6'>
             <FontAwesomeIcon icon={faClockRotateLeft} size='xs' />
           </p>
-          <p className=' text-center text-xl uppercase text-moonbeam-cyan md:text-xl'>
+          <p className=' text-center text-lg uppercase text-moonbeam-cyan md:text-xl'>
             Recent Plays
           </p>
         </div>

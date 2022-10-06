@@ -7,13 +7,14 @@ import Header from '@/components/layout/Header';
 import SideBar from '@/components/layout/SideBar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  // Put Header or Footer Here
+  const [isSideBarOpen, setIsSideBarOpen] = React.useState(true);
+  const toggleSideBar = () => setIsSideBarOpen(!isSideBarOpen);
+
   return (
     <div className='navbar-container grid h-full w-full'>
-      <Header />
-      <SideBar />
-
-      {children}
+      <Header isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+      <SideBar isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+      <div className='mt-20 h-full w-full md:mt-0'>{children}</div>
       <ToastContainer
         position='bottom-right'
         autoClose={4000}

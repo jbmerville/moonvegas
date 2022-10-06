@@ -153,11 +153,22 @@
 
 .navbar-container {
   grid-template-areas:
-    'nav header header'
-    'nav main aside'
-    'nav main aside';
+    'header header nav'
+    'aside main nav'
+    'aside main nav';
   grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-rows: auto 1fr auto;
+}
+
+@media (min-width: 768px) {
+  .navbar-container {
+    grid-template-areas:
+      'nav header header'
+      'nav main aside'
+      'nav main aside';
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto 1fr auto;
+  }
 }
 
 .navbar-navbar {

@@ -104,8 +104,8 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
       </div>
       <PopUp isVisible={isReadRulesPopUpOpen} setIsVisible={setIsReadRulesPopUpOpen}>
         <div className=' text-white md:w-[400px]'>
-          <div className='mb-6  flex items-center text-orange'>
-            <div className='mr-3  w-5'>
+          <div className='mb-6  flex items-center text-lg text-orange'>
+            <div className='mr-3 w-5'>
               <FontAwesomeIcon icon={faCircleInfo} />
             </div>
             Raffle Rules
@@ -125,7 +125,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                 ></path>
               </svg>
               <span>
-                Each ticket has the <span className=' px-1 font-extrabold '> same chance </span>
+                Each ticket has the <span className='font-extrabold '> same chance </span>
                 of being selected.
               </span>
             </li>
@@ -145,8 +145,8 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
 
               <span>
                 Winner is picked when either all tickets are{' '}
-                <span className='px-1 font-extrabold'>sold out or the timer ends</span>. Whichever
-                comes first.
+                <span className='font-extrabold'>sold out or the timer ends</span>. Whichever comes
+                first.
               </span>
             </li>
             <li className='!my-4 flex items-center'>
@@ -163,8 +163,8 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                 ></path>
               </svg>
               <span>
-                The SmartContract uses an <span className='px-1 font-extrabold'>Oracle</span> to
-                ensure randomeness is not deterministic.
+                The SmartContract uses an <span className='font-extrabold'>Oracle</span> to ensure
+                randomeness is not deterministic.
               </span>
             </li>
 
@@ -182,7 +182,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                 ></path>
               </svg>
               <span>
-                Winner receives <span className='px-1 font-extrabold'>95%</span> of all the{' '}
+                Winner receives <span className=' font-extrabold'>95%</span> of all the{' '}
                 {currentNetwork.nativeCurrency?.symbol} in the pool. The house keeps 5%.
               </span>
             </li>
@@ -200,8 +200,8 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                 ></path>
               </svg>
               <span>
-                Winner also receives an{' '}
-                <span className='px-1 font-extrabold'>NFT of the winning ticket</span>.
+                Winner also receives an <span className='font-extrabold'>NFT </span>of the winning
+                ticket.
               </span>
             </li>
           </ul>

@@ -1,3 +1,5 @@
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { shortenAddress, useEthers } from '@usedapp/core';
 import { utils } from 'ethers';
 import Image from 'next/image';
@@ -13,7 +15,14 @@ import moonvegasLogo from '../../../public/images/moonvegas-logo.gif';
 
 const REFERRAL = '1YCYB8B5';
 
-export default function Header() {
+interface HeaderProps {
+  isSideBarOpen: boolean;
+  toggleSideBar: () => void;
+}
+
+export default function Header(props: HeaderProps) {
+  const { isSideBarOpen, toggleSideBar } = props;
+
   const { account, deactivate, activateBrowserWallet, switchNetwork } = useEthers();
   const [isShowCopiedReferral, setIsShowCopiedReferral] = useState(false);
 
@@ -25,7 +34,7 @@ export default function Header() {
   const onReferralClicked = () => {
     setIsShowCopiedReferral(true);
     navigator.clipboard.writeText(REFERRAL);
-    setTimeout(() => setIsShowCopiedReferral(false), 700);
+    setTimeout(() => setIsShowCopiedReferral(false), 1000);
   };
 
   const changeNetwork = async () => {
@@ -56,7 +65,7 @@ export default function Header() {
   };
 
   return (
-    <header className='navbar-header sticky top-0 z-50 bg-dark'>
+    <header className='navbar-header fixed top-0 z-50 w-full bg-dark md:sticky'>
       <div className='layout z-50 flex items-center justify-between  py-1 md:py-1'>
         <div className='relative mr-auto  hidden h-[70px] w-[160px] items-center justify-center	md:block'>
           <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
@@ -64,9 +73,6 @@ export default function Header() {
         <div className='mr-auto flex items-center justify-center md:hidden'>
           <div className='relative block h-[70px] w-[70px] items-center justify-center	md:hidden'>
             <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
-          </div>
-          <div className='ml-2 flex h-10 items-center  justify-center rounded-full border-2 border-orange bg-orange/20 px-2 text-xs text-orange'>
-            Beta
           </div>
         </div>
         {account ? (
@@ -109,6 +115,18 @@ export default function Header() {
             </Button>
           </div>
         )}
+        <div
+          onClick={toggleSideBar}
+          className='ml-2 w-fit cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700 md:hidden'
+        >
+          <FontAwesomeIcon
+            icon={faEllipsis}
+            size='xs'
+            className={`mx-2 w-6 text-xs text-gray-500 md:mx-1 md:w-6 ${
+              isSideBarOpen ? 'rotate-0' : 'rotate-90'
+            } transition`}
+          />
+        </div>
       </div>
     </header>
   );

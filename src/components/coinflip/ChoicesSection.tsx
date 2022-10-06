@@ -39,7 +39,7 @@ const ChoicesSection = (props: ChoicesSectionProps) => {
         <p className='mr-2 w-5 text-xs text-moonbeam-cyan md:mr-3 md:w-7'>
           <FontAwesomeIcon icon={faCoins} size='xs' />
         </p>
-        <p className=' text-center text-xl uppercase text-moonbeam-cyan md:text-xl'>Choices</p>
+        <p className=' text-center text-lg uppercase text-moonbeam-cyan md:text-xl'>Choices</p>
       </div>
       <div className='flex w-full flex-col items-center rounded-lg border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5'>
         <div className='grid w-full grid-cols-2 grid-rows-4 gap-2.5 md:grid-cols-4 md:grid-rows-2	'>
@@ -105,7 +105,7 @@ const ChoicesSection = (props: ChoicesSectionProps) => {
           key='button'
           disabled={isTransactionPending}
           onClick={onFlipClick}
-          className=' group  relative mt-8 mr-2 inline-flex w-full  items-center justify-center overflow-hidden rounded-md bg-gradient-to-r from-[#5258bd] to-[#6d388a] p-0.5 text-sm font-medium text-white hover:text-white focus:from-purple-600 focus:to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 dark:text-white dark:focus:ring-blue-800'
+          className=' group  relative mt-8 inline-flex w-full  items-center justify-center overflow-hidden rounded-md bg-gradient-to-r from-[#5258bd] to-[#6d388a] p-0.5 text-sm font-medium text-white hover:text-white focus:from-purple-600 focus:to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 dark:text-white dark:focus:ring-blue-800'
         >
           {isTransactionPending ? (
             <div role='status' className='py-2.5'>

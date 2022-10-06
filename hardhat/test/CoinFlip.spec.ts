@@ -99,7 +99,7 @@ describe('CoinFlip', function () {
         // Arrange
         const { coinFlip, owner, account1 } = await loadFixture(deployCoinFlipFixture);
 
-        await ethers.provider.send('evm_setNextBlockTimestamp', [1665038080]);
+        await ethers.provider.send('evm_setNextBlockTimestamp', [1798148180]);
         await ethers.provider.send('evm_mine', []);
         const account1Balance = await ethers.provider.getBalance(account1.address);
         const betAmount = ethers.utils.parseEther('4');
@@ -125,7 +125,7 @@ describe('CoinFlip', function () {
         // Arrange
         const { coinFlip, owner, account1 } = await loadFixture(deployCoinFlipFixture);
 
-        await ethers.provider.send('evm_setNextBlockTimestamp', [1665138080]);
+        await ethers.provider.send('evm_setNextBlockTimestamp', [1685138080]);
         await ethers.provider.send('evm_mine', []);
         const account1Balance = await ethers.provider.getBalance(account1.address);
         const betAmount = ethers.utils.parseEther('4');
