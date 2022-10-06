@@ -1,6 +1,7 @@
 import { shortenAddress, useEthers } from '@usedapp/core';
 import { utils } from 'ethers';
 import Image from 'next/image';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
@@ -10,12 +11,21 @@ import { currentNetwork, currentNetworkChainId } from '@/config';
 
 import moonvegasLogo from '../../../public/images/moonvegas-logo.gif';
 
+const REFERRAL = '1YCYB8B5';
+
 export default function Header() {
   const { account, deactivate, activateBrowserWallet, switchNetwork } = useEthers();
+  const [isShowCopiedReferral, setIsShowCopiedReferral] = useState(false);
 
   const connectToNetwork = async () => {
     await activateBrowserWallet();
     await changeNetwork();
+  };
+
+  const onReferralClicked = () => {
+    setIsShowCopiedReferral(true);
+    navigator.clipboard.writeText(REFERRAL);
+    setTimeout(() => setIsShowCopiedReferral(false), 700);
   };
 
   const changeNetwork = async () => {
@@ -47,11 +57,11 @@ export default function Header() {
 
   return (
     <header className='navbar-header sticky top-0 z-50 bg-dark'>
-      <div className='layout z-50 flex items-center justify-between py-1  md:py-1'>
-        <div className='relative hidden h-[70px] w-[160px] items-center justify-center	md:block'>
+      <div className='layout z-50 flex items-center justify-between  py-1 md:py-1'>
+        <div className='relative mr-auto  hidden h-[70px] w-[160px] items-center justify-center	md:block'>
           <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
         </div>
-        <div className='flex items-center justify-center md:hidden'>
+        <div className='mr-auto flex items-center justify-center md:hidden'>
           <div className='relative block h-[70px] w-[70px] items-center justify-center	md:hidden'>
             <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
           </div>
@@ -60,14 +70,30 @@ export default function Header() {
           </div>
         </div>
         {account ? (
-          <Button
-            variant='outline'
-            className='bg-orange/10 text-white hover:bg-moonbeam-cyan/40'
-            onClick={deactivate}
-          >
-            <MetaMaskIcon />
-            <p>{shortenAddress(account)}</p>
-          </Button>
+          <>
+            <Button
+              variant='dark'
+              className='lg-2 relative mr-2 hidden  overflow-hidden md:block'
+              onClick={onReferralClicked}
+            >
+              <p className='z-1 relative'>{REFERRAL}</p>
+              <p
+                className={`z-2 absolute top-0 left-0 bg-gray-800 p-2 px-8 text-orange transition duration-300 ${
+                  isShowCopiedReferral ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                Copied!
+              </p>
+            </Button>
+            <Button
+              variant='outline'
+              className='bg-orange/10 text-white hover:bg-moonbeam-cyan/40'
+              onClick={deactivate}
+            >
+              <MetaMaskIcon />
+              <p>{shortenAddress(account)}</p>
+            </Button>
+          </>
         ) : (
           <div className='flex w-fit justify-between md:w-[370px]'>
             <Button variant='dark' className='lg-2 hidden md:block'>

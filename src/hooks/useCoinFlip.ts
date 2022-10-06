@@ -58,40 +58,43 @@ const useCoinFlip = () => {
     }
   }, [contract, library]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const flip = async (choice: CoinFace, betAmount: BetAmount, options?: any) => {
-    try {
-      if (account && library) {
-        setIsTransactionPending(true);
-        toast.info('Sending flip transaction');
-        const res = (await send(choice === CoinFace.HEADS, {
-          value: utils.parseEther('1').mul(BetAmount[betAmount]),
-          ...options,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        })) as any;
-        if (res?.status == 1) {
-          const draw = res.events[0].draw ? CoinFace.HEADS : CoinFace.TAILS;
-          setOutcome({
-            isWin: draw === choice,
-            draw,
-          });
-
-          await new Promise((resolve) => setTimeout(resolve, 1000)); // wait 1s
-          refresh();
-          toast.success('Transaction successfull');
+  const flip = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async (choice: CoinFace, betAmount: BetAmount, options?: any) => {
+      try {
+        if (account && library) {
+          setIsTransactionPending(true);
+          toast.info('Sending flip transaction');
+          const res = (await send(choice === CoinFace.HEADS, {
+            value: utils.parseEther('1').mul(BetAmount[betAmount]),
+            ...options,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          })) as any;
+          if (res?.status == 1) {
+            const draw = res.events[0].draw ? CoinFace.HEADS : CoinFace.TAILS;
+            setOutcome({
+              isWin: draw === choice,
+              draw,
+            });
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // wait 1s
+            refresh();
+            toast.success('Transaction successfull');
+            setIsTransactionPending(false);
+          } else if (res) {
+            toast.error(`Transaction unsuccessful: ${state.errorMessage}`);
+            setIsTransactionPending(false);
+          }
         } else {
-          toast.error(`Transaction unsuccessful: ${state.errorMessage}`);
+          toast.error('Please login to MetaMask');
+          console.error(`Account not found`);
         }
-        setIsTransactionPending(false);
-      } else {
-        toast.error('Please login to MetaMask');
-        console.error(`Account not found`);
+      } catch (e: unknown) {
+        toast.error('Something went wrong');
+        console.error('Something went wrong', e);
       }
-    } catch (e: unknown) {
-      toast.error('Something went wrong');
-      console.error('Something went wrong', e);
-    }
-  };
+    },
+    [refresh, account, send, state.errorMessage, library]
+  );
 
   // Log info about the chain and the smart contract. Fields must be explictly disabled. Defaults to logging all values.
   const logBlockchainInfo = useCallback(
