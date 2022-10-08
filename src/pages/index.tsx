@@ -21,8 +21,8 @@ export default function HomePage() {
   return (
     <>
       <Seo templateTitle='Raffle' />
-      <main className='h-full w-full overflow-y-auto bg-dark'>
-        <section className='h-full'>
+      <main className='h-fit w-full  bg-dark'>
+        <section className='h-fit pt-20'>
           <TicketSelectionSection />
           <LastSalesSection />
           <Footer />

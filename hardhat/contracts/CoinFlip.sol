@@ -1,8 +1,5 @@
-// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-// Import this file to use console.log
-import 'hardhat/console.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 contract CoinFlip is Ownable {
@@ -31,8 +28,8 @@ contract CoinFlip is Ownable {
    * @param _royalty The new royalty amount
    */
   function setRoyalty(uint16 _royalty) public onlyOwner {
+    require(_royalty <= 100, 'Royalty should be less than or equal to 100%');
     require(_royalty >= 0, 'Royalty should be greater than or equal to 0%');
-
     royalty = _royalty;
   }
 
@@ -64,7 +61,7 @@ contract CoinFlip is Ownable {
     if (draw == _playerChoice) {
       uint256 winnerCut = msg.value + (msg.value - feesAmount);
       payable(msg.sender).transfer(winnerCut);
-    } else {}
+    }
 
     emit Flip(round);
   }

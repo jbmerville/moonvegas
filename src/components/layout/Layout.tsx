@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className='navbar-container grid h-full w-full'>
       <Header isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
       <SideBar isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
-      <div className='mt-20 h-full w-full md:mt-0'>{children}</div>
+      <div className='navbar-main h-full w-full overflow-y-scroll'>{children}</div>
       <ToastContainer
         position='bottom-right'
         autoClose={4000}

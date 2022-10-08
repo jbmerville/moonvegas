@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         primary: ["'Nunito', sans-serif", ...fontFamily.sans],
+        secondary: ["'Glacial Indifference', sans-serif", ...fontFamily.sans],
       },
       colors: {
         primary: {
@@ -36,6 +37,12 @@ module.exports = {
       },
       transitionProperty: {
         width: 'width',
+      },
+      rotate: {
+        270: '270deg',
+      },
+      dropShadow: {
+        '3xl': '0 25px 25px rgb(0 0 0)',
       },
       keyframes: {
         flicker: {

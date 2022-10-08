@@ -121,7 +121,31 @@ describe('CoinFlip', function () {
         ).to.lte(ethers.utils.parseEther('0.001'));
       });
 
-      it('Should send rewards to player after losing transaction', async function () {
+      it('Should lose sending opposite tx', async function () {
+        // Arrange
+        const { coinFlip, owner, account1 } = await loadFixture(deployCoinFlipFixture);
+
+        await ethers.provider.send('evm_setNextBlockTimestamp', [1798148180]);
+        await ethers.provider.send('evm_mine', []);
+        const account1Balance = await ethers.provider.getBalance(account1.address);
+        const betAmount = ethers.utils.parseEther('4');
+        const ownerFees = betAmount.mul(35).div(1000);
+        const ownerBalance = await ethers.provider.getBalance(owner.address);
+
+        // Act
+        await coinFlip.connect(account1).flip(false, { value: betAmount });
+
+        // Assert
+        expect(
+          account1Balance.sub(betAmount).sub(await ethers.provider.getBalance(account1.address))
+        ).to.lte(ethers.utils.parseEther('0.001'));
+
+        expect(
+          ownerBalance.add(ownerFees).sub(await ethers.provider.getBalance(owner.address))
+        ).to.lte(ethers.utils.parseEther('0.001'));
+      });
+
+      it('Should not send rewards to player after losing transaction', async function () {
         // Arrange
         const { coinFlip, owner, account1 } = await loadFixture(deployCoinFlipFixture);
 

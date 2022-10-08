@@ -20,41 +20,55 @@ const SideBar = (props: SideBarProps) => {
     <>
       <nav
         className={`navbar-navbar fixed right-0 block h-full overflow-hidden md:hidden ${
-          isSideBarOpen ? 'w-[80px]' : 'w-[0px]'
-        } z-30 transition transition-width duration-100`}
+          isSideBarOpen ? 'w-[75px]' : 'w-[0px]'
+        } z-50 transition transition-width duration-100`}
         aria-label='Sidebar'
       >
         <div className=' item-center flex h-full w-full flex-col justify-between overflow-y-auto bg-gray-900 py-4 px-3'>
           <div className='item-center sticky flex h-full w-full flex-col'>
-            <ul className='mt-20 space-y-2 '>
+            <ul className='space-y-2 '>
+              <li>
+                <div
+                  onClick={toggleSideBar}
+                  className='mt-1 mb-10 flex cursor-pointer items-center justify-center rounded-lg  text-base font-normal text-white hover:bg-gray-700'
+                >
+                  <FontAwesomeIcon
+                    icon={faEllipsis}
+                    size='xs'
+                    className={` w-8 text-xs text-gray-500 ${
+                      isSideBarOpen ? 'rotate-0' : 'rotate-90'
+                    } transition`}
+                  />
+                </div>
+              </li>
               <li>
                 <Link href='/'>
-                  <div className='flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
+                  <div className='flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
                     <FontAwesomeIcon
                       icon={faReceipt}
                       size='xs'
-                      className='mx-2  w-6 text-xs text-gray-500 '
+                      className='  w-6 text-xs text-gray-500 '
                     />
                   </div>
                 </Link>
               </li>
               <li>
                 <Link href='/coinflip'>
-                  <div className='mt-5 flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
+                  <div className='mt-5 flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
                     <FontAwesomeIcon
                       icon={faCoins}
                       size='xs'
-                      className='mx-2  w-6 text-xs text-gray-500 '
+                      className=' w-6 text-xs text-gray-500 '
                     />
                   </div>
                 </Link>
               </li>
               <li>
-                <div className='mt-5 flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white'>
+                <div className='mt-5 flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white'>
                   <FontAwesomeIcon
                     icon={faCircleQuestion}
                     size='xs'
-                    className='mx-2  w-6 text-xs text-gray-500'
+                    className='w-6 text-xs text-gray-500'
                   />
                 </div>
               </li>

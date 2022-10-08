@@ -2,7 +2,6 @@ import { faReceipt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useConfig } from '@usedapp/core';
 import { utils } from 'ethers';
-import Image from 'next/image';
 import React, { ReactNode } from 'react';
 import { toast } from 'react-toastify';
 
@@ -12,8 +11,7 @@ import Button from '@/components/buttons/Button';
 import Loading from '@/components/icons/Loading';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
-
-import moonbeam from '../../../public/images/moonbeam-token.png';
+import Ticket from '@/components/raffle/Ticket';
 
 import { TicketType } from '@/types';
 
@@ -29,24 +27,8 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
     return (
-      <div
-        key={ticket.id}
-        onClick={() => props.toggleSelectedTickets(ticket)}
-        className='z-10  mx-2 ml-[-20px] flex h-[90px] min-w-[40px] cursor-pointer flex-col rounded bg-moonbeam-cyan px-2 py-2 shadow-[0_0px_20px_-4px_rgb(0,0,0)] transition-all md:h-[150px] md:min-w-[90px]  md:shadow-[0_0px_52px_-7px_rgb(0,0,0)]'
-      >
-        <div className='neonTextPink rounded-full text-lg md:mt-[-10px] md:text-2xl'>
-          {ticket.id}
-        </div>
-        <div className='flex grow items-center justify-center'>
-          <div className='mb-3'>
-            <div className='mb-2 hidden md:block'>
-              <Image src={moonbeam} layout='fixed' height='50px' width='50px' alt='' />
-            </div>
-            <div className='block md:hidden'>
-              <Image src={moonbeam} layout='fixed' height='25px' width='25px' alt='' />
-            </div>
-          </div>
-        </div>
+      <div className='mx-[-30px] mb-[-40px] mt-[-90px] scale-75 drop-shadow-3xl md:mx-[-50px] md:mb-[-110px] md:mt-[-180px] md:scale-50	'>
+        <Ticket ticket={ticket} removeHead toggleSelectedTickets={props.toggleSelectedTickets} />
       </div>
     );
   };

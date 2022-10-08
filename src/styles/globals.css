@@ -147,7 +147,7 @@
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #dfdfdf;
+  background-color: rgb(var(--color-moonbeam-cyan));
   border-radius: 10px;
 }
 
@@ -179,10 +179,14 @@
   grid-area: header;
 }
 
+.navbar-main {
+  grid-area: main;
+}
+
 @layer components {
   html,
   body,
   #__next {
-    @apply h-full w-full bg-dark;
+    @apply h-full w-full overflow-hidden bg-dark;
   }
 }
