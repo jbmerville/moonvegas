@@ -6,8 +6,8 @@
   "scripts": {
     "compile": "npx hardhat compile && npx hardhat test",
     "compile:force": "rm -rf ./types && npx hardhat compile --force",
-    "deploy:moonbase": "npx hardhat run --network moonbase scripts/deploy.ts",
-    "deploy:localhost": "npx hardhat run --network localhost scripts/deploy.ts",
+    "deploy:moonbase": "npx hardhat deploy --network moonbase --networkname moonbase-alpha --deployraffle true --deploycoinflip true",
+    "deploy:localhost": "npx hardhat deploy --network localhost --networkname localhost --deployraffle true --deploycoinflip true",
     "format:check": "prettier --list-different 'contracts/**/*.sol'",
     "docker:moonbeam": "docker run --rm --name moonbeam_development -p 9944:9944 -p 9933:9933 purestake/moonbeam:v0.25.0 --dev --ws-external --rpc-external"
   },

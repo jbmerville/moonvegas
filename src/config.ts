@@ -1,6 +1,8 @@
 import { Chain, Config, MoonbaseAlpha } from '@usedapp/core';
-import coinFlipAddress from 'hardhat/CoinFlip.address.js';
-import raffleAddress from 'hardhat/Raffle.address.js';
+import coinFlipAddressLocalhost from 'hardhat/sc-addresses/localhost/CoinFlip.address.js';
+import raffleAddressLocalhost from 'hardhat/sc-addresses/localhost/Raffle.address.js';
+import coinFlipAddressMoonbaseAlpha from 'hardhat/sc-addresses/moonbase-alpha/CoinFlip.address.js';
+import raffleAddresssMoonbaseAlpha from 'hardhat/sc-addresses/moonbase-alpha/Raffle.address.js';
 
 export const LocalhostChain: Chain = {
   chainId: 1281,
@@ -48,12 +50,12 @@ export const isMoonbaseAlpha =
 
 export const contractConfig = {
   [LocalhostChain.chainId]: {
-    raffleAddress: raffleAddress,
-    coinFlipAddress: coinFlipAddress,
+    raffleAddress: raffleAddressLocalhost,
+    coinFlipAddress: coinFlipAddressLocalhost,
   },
   [MoonbaseAlpha.chainId]: {
-    raffleAddress: '0x7d3240ef17E7C18ebA590d2b8695eb11cb4A5A4f',
-    coinFlipAddress: '0x1D57d3f0602fFE881DBf71D40B60D642222b2967',
+    raffleAddress: raffleAddresssMoonbaseAlpha,
+    coinFlipAddress: coinFlipAddressMoonbaseAlpha,
   },
 };
 
