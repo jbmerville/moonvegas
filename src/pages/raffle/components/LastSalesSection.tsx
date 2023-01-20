@@ -13,7 +13,7 @@ import UnderlineLink from '@/components/links/UnderlineLink';
 
 import { currentNetwork, currentRaffleAddress } from '@/config';
 
-import moonbeam from '../../../public/images/moonbeam-token.png';
+import moonbeam from '../../../../public/images/moonbeam-token.png';
 
 import { TicketType } from '@/types';
 

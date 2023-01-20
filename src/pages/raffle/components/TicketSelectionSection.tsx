@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import useRaffle from '@/hooks/useRaffle';
 
-import RaffleInfoCardsSection from '@/components/raffle/RaffleInfoCardsSection';
-import Ticket from '@/components/raffle/Ticket';
-import TicketsSelected from '@/components/raffle/TicketsSelected';
+import RaffleInfoCardsSection from '@/pages/raffle/components/RaffleInfoCardsSection';
+import Ticket from '@/pages/raffle/components/Ticket';
+import TicketsSelected from '@/pages/raffle/components/TicketsSelected';
 
 import { TicketType } from '@/types';
 
