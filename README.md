@@ -1,6 +1,6 @@
-# MoonVegas
+<img src="public/images/moonvegas-logo.png" width="220" title="hover text"/>
 
-Frontend + SmartContract for raffle and coinflip on [Moonbeam](https://moonbeam.network/).
+# Frontend + SmartContracts for raffle and coinflip on [Moonbeam](https://moonbeam.network/).
 
 ## Setup SmartContract development environment (MacOS)
 
