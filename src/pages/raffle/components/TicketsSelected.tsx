@@ -26,9 +26,35 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const { networks } = useConfig();
   const { ticketPrice, purchase, isTransactionPending } = useRaffle();
 
+  const patchSelectedTickets = () => {
+    // Find the number of default elements needed
+    const defaultCount = 5 - props.selectedTickets.length;
+
+    // Create an array of default elements
+    const defaultArray = Array(defaultCount).fill({ id: -1, isSelected: false });
+
+    // Concatenate the default array with the original array
+    return props.selectedTickets.concat(defaultArray).slice(0, 5);
+  };
+
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
+    // Render black shade ticket instead of the one selected by the player.
+    if (!ticket.isSelected) {
+      return (
+        <div className='mx-[-30px] mb-[-40px] mt-[-90px] scale-[0.5] md:mx-[0px] md:mb-[-110px] md:mt-[-215px] md:scale-[0.85] '>
+          <Ticket
+            ticket={ticket}
+            removeHead
+            toggleSelectedTickets={props.toggleSelectedTickets}
+            displayShimmer={true}
+          />
+        </div>
+      );
+    }
+
+    // Render the ticket the player selected
     return (
-      <div className='mx-[-30px] mb-[-40px] mt-[-90px] scale-75 drop-shadow-3xl md:mx-[-50px] md:mb-[-110px] md:mt-[-180px] md:scale-50	'>
+      <div className='mx-[-30px] mb-[-40px] mt-[-90px] scale-[0.5] duration-150 ease-in-out hover:drop-shadow-[0_9px_9px_rgba(255,255,255,0.05)] md:mx-[0px] md:mb-[-110px] md:mt-[-215px] md:scale-[0.85] hover:md:mb-[-100px] hover:md:scale-[0.86]'>
         <Ticket ticket={ticket} removeHead toggleSelectedTickets={props.toggleSelectedTickets} />
       </div>
     );
@@ -62,9 +88,9 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             Selected Tickets
           </p>
         </div>
-        <div className='flex w-full flex-col items-center justify-start  rounded-lg border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5 '>
-          <div className='flex w-full items-center justify-start overflow-x-scroll pl-5'>
-            {props.selectedTickets.map(renderMiniatureSelectedTicket)}
+        <div className='flex w-full min-w-[915px] flex-col items-center justify-start  rounded-lg border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5 '>
+          <div className='p10 flex h-[220px] w-full  items-center justify-around overflow-hidden overflow-x-scroll pl-5	'>
+            {patchSelectedTickets().map(renderMiniatureSelectedTicket)}
           </div>
           <Button
             variant='outline'

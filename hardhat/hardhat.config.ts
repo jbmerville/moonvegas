@@ -95,7 +95,7 @@ task('deploy', 'Deploy the smart contracts to a network')
 
 function writeContractAddress(networkName: string, contractName: string, contractAddress: string) {
   fs.writeFileSync(
-    `sc-addresses/${networkName}/{contractName}.address.js`,
+    `sc-addresses/${networkName}/${contractName}.address.js`,
     `module.exports = '${contractAddress}';`
   );
   console.log(`${contractName} deployed to ${contractAddress}`);

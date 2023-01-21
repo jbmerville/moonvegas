@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import useRaffle from '@/hooks/useRaffle';
 
@@ -19,6 +20,10 @@ const TicketSelectionSection = () => {
       );
       ticket.isSelected = false;
     } else {
+      if (selectedTickets.length >= 5) {
+        toast.error('You already have selected the haximum of 5 tickets per transaction');
+        return;
+      }
       setSelectedTickets((selectedTickets) => {
         return [...selectedTickets, ticket].sort((a, b) => (a.id < b.id ? -1 : 1));
       });
