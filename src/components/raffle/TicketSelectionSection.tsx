@@ -9,23 +9,45 @@ import TicketsSelected from '@/components/raffle/TicketsSelected';
 
 import { TicketType } from '@/types';
 
+const MAX_TICKET = 5;
+
 const TicketSelectionSection = () => {
-  const [selectedTickets, setSelectedTickets] = useState<TicketType[]>([]);
+  const [selectedTickets, setSelectedTickets] = useState<TicketType[]>(
+    Array(MAX_TICKET).fill({ id: -1, isSelected: false })
+  );
   const { tickets } = useRaffle();
+
+  const getNonDefaultTicketSelectedCount = (): number => {
+    return selectedTickets.filter((ticket) => ticket.id !== -1).length;
+  };
 
   const toggleSelectedTickets = (ticket: TicketType): void => {
     if (selectedTickets.includes(ticket)) {
       setSelectedTickets((selectedTickets) =>
-        selectedTickets.filter((item) => item.id !== ticket.id)
+        selectedTickets.map((item) => {
+          if (item.id === ticket.id) {
+            return { id: -1, isSelected: false };
+          } else {
+            return item;
+          }
+        })
       );
       ticket.isSelected = false;
     } else {
-      if (selectedTickets.length >= 5) {
-        toast.error('You already have selected the haximum of 5 tickets per transaction');
+      if (getNonDefaultTicketSelectedCount() >= MAX_TICKET) {
+        toast.error(
+          `You already have selected the maximum of ${MAX_TICKET} tickets per transaction.`
+        );
         return;
       }
       setSelectedTickets((selectedTickets) => {
-        return [...selectedTickets, ticket].sort((a, b) => (a.id < b.id ? -1 : 1));
+        const firstDefaultTicketIndex = selectedTickets.findIndex((item) => item.id === -1);
+
+        return [
+          ...selectedTickets.slice(0, firstDefaultTicketIndex),
+          ticket,
+          ...selectedTickets.slice(firstDefaultTicketIndex + 1),
+        ];
       });
       ticket.isSelected = true;
     }

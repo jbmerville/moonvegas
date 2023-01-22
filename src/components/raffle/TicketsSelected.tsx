@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 
 import useRaffle from '@/hooks/useRaffle';
 
-import Button from '@/components/buttons/Button';
 import Loading from '@/components/icons/Loading';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
@@ -24,17 +23,6 @@ interface TicketsSelectedPropsType {
 const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const { networks } = useConfig();
   const { ticketPrice, purchase, isTransactionPending } = useRaffle();
-
-  const patchSelectedTickets = () => {
-    // Find the number of default elements needed
-    const defaultCount = 5 - props.selectedTickets.length;
-
-    // Create an array of default elements
-    const defaultArray = Array(defaultCount).fill({ id: -1, isSelected: false });
-
-    // Concatenate the default array with the original array
-    return props.selectedTickets.concat(defaultArray).slice(0, 5);
-  };
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
     // Render black shade ticket instead of the one selected by the player.
@@ -89,12 +77,11 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
         </div>
         <div className='flex w-full min-w-[915px] flex-col items-center justify-start  rounded-lg border border-moonbeam-cyan bg-moonbeam-blue-dark p-2 md:p-5 '>
           <div className='p10 flex h-[220px] w-full  items-center justify-around overflow-hidden overflow-x-scroll pl-5	'>
-            {patchSelectedTickets().map(renderMiniatureSelectedTicket)}
+            {props.selectedTickets.map(renderMiniatureSelectedTicket)}
           </div>
-          <Button
-            variant='outline'
+          <button
             disabled={isTransactionPending}
-            className='mb-3 mt-5 flex min-w-[200px] items-center justify-center bg-moonbeam-cyan/20 hover:bg-moonbeam-cyan/40 md:mt-10'
+            className=' group  relative mt-8 inline-flex w-full  items-center justify-center overflow-hidden rounded-md bg-gradient-to-r from-[#5258bd] to-[#6d388a] p-0.5 text-sm font-medium text-white hover:text-white focus:from-purple-600 focus:to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 dark:text-white dark:focus:ring-blue-800'
             onClick={onPurchasePressed}
           >
             {isTransactionPending ? (
@@ -103,7 +90,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
                 <span className='sr-only text-white'>Loading...</span>
               </div>
             ) : (
-              <>
+              <span className='relative flex w-full items-center justify-center rounded bg-dark px-5 py-2.5 text-lg font-extrabold uppercase	transition-all duration-75 ease-in group-hover:bg-opacity-0 group-focus:bg-opacity-0 dark:bg-gray-900'>
                 <p className='ml-2 '>
                   Buy {props.selectedTickets.length} Tickets for{' '}
                   {utils.formatEther(ticketPrice.mul(props.selectedTickets.length))}{' '}
@@ -112,10 +99,10 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
                 <div className='mb-[-3px] ml-2 text-lg'>
                   <MoonbeamIcon />
                 </div>
-              </>
+              </span>
             )}
-          </Button>
-          <p className='text-xs text-white '>
+          </button>
+          <p className='mt-2 text-xs text-white '>
             Get DEV tokens at the{' '}
             <UnderlineLink href='https://apps.moonbeam.network/moonbase-alpha/faucet/'>
               Moonbase Alpha Faucet

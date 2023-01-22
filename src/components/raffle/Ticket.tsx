@@ -38,7 +38,7 @@ const Ticket = (props: TicketPropsType) => {
           props.ticket.isSelected || props.removeHead ? 'mt-4 md:mt-8' : 'md:hover:mt-8'
         } ${
           props.displayShimmer
-            ? 'opacity-20 brightness-0'
+            ? 'opacity-50 brightness-0'
             : 'cursor-pointer drop-shadow-[0_9px_3px_rgba(255,255,255,0.10)]'
         } " md:h-[400px]`}
       >
