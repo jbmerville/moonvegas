@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react';
 
 import useRaffle from '@/hooks/useRaffle';
 
-import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
+import { renderTxPrice } from '@/components/raffle/helper';
 import Table, { TableRow } from '@/components/Table';
 
 import moonbeam from '../../../public/images/moonbeam-token.png';
@@ -33,16 +33,7 @@ const WinnerHistoryTable = () => {
         },
         {
           value: history.ticketPrice * history.totalTickets,
-          transformation: (value: string) => (
-            <div className='flex items-center justify-center'>
-              <div className='scale-[1.5] rounded-full bg-dark p-1'>
-                <MoonbeamIcon />
-              </div>
-              <p className='ml-5'>
-                {value} {}
-              </p>
-            </div>
-          ),
+          transformation: renderTxPrice,
         },
         {
           value: { id: history.winningTicket, isSelected: false },
@@ -77,10 +68,10 @@ const WinnerHistoryTable = () => {
       title='Winner History'
       header={{
         inputs: [
-          { value: <div className='text-base'>Address</div> },
-          { value: <div className='text-base'>Amount Won</div> },
-          { value: <div className='text-base'>Winning Ticket</div> },
-          { value: <div className='text-base'>Total Tickets</div> },
+          { value: 'Address' },
+          { value: 'Price Pool' },
+          { value: 'Winning Ticket' },
+          { value: 'Total Tickets' },
         ],
       }}
       rows={renderRowsFromTx()}

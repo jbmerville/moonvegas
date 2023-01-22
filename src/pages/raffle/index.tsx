@@ -23,7 +23,8 @@ export default function Raffle() {
     <>
       <Seo templateTitle='Raffle' />
       <main className='h-fit w-full'>
-        <section className='h-fit pt-20'>
+        <section className='h-fit pt-36 md:pt-10'>
+          {/* TODO: find better solution. Currently we need to adjust pt above to account for header size */}
           <TicketSelectionSection />
           <div className='mt-10 flex min-w-full grow flex-col justify-between rounded-t-3xl bg-moonbeam-grey text-white'>
             <WinnerHistoryTable />

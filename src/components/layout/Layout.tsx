@@ -3,7 +3,6 @@ import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-import BetaBanner from '@/components/layout/BetaBanner';
 import Header from '@/components/layout/Header';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -13,7 +12,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className='flex h-full w-full flex-col'>
       <Header isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
-      <BetaBanner />
       {/* <SideBar isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} /> */}
       <div className='h-full w-full overflow-y-scroll'>{children}</div>
       <ToastContainer

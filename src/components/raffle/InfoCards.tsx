@@ -1,4 +1,4 @@
-import { faBook, faCircleInfo, faClock, faHourglassEnd } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faCircleInfo, faClock, faReceipt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import Countdown from 'react-countdown';
@@ -12,11 +12,11 @@ import { currentNetwork, currentRaffleAddress } from '@/config';
 
 import { TicketType } from '@/types';
 
-interface RaffleInfoCardsSectionPropsType {
+interface InfoCardsPropsType {
   selectedTickets: TicketType[];
 }
 
-const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
+const InfoCards = (props: InfoCardsPropsType) => {
   const { draftTime, ticketsLeft, tickets } = useRaffle();
   const [isReadRulesPopUpOpen, setIsReadRulesPopUpOpen] = useState(false);
 
@@ -26,24 +26,24 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
 
   return (
     <>
-      {
-        // Desktop
-      }
-      <div className='hidden min-w-full grow flex-row justify-between md:flex'>
+      <div className='flex min-w-full grow flex-row justify-between'>
         <div className='layout flex flex-col items-center justify-between'>
           <div className='mb-1 flex w-full flex-col items-start md:mb-10'>
-            <p className=' text-center text-lg font-bold text-moonbeam-cyan md:text-5xl'>Raffle</p>
-            <p className='text-center text-base text-moonbeam-cyan opacity-60 md:text-lg'>
+            <p className='text-3xl font-bold text-moonbeam-cyan md:text-5xl'>Raffle</p>
+            <p className='text-xs text-moonbeam-cyan opacity-60 md:text-lg'>
               Buy tickets, when all tickets are sold one winning ticket receives all the funds.
             </p>
           </div>
-          <div className='flex w-full items-center '>
+          {
+            // Desktop
+          }
+          <div className='hidden w-full items-center md:flex'>
             <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
               <div className='flex text-3xl font-bold uppercase text-white'>
                 {ticketsLeft.length}/{tickets.length}
               </div>
               <div className='text flex uppercase text-white opacity-75'>
-                <FontAwesomeIcon icon={faHourglassEnd} size='xs' className='mr-2 w-[10px]' />
+                <FontAwesomeIcon icon={faReceipt} size='xs' className='mr-2 w-[10px]' />
                 tickets left
               </div>
             </div>
@@ -69,44 +69,42 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      {
-        // Mobile
-      }
-      <div className='flex min-w-full grow flex-row justify-between md:hidden'>
-        <div className='m-5 flex grow flex-col items-stretch justify-between'>
-          <div className='flex grow items-stretch justify-between'>
-            <div className='mr-3 flex grow flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
-              <div className='flex text-sm uppercase text-white opacity-75'>
-                <FontAwesomeIcon icon={faHourglassEnd} size='xs' className='mr-2 w-2' />
-                tickets left
+          {
+            // Mobile
+          }
+          <div className='m-5 flex w-full grow flex-col items-stretch justify-between md:hidden'>
+            <div className='flex grow items-stretch justify-between'>
+              <div className='mr-3 flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
+                <p className='text-base font-bold uppercase text-white'>
+                  {ticketsLeft.length - props.selectedTickets.length}/{tickets.length}
+                </p>
+                <div className='flex text-xs  text-white opacity-75'>
+                  <FontAwesomeIcon icon={faReceipt} size='xs' className='mr-1 w-[7px]' />
+                  Tickets Left
+                </div>
               </div>
-              <p className='text-base font-bold uppercase text-white'>
-                {ticketsLeft.length - props.selectedTickets.length}/{tickets.length}
-              </p>
-            </div>
-            <div className='flex grow flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
-              <div className='flex text-sm uppercase text-white opacity-75'>
-                <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-3' />
-                Ends
+              <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
+                <p className='min-w-[130px] text-center text-base font-bold uppercase text-white'>
+                  <Countdown date={draftTime.getTime()} />
+                </p>
+                <div className='flex text-xs  text-white opacity-75'>
+                  <FontAwesomeIcon icon={faClock} size='xs' className='mr-1 w-[10px]' />
+                  Ends
+                </div>
               </div>
-              <p className='min-w-[130px] text-center text-base font-bold uppercase text-white'>
-                <Countdown date={draftTime.getTime()} />
+            </div>
+            <div className='mt-3 flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
+              <p
+                onClick={onReadRulesClick}
+                className='cursor-pointer text-base font-bold uppercase text-white transition-all hover:text-moonbeam-cyan'
+              >
+                <UnderlineLink href=''>Read the Rules</UnderlineLink>
               </p>
+              <div className='flex text-xs  text-white opacity-75'>
+                <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-[8px]' />
+                How Does It Work?
+              </div>
             </div>
-          </div>
-          <div className='mt-3 flex grow flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
-            <div className='flex text-xs uppercase text-white opacity-75'>
-              <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-3' />
-              How does it work?
-            </div>
-            <p
-              onClick={onReadRulesClick}
-              className='cursor-pointer text-base font-bold uppercase text-white transition-all hover:text-moonbeam-cyan'
-            >
-              <UnderlineLink href=''>Read the Rules</UnderlineLink>
-            </p>
           </div>
         </div>
       </div>
@@ -243,4 +241,4 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
   );
 };
 
-export default RaffleInfoCardsSection;
+export default InfoCards;

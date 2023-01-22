@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
+import BetaBanner from '@/components/layout/BetaBanner';
 
 import { currentNetwork, currentNetworkChainId } from '@/config';
 
@@ -66,7 +67,7 @@ export default function Header(props: HeaderProps) {
   };
 
   return (
-    <header className='navbar-header fixed top-0 z-50 w-full bg-moonbeam-grey md:sticky'>
+    <header className='fixed top-0 z-50 w-full bg-moonbeam-grey md:sticky'>
       <div className='layout z-50 flex items-center justify-between  py-1 md:py-1'>
         <div className='relative my-2  mr-auto hidden h-[50px] w-[120px] items-center justify-center	md:block'>
           <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
@@ -121,6 +122,7 @@ export default function Header(props: HeaderProps) {
           />
         </div>
       </div>
+      <BetaBanner />
     </header>
   );
 }

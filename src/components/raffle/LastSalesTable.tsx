@@ -6,7 +6,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 
 import useRaffle, { raffleAbi } from '@/hooks/useRaffle';
 
-import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
+import { renderTxPrice } from '@/components/raffle/helper';
 import Table, { TableRow } from '@/components/Table';
 
 import { currentRaffleAddress } from '@/config';
@@ -91,16 +91,7 @@ const LastSalesTable = () => {
         },
         {
           value: transaction.price,
-          transformation: (value: string) => (
-            <div className='flex items-center justify-center'>
-              <div className='scale-[1.5] rounded-full bg-dark p-1'>
-                <MoonbeamIcon />
-              </div>
-              <p className='ml-5'>
-                {value} {}
-              </p>
-            </div>
-          ),
+          transformation: renderTxPrice,
         },
       ],
       url: 'No transcations for this raffle yet.',
@@ -128,10 +119,10 @@ const LastSalesTable = () => {
       title='Last Tickets Sold'
       header={{
         inputs: [
-          { value: <div className='text-base'>Date</div> },
-          { value: <div className='text-base'>Address</div> },
-          { value: <div className='text-base'>Tickets Bought</div> },
-          { value: <div className='text-base'>Price</div> },
+          { value: 'Date' },
+          { value: 'Address' },
+          { value: 'Tickets Bought' },
+          { value: 'Price' },
         ],
       }}
       rows={renderRowsFromTx()}

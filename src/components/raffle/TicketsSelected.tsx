@@ -3,12 +3,13 @@ import { utils } from 'ethers';
 import React, { ReactNode } from 'react';
 import { toast } from 'react-toastify';
 
+import useIsMobile from '@/hooks/useIsMobile';
 import useRaffle from '@/hooks/useRaffle';
 
 import Button from '@/components/buttons/Button';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
-import { getNonDefaultTicketsSelected } from '@/components/raffle/helper';
+import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/raffle/helper';
 import Ticket from '@/components/raffle/Ticket';
 
 import { TicketType } from '@/types';
@@ -22,13 +23,15 @@ interface TicketsSelectedPropsType {
 const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const { networks } = useConfig();
   const { ticketPrice, purchase, isTransactionPending } = useRaffle();
+  const isMobile = useIsMobile();
+  const maxTicketPerTx = getMaxTicketPerTx(isMobile);
   const nonDefaultTicketsSelected = getNonDefaultTicketsSelected(props.selectedTickets);
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
     // Render black shade ticket instead of the one selected by the player.
     if (!ticket.isSelected) {
       return (
-        <div className='mx-[-30px] mb-[-40px] mt-[-90px] md:mx-[0px] md:mb-[-110px] md:mt-[-215px] '>
+        <div className='mx-[0px] mb-[-40px] mt-[-90px] md:mx-[0px] md:mb-[-110px] md:mt-[-215px] '>
           <Ticket
             ticket={ticket}
             removeHead
@@ -41,7 +44,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
 
     // Render the ticket the player selected
     return (
-      <div className='] mx-[-30px] mb-[-40px] mt-[-90px] duration-150 ease-in-out hover:drop-shadow-[0_9px_9px_rgba(255,255,255,0.05)] md:mx-[0px] md:mb-[-110px] md:mt-[-240px] hover:md:mb-[-100px] hover:md:scale-[1.05]'>
+      <div className=' mx-[0px] mb-[-40px] mt-[-90px] duration-150 ease-in-out hover:drop-shadow-[0_9px_9px_rgba(255,255,255,0.05)] md:mx-[0px] md:mb-[-110px] md:mt-[-240px] hover:md:mb-[-100px] hover:md:scale-[1.05]'>
         <Ticket ticket={ticket} removeHead toggleSelectedTickets={props.toggleSelectedTickets} />
       </div>
     );
@@ -75,11 +78,11 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             Selected Tickets
           </p>
         </div>
-        <p className='text-center text-base text-moonbeam-cyan opacity-60 md:text-lg'>
-          Select up to 5 tickets per transaction.
+        <p className='text-center text-xs text-moonbeam-cyan opacity-60 md:text-lg'>
+          Select up to {maxTicketPerTx} tickets per transaction.
         </p>
         <div className='flex w-full flex-col items-center justify-start  p-2 md:py-2 '>
-          <div className='flex h-[255px] w-full items-center  justify-between overflow-hidden overflow-x-scroll py-12 pl-5	'>
+          <div className='flex w-full items-center justify-between  overflow-x-scroll py-12 pl-5 md:h-[255px]	'>
             {props.selectedTickets.map(renderMiniatureSelectedTicket)}
           </div>
           <Button

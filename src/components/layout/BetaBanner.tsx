@@ -6,14 +6,14 @@ const FEEDBACK_FORM_URL = 'https://tally.so/r/mZ9kko';
 
 const BetaBanner = () => {
   return (
-    <div className='flex h-10 w-full items-center justify-center bg-[#01193c] py-6'>
-      <p className='text-sm text-blue-400'>
+    <div className='flex h-fit w-full items-center justify-center bg-[#01193c] px-4 py-2'>
+      <p className='text-xs text-blue-400 md:text-sm'>
         Welcome to MoonVegas 🎉 - The website is under construction. Your feedback is highly
         appreciated
       </p>
       <Button
         onClick={() => window.open(FEEDBACK_FORM_URL, '_blank')}
-        className='ml-6 py-1 px-2 text-sm'
+        className='mx-0 min-w-fit py-1 px-2 text-sm md:ml-6'
       >
         Give feedback
       </Button>

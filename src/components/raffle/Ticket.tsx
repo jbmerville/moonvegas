@@ -23,7 +23,7 @@ const Ticket = (props: TicketPropsType) => {
   const renderTicketHead = () => {
     return (
       <div className='absolute flex h-[210px] min-w-[100px] drop-shadow-[0_9px_3px_rgba(255,255,255,0.10)] md:h-[350px] md:min-w-[170px]'>
-        <div className='absolute left-[20px] top-[15px] z-10 font-secondary text-lg text-white md:top-[75px] md:left-[40px]'>
+        <div className='absolute left-[20px] top-[45px] z-10 font-secondary text-xs text-white md:top-[55px] md:left-[40px] md:text-base'>
           No. :{String(props.ticket.id).padStart(6, '0')}
         </div>
         <Image src={ticketHead} layout='fill' objectFit='contain' alt='' />
@@ -42,7 +42,7 @@ const Ticket = (props: TicketPropsType) => {
             : 'cursor-pointer drop-shadow-[0_9px_3px_rgba(255,255,255,0.10)]'
         } " md:h-[350px]`}
       >
-        <div className='absolute left-[25px] top-[130px] z-10 rotate-270 font-secondary text-sm text-white md:top-[240px] md:left-[50px] md:text-xl'>
+        <div className='absolute left-[25px] top-[130px] z-10 rotate-270 font-secondary text-xs text-white md:top-[240px] md:left-[50px] md:text-xl'>
           No. :{String(props.ticket.id).padStart(6, '0')}
         </div>
         <Image src={ticketBody} layout='fill' objectFit='contain' alt='' />

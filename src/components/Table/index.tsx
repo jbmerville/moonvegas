@@ -36,7 +36,7 @@ const Table = (props: TableProps<any>) => {
   const { rows, header, emptyRowMessage, title } = props;
 
   return (
-    <div className='layout mt-10 mb-10 flex flex-col items-start justify-between'>
+    <div className='layout my-6 flex flex-col items-start justify-between md:mt-10 md:mb-10'>
       <div className='mb-1 flex w-full items-center md:mb-3'>
         <p className='text-center text-xl font-bold text-moonbeam-cyan md:text-3xl'>{title}</p>
       </div>

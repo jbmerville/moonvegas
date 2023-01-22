@@ -16,14 +16,14 @@ const TableRow = (props: TableRowProps<any>) => {
       onClick={() => row.url && window.open(row.url, '_blank')}
       className={`${
         row.url && 'hover:cursor-pointer hover:bg-[#0c0e11]'
-      } box-border border-b-[0.5px] border-[#474d57] text-center `}
+      } box-border border-b-[1px] border-[#474d57] text-center md:border-b-[0.5px] `}
     >
       {row.inputs.map((item: any, i: number) => (
         <td key={i} className='p-1 md:p-2 '>
           <div className='hidden justify-center md:flex'>
             {item.transformation ? item.transformation(item.value) : item.value}
           </div>
-          <div className='flex justify-center md:hidden'>
+          <div className='flex justify-center text-xs md:hidden'>
             {item.transformationMobile
               ? item.transformationMobile(item.value)
               : item.transformation
@@ -32,13 +32,6 @@ const TableRow = (props: TableRowProps<any>) => {
           </div>
         </td>
       ))}
-      {/* <td className='p-1 md:p-2'>
-        <p className='block'>
-          <UnderlineLink href={currentNetwork.getExplorerTransactionLink(transaction.hash)}>
-            {shortenTransactionHash(transaction.hash)}
-          </UnderlineLink>
-        </p>
-      </td> */}
     </tr>
   );
 };
