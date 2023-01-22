@@ -26,7 +26,7 @@ module.exports = {
         },
         'moonbeam-blue': 'var(--color-moonbeam-blue)',
         'moonbeam-blue-dark': 'rgb(var(--color-moonbeam-blue-dark) / <alpha-value>)',
-        'moonbeam-cyan': 'rgb(var(--color-moonbeam-cyan) / <alpha-value>)',
+        'moonbeam-cyan': 'var(--color-moonbeam-cyan)',
         'moonbeam-pink': 'var(--color-moonbeam-pink)',
         'moonbeam-purple-light': 'var(--color-moonbeam-purple-light)',
         'moonbeam-purple-dark': 'var(--color-moonbeam-purple-dark)',

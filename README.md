@@ -26,6 +26,8 @@ You will also need an account with tokens to make transactions, to do so you can
 0x5fb92d6e98884f76de468fa3f6278f8807c48bebc13595d45af5bdc4da702133
 ```
 
+> Warning: some of the SC tests are flaky, if they fail, it most likely will work on a second retry.
+
 ## Setup Frontend development environment
 
 Run the development server:

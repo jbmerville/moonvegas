@@ -31,7 +31,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
           <div className='mb-1 flex w-full flex-col items-start md:mb-10'>
             <p className='text-3xl font-bold text-moonbeam-cyan md:text-5xl'>Raffle</p>
             <p className='text-xs text-moonbeam-cyan opacity-60 md:text-lg'>
-              Buy tickets, when all tickets are sold one winning ticket receives all the funds.
+              Buy tickets, when tickets are sold out, one winning ticket receives all the funds.
             </p>
           </div>
           {
@@ -155,7 +155,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
                 first.
               </span>
             </li>
-            <li className='!my-4 flex items-center'>
+            {/* <li className='!my-4 flex items-center'>
               <svg
                 className='mr-1.5 h-4 w-4 flex-shrink-0  text-blue-500 dark:text-green-400'
                 fill='currentColor'
@@ -172,7 +172,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
                 The SmartContract uses an <span className='font-extrabold'>Oracle</span> to ensure
                 randomeness is not deterministic.
               </span>
-            </li>
+            </li> */}
 
             <li className='!my-4 flex items-center'>
               <svg
@@ -192,7 +192,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
                 {currentNetwork.nativeCurrency?.symbol} in the pool. The house keeps 5%.
               </span>
             </li>
-            <li className='!my-4 flex items-center'>
+            {/* <li className='!my-4 flex items-center'>
               <svg
                 className='mr-1.5 h-4 w-4 flex-shrink-0  text-blue-500 dark:text-green-400'
                 fill='currentColor'
@@ -209,7 +209,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
                 Winner also receives an <span className='font-extrabold'>NFT </span>of the winning
                 ticket.
               </span>
-            </li>
+            </li> */}
             <li className='!my-4 flex items-center'>
               <svg
                 className='mr-1.5 h-4 w-4 flex-shrink-0  text-blue-500 dark:text-green-400'
@@ -227,6 +227,21 @@ const InfoCards = (props: InfoCardsPropsType) => {
                 Raffle <span className='font-extrabold'>restarts automatically</span> after the end
                 of every Raffle.
               </span>
+            </li>
+            <li className='!my-4 flex items-center'>
+              <svg
+                className='mr-1.5 h-4 w-4 flex-shrink-0  text-blue-500 dark:text-green-400'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z'
+                  clipRule='evenodd'
+                ></path>
+              </svg>
+              <span>The SmartContract is reset with one more ticket than the previous round.</span>
             </li>
           </ul>
           <p className='text-center text-xs text-white/50'>

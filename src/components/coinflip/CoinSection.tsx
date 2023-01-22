@@ -42,7 +42,7 @@ const CoinSection = () => {
           <Button
             onClick={resetOutcome}
             variant='outline'
-            className='text mt-5 capitalize  hover:bg-moonbeam-cyan/40'
+            className='text hover:bg-moonbeam-cyan/40 mt-5  capitalize'
           >
             Try your luck again?
           </Button>
