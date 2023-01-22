@@ -11,8 +11,7 @@ import Button from '@/components/buttons/Button';
 import Loading from '@/components/icons/Loading';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
-
-import Ticket from '@/pages/raffle/components/Ticket';
+import Ticket from '@/components/raffle/Ticket';
 
 import { TicketType } from '@/types';
 

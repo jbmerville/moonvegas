@@ -14,8 +14,8 @@ import UnderlineLink from '@/components/links/UnderlineLink';
 
 import { currentCoinFlipAddress, currentNetwork } from '@/config';
 
-import coinHeads from '../../../../public/images/coin-heads.png';
-import coinTails from '../../../../public/images/coin-tails.png';
+import coinHeads from '../../../public/images/coin-heads.png';
+import coinTails from '../../../public/images/coin-tails.png';
 
 import { CoinFace } from '@/types';
 

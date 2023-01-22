@@ -28,7 +28,7 @@ contract CoinFlip is Ownable {
    * @param _royalty The new royalty amount
    */
   function setRoyalty(uint16 _royalty) public onlyOwner {
-    require(_royalty <= 100, 'Royalty should be less than or equal to 100%');
+    require(_royalty <= 1000, 'Royalty should be less than or equal to 100%');
     require(_royalty >= 0, 'Royalty should be greater than or equal to 0%');
     royalty = _royalty;
   }

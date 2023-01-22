@@ -29,6 +29,7 @@ contract Raffle is Ownable {
   mapping(address => uint256[]) public ticketsBoughtByPlayer; // Mapping of address to all the tickets bought by this address
   RaffleHistory[] public rafflesHistoy; // History of all the previous raffles excluding the current one
   TicketBought[] public ticketsBought; // All the ticketIds that have been bought already
+  bool public raffleEnd; // Whether the raffle has ended or not.
 
   event PurchasedTickets(address player, uint256[] ticketsBought);
   event RaffleEnd(address winner, uint256 winningTicket, uint256 ticketAmount);
@@ -44,7 +45,9 @@ contract Raffle is Ownable {
 
     draftTime = _draftTime;
     maxTicketAmount = _maxTicketAmount;
+    nextRaffleMaxTicketAmount = _maxTicketAmount + 1;
     ticketPrice = _ticketPrice;
+    nextRaffleTicketPrice = _ticketPrice;
     royalty = 50; // 5%
   }
 
@@ -53,6 +56,7 @@ contract Raffle is Ownable {
    */
   function setRoyalty(uint16 _royalty) external onlyOwner {
     require(_royalty >= 0, 'Royalty should be greater than or equal to 0%');
+    require(_royalty <= 1000, 'Royalty should be less than or equal to 100%');
 
     royalty = _royalty;
   }
@@ -82,24 +86,24 @@ contract Raffle is Ownable {
    * @param _ticketIds Array containing the ids of ticket to be purchased
    */
   function purchase(uint256[] memory _ticketIds) external payable {
-    require(block.timestamp <= draftTime, "Can't buy ticket after raffle draft time has passed");
+    // require(block.timestamp <= draftTime, "Can't buy ticket after raffle draft time has passed");
+    require(!raffleEnd, "Raffle has ended, can't buy ticket");
     require(
       _ticketIds.length * ticketPrice == msg.value,
       'Transaction value should match ticket price and number of tickets to be bought'
     );
+    for (uint256 i = 0; i < _ticketIds.length; i++) {
+      require(_ticketIds[i] > 0 && _ticketIds[i] <= maxTicketAmount, 'Invalid ticketId');
+      require(ticketsOwner[_ticketIds[i]] == address(0), 'Ticket already sold');
+    }
 
     for (uint256 i = 0; i < _ticketIds.length; i++) {
-      require(
-        _ticketIds[i] > 0 && _ticketIds[i] <= maxTicketAmount,
-        'Ticket id should be between 1 and max ticket supply'
-      );
-      require(ticketsOwner[_ticketIds[i]] == address(0), 'Ticket should not be purchased already');
       ticketsOwner[_ticketIds[i]] = payable(msg.sender);
-      ticketsBoughtByPlayer[msg.sender].push(_ticketIds[i]);
-      ticketsBought.push(TicketBought(msg.sender, _ticketIds[i])); // TODO add test to verify that this is populated properly
-
       currTicketAmount++;
+      ticketsBought.push(TicketBought({owner: msg.sender, ticketId: _ticketIds[i]})); // TODO add test to verify that this is populated properly
+      ticketsBoughtByPlayer[msg.sender].push(_ticketIds[i]);
     }
+
     currentPlayers.push(msg.sender);
 
     emit PurchasedTickets(msg.sender, _ticketIds);
@@ -109,8 +113,9 @@ contract Raffle is Ownable {
   }
 
   function endRaffle() private {
-    uint256 winningTicketId = getRandomId();
-    address payable winner = ticketsOwner[winningTicketId];
+    raffleEnd = true;
+    uint256 winningTicketId = getRandomTicketId();
+    address payable winner = payable(ticketsBought[winningTicketId].owner);
     uint256 balance = address(this).balance;
 
     // Fees
@@ -132,20 +137,25 @@ contract Raffle is Ownable {
   }
 
   function resetRaffle(RaffleHistory memory raffleHistoy) private {
+    raffleEnd = false;
+    maxTicketAmount = nextRaffleMaxTicketAmount;
+    nextRaffleMaxTicketAmount = nextRaffleMaxTicketAmount + 1;
+    ticketPrice = nextRaffleTicketPrice;
+    currTicketAmount = 0;
     rafflesHistoy.push(raffleHistoy);
-    for (uint256 i = 1; i <= maxTicketAmount; i++) {
-      delete ticketsOwner[i];
+
+    for (uint256 i = 0; i < ticketsBought.length; i++) {
+      delete ticketsOwner[ticketsBought[i].ticketId];
     }
+    delete ticketsBought;
+
     for (uint256 i = 0; i < currentPlayers.length; i++) {
       delete ticketsBoughtByPlayer[currentPlayers[i]];
     }
     delete currentPlayers;
-    ticketPrice = nextRaffleTicketPrice;
-    maxTicketAmount = nextRaffleMaxTicketAmount;
-    currTicketAmount = 0;
   }
 
-  function getRandomId() private view returns (uint256) {
+  function getRandomTicketId() private view returns (uint256) {
     return
       ((
         uint256(
@@ -159,7 +169,7 @@ contract Raffle is Ownable {
             )
           )
         )
-      ) % maxTicketAmount) + 1;
+      ) % ticketsBought.length) + 1;
   }
 
   function getTicketsBought() public view returns (TicketBought[] memory) {

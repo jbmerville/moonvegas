@@ -66,7 +66,7 @@ task('deploy', 'Deploy the smart contracts to a network')
 
       const draftTime = currentTimestampInSeconds + ONE_WEEK_IN_SECS;
       const ticketPrice = '0.01';
-      const maxTicketAmount = 10;
+      const maxTicketAmount = 6;
 
       const Raffle = await hre.ethers.getContractFactory('Raffle');
       const raffle = await Raffle.deploy(

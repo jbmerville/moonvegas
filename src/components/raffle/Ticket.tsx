@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import React from 'react';
 
-import ticketBody from '../../../../public/images/ticket-body.png';
-import ticketHead from '../../../../public/images/ticket-head.png';
+import ticketBody from '../../../public/images/ticket-body.png';
+import ticketHead from '../../../public/images/ticket-head.png';
 
 import { TicketType } from '@/types';
 

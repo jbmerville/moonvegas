@@ -1,10 +1,9 @@
 import * as React from 'react';
 
 import Footer from '@/components/layout/Footer';
+import LastSalesSection from '@/components/raffle/LastSalesSection';
+import TicketSelectionSection from '@/components/raffle/TicketSelectionSection';
 import Seo from '@/components/Seo';
-
-import LastSalesSection from '@/pages/raffle/components/LastSalesSection';
-import TicketSelectionSection from '@/pages/raffle/components/TicketSelectionSection';
 
 /**
  * SVGR Support
