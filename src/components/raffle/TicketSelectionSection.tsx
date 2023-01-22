@@ -60,12 +60,12 @@ const TicketSelectionSection = () => {
   return (
     <>
       <RaffleInfoCardsSection selectedTickets={selectedTickets} />
-      <div className='flex w-full items-start justify-start overflow-x-scroll	'>
+      <div className='my-12 flex w-full items-start justify-center overflow-x-scroll	'>
         {tickets.map((ticket) => (
           <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
         ))}
       </div>
-      <div className='mt-5 flex flex-col items-center justify-center md:mt-10'>
+      <div className=' flex flex-col items-center justify-center'>
         <TicketsSelected
           selectedTickets={selectedTickets}
           toggleSelectedTickets={toggleSelectedTickets}

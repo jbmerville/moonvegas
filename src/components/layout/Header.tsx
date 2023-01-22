@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { shortenAddress, useEthers } from '@usedapp/core';
@@ -11,7 +12,7 @@ import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 
 import { currentNetwork, currentNetworkChainId } from '@/config';
 
-import moonvegasLogo from '../../../public/images/moonvegas-logo.gif';
+import moonvegasLogo from '../../../public/images/moonvegas-logo.png';
 
 const REFERRAL = '1YCYB8B5';
 
@@ -65,9 +66,9 @@ export default function Header(props: HeaderProps) {
   };
 
   return (
-    <header className='navbar-header fixed top-0 z-50 w-full bg-dark md:sticky'>
+    <header className='navbar-header fixed top-0 z-50 w-full bg-moonbeam-grey md:sticky'>
       <div className='layout z-50 flex items-center justify-between  py-1 md:py-1'>
-        <div className='relative mr-auto  hidden h-[70px] w-[160px] items-center justify-center	md:block'>
+        <div className='relative my-2  mr-auto hidden h-[50px] w-[120px] items-center justify-center	md:block'>
           <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
         </div>
         <div className='mr-auto flex items-center justify-center md:hidden'>
@@ -77,7 +78,7 @@ export default function Header(props: HeaderProps) {
         </div>
         {account ? (
           <>
-            <Button
+            {/* <Button
               variant='dark'
               className='lg-2 relative mr-2 hidden  overflow-hidden md:block'
               onClick={onReferralClicked}
@@ -90,26 +91,18 @@ export default function Header(props: HeaderProps) {
               >
                 Copied!
               </p>
-            </Button>
-            <Button
-              variant='outline'
-              className='bg-orange/10 text-white hover:bg-moonbeam-cyan/40'
-              onClick={deactivate}
-            >
+            </Button> */}
+            <Button onClick={deactivate}>
               <MetaMaskIcon />
               <p>{shortenAddress(account)}</p>
             </Button>
           </>
         ) : (
-          <div className='flex w-fit justify-between md:w-[370px]'>
-            <Button variant='dark' className='lg-2 hidden md:block'>
+          <div className='flex w-fit justify-between '>
+            {/* <Button variant='dark' className='lg-2 hidden md:block'>
               <p>Have a referral?</p>
-            </Button>
-            <Button
-              variant='outline'
-              onClick={connectToNetwork}
-              className='bg-moonbeam-cyan/20 hover:bg-moonbeam-cyan/40'
-            >
+            </Button> */}
+            <Button onClick={connectToNetwork}>
               <MetaMaskIcon />
               <p className=' text-sm md:text-base'>Connect MetaMask</p>
             </Button>

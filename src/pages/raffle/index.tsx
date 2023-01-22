@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import Footer from '@/components/layout/Footer';
-import LastSalesSection from '@/components/raffle/LastSalesSection';
+import LastSalesSection from '@/components/raffle/LastSalesTable.tsx';
 import TicketSelectionSection from '@/components/raffle/TicketSelectionSection';
 import Seo from '@/components/Seo';
 
@@ -21,7 +21,7 @@ export default function Raffle() {
   return (
     <>
       <Seo templateTitle='Raffle' />
-      <main className='h-fit w-full  bg-dark'>
+      <main className='h-fit w-full'>
         <section className='h-fit pt-20'>
           <TicketSelectionSection />
           <LastSalesSection />

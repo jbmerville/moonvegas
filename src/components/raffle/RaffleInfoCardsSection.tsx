@@ -30,35 +30,43 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
         // Desktop
       }
       <div className='hidden min-w-full grow flex-row justify-between md:flex'>
-        <div className='layout my-10 flex items-center justify-between'>
-          <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-3'>
-            <div className='text flex uppercase text-white opacity-75'>
-              <FontAwesomeIcon icon={faHourglassEnd} size='xs' className='mr-2 w-3' />
-              tickets left
-            </div>
-            <div className='flex text-xl font-bold uppercase text-white'>
-              {ticketsLeft.length - props.selectedTickets.length}/{tickets.length}
-            </div>
+        <div className='layout flex flex-col items-center justify-between'>
+          <div className='mb-1 flex w-full flex-col items-start md:mb-10'>
+            <p className=' text-center text-lg font-bold text-moonbeam-cyan md:text-5xl'>Raffle</p>
+            <p className='text-center text-base text-moonbeam-cyan opacity-60 md:text-lg'>
+              Buy tickets, when all tickets are sold one winning ticket receives all the funds.
+            </p>
           </div>
-          <div className='mx-5 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-3'>
-            <div className='text flex uppercase text-white opacity-75'>
-              <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-4' />
-              How does it work?
+          <div className='flex w-full items-center '>
+            <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
+              <div className='flex text-3xl font-bold uppercase text-white'>
+                {ticketsLeft.length}/{tickets.length}
+              </div>
+              <div className='text flex uppercase text-white opacity-75'>
+                <FontAwesomeIcon icon={faHourglassEnd} size='xs' className='mr-2 w-[10px]' />
+                tickets left
+              </div>
             </div>
-            <button
-              onClick={onReadRulesClick}
-              className='cursor-pointer text-xl font-bold uppercase text-white transition-all hover:text-moonbeam-cyan'
-            >
-              <UnderlineLink href=''>Read the Rules</UnderlineLink>
-            </button>
-          </div>
-          <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-3'>
-            <div className='text flex uppercase text-white opacity-75'>
-              <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-4' />
-              Ends
+            <div className='mx-8 flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
+              <button
+                onClick={onReadRulesClick}
+                className='cursor-pointer text-3xl font-bold uppercase text-white transition-all hover:text-moonbeam-cyan'
+              >
+                <UnderlineLink href=''>Read the Rules</UnderlineLink>
+              </button>
+              <div className='text flex uppercase text-white opacity-75'>
+                <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-[12px]' />
+                How does it work?
+              </div>
             </div>
-            <div className='min-w-[150px] text-center text-xl font-bold uppercase text-white'>
-              <Countdown date={draftTime?.getTime()} />
+            <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
+              <div className='min-w-[150px] text-center text-3xl font-bold uppercase text-white'>
+                <Countdown date={draftTime?.getTime()} />
+              </div>
+              <div className='text flex uppercase text-white opacity-75'>
+                <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-[14px]' />
+                Ends
+              </div>
             </div>
           </div>
         </div>
@@ -69,7 +77,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
       <div className='flex min-w-full grow flex-row justify-between md:hidden'>
         <div className='m-5 flex grow flex-col items-stretch justify-between'>
           <div className='flex grow items-stretch justify-between'>
-            <div className='mr-3 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
+            <div className='mr-3 flex grow flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
               <div className='flex text-sm uppercase text-white opacity-75'>
                 <FontAwesomeIcon icon={faHourglassEnd} size='xs' className='mr-2 w-2' />
                 tickets left
@@ -78,7 +86,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
                 {ticketsLeft.length - props.selectedTickets.length}/{tickets.length}
               </p>
             </div>
-            <div className='flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
+            <div className='flex grow flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
               <div className='flex text-sm uppercase text-white opacity-75'>
                 <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-3' />
                 Ends
@@ -88,7 +96,7 @@ const RaffleInfoCardsSection = (props: RaffleInfoCardsSectionPropsType) => {
               </p>
             </div>
           </div>
-          <div className='mt-3 flex grow flex-col items-center justify-center rounded bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
+          <div className='mt-3 flex grow flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-[#5258bd] to-[#6d388a] py-2'>
             <div className='flex text-xs uppercase text-white opacity-75'>
               <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-3' />
               How does it work?

@@ -23,7 +23,7 @@ const Ticket = (props: TicketPropsType) => {
   const renderTicketHead = () => {
     return (
       <div className='absolute flex h-[210px] min-w-[100px] drop-shadow-[0_9px_3px_rgba(255,255,255,0.10)] md:h-[400px] md:min-w-[170px]'>
-        <div className='absolute left-[20px] top-[35px] z-10 font-secondary text-xs text-white md:top-[90px] md:left-[50px]'>
+        <div className='absolute left-[20px] top-[15px] z-10 font-secondary text-lg text-white md:top-[75px] md:left-[40px]'>
           No. :{String(props.ticket.id).padStart(6, '0')}
         </div>
         <Image src={ticketHead} layout='fill' objectFit='contain' alt='' />
