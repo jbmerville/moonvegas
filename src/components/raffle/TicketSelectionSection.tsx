@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import useRaffle from '@/hooks/useRaffle';
 
+import { getNonDefaultTicketsSelected } from '@/components/raffle/helper';
 import RaffleInfoCardsSection from '@/components/raffle/RaffleInfoCardsSection';
 import Ticket from '@/components/raffle/Ticket';
 import TicketsSelected from '@/components/raffle/TicketsSelected';
@@ -17,10 +18,6 @@ const TicketSelectionSection = () => {
   );
   const { tickets } = useRaffle();
 
-  const getNonDefaultTicketSelectedCount = (): number => {
-    return selectedTickets.filter((ticket) => ticket.id !== -1).length;
-  };
-
   const toggleSelectedTickets = (ticket: TicketType): void => {
     if (selectedTickets.includes(ticket)) {
       setSelectedTickets((selectedTickets) =>
@@ -34,7 +31,7 @@ const TicketSelectionSection = () => {
       );
       ticket.isSelected = false;
     } else {
-      if (getNonDefaultTicketSelectedCount() >= MAX_TICKET) {
+      if (getNonDefaultTicketsSelected(selectedTickets).length >= MAX_TICKET) {
         toast.error(
           `You already have selected the maximum of ${MAX_TICKET} tickets per transaction.`
         );
@@ -60,7 +57,7 @@ const TicketSelectionSection = () => {
   return (
     <>
       <RaffleInfoCardsSection selectedTickets={selectedTickets} />
-      <div className='my-12 flex w-full items-start justify-center overflow-x-scroll	'>
+      <div className='mt-10 mb-2 flex w-full items-start justify-center overflow-x-scroll	'>
         {tickets.map((ticket) => (
           <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
         ))}

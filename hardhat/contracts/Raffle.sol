@@ -9,7 +9,8 @@ contract Raffle is Ownable {
   struct RaffleHistory {
     address winner;
     uint256 winningTicket;
-    uint256 ticketAmount;
+    uint256 totalTickets;
+    uint256 ticketPrice;
   }
 
   struct TicketBought {
@@ -27,7 +28,7 @@ contract Raffle is Ownable {
   address[] currentPlayers; // All the addresses of the players of the current raffle
   mapping(uint256 => address payable) public ticketsOwner; // Mapping of ticketId to address that bought this ticket
   mapping(address => uint256[]) public ticketsBoughtByPlayer; // Mapping of address to all the tickets bought by this address
-  RaffleHistory[] public rafflesHistoy; // History of all the previous raffles excluding the current one
+  RaffleHistory[] public raffleHistory; // History of all the previous raffles excluding the current one
   TicketBought[] public ticketsBought; // All the ticketIds that have been bought already
   bool public raffleEnd; // Whether the raffle has ended or not.
 
@@ -125,7 +126,7 @@ contract Raffle is Ownable {
     uint256 winnerCut = balance - feesAmount;
     winner.transfer(winnerCut);
 
-    resetRaffle(RaffleHistory(winner, winningTicketId, maxTicketAmount));
+    resetRaffle(RaffleHistory(winner, winningTicketId, maxTicketAmount, ticketPrice));
     emit RaffleEnd(winner, winningTicketId, maxTicketAmount);
   }
 
@@ -142,7 +143,7 @@ contract Raffle is Ownable {
     nextRaffleMaxTicketAmount = nextRaffleMaxTicketAmount + 1;
     ticketPrice = nextRaffleTicketPrice;
     currTicketAmount = 0;
-    rafflesHistoy.push(raffleHistoy);
+    raffleHistory.push(raffleHistoy);
 
     for (uint256 i = 0; i < ticketsBought.length; i++) {
       delete ticketsOwner[ticketsBought[i].ticketId];
@@ -174,5 +175,9 @@ contract Raffle is Ownable {
 
   function getTicketsBought() public view returns (TicketBought[] memory) {
     return ticketsBought;
+  }
+
+  function getRaffleHistory() public view returns (RaffleHistory[] memory) {
+    return raffleHistory;
   }
 }

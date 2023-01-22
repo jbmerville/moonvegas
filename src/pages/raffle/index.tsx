@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import Footer from '@/components/layout/Footer';
-import LastSalesSection from '@/components/raffle/LastSalesTable.tsx';
+import LastSalesSection from '@/components/raffle/LastSalesTable';
 import TicketSelectionSection from '@/components/raffle/TicketSelectionSection';
+import WinnerHistoryTable from '@/components/raffle/WinnerHistoryTable';
 import Seo from '@/components/Seo';
 
 /**
@@ -24,7 +25,10 @@ export default function Raffle() {
       <main className='h-fit w-full'>
         <section className='h-fit pt-20'>
           <TicketSelectionSection />
-          <LastSalesSection />
+          <div className='mt-10 flex min-w-full grow flex-col justify-between rounded-t-3xl bg-moonbeam-grey text-white'>
+            <WinnerHistoryTable />
+            <LastSalesSection />
+          </div>
           <Footer />
         </section>
       </main>

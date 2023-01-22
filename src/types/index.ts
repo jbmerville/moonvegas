@@ -6,12 +6,20 @@ export interface TicketType {
   isSelected: boolean;
 }
 
+export interface RaffleHistory {
+  winner: string;
+  winningTicket: number;
+  ticketPrice: number;
+  totalTickets: number;
+}
+
 export interface RaffleState {
   tickets: TicketType[];
   ticketsLeft: TicketType[];
   ticketsBought: TicketType[];
   draftTime: Date;
   ticketPrice: BigNumber;
+  raffleHistory: RaffleHistory[];
 }
 
 export interface CoinFlipState {

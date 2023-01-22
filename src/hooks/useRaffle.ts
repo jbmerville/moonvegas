@@ -9,9 +9,11 @@ import { Raffle } from 'hardhat/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { getNonDefaultTicketsSelected } from '@/components/raffle/helper';
+
 import { currentNetworkChainId, currentRaffleAddress } from '@/config';
 
-import { RaffleState, TicketType } from '@/types';
+import { RaffleHistory, RaffleState, TicketType } from '@/types';
 
 export const raffleAbi = new utils.Interface(raffleArtifacts.abi);
 
@@ -43,6 +45,7 @@ const useRaffle = () => {
     ticketsBought: [],
     ticketPrice: BigNumber.from(0),
     draftTime: new Date(),
+    raffleHistory: [],
   });
 
   const refresh = useCallback(async () => {
@@ -50,12 +53,14 @@ const useRaffle = () => {
       if (contract && library) {
         // await logBlockchainInfo();
 
-        const [maxTicketAmount, ticketPrice, draftTime, ticketsBoughtData] = await Promise.all([
-          contract.maxTicketAmount(),
-          contract.ticketPrice(),
-          contract.draftTime(),
-          contract.getTicketsBought(),
-        ]);
+        const [maxTicketAmount, ticketPrice, draftTime, ticketsBoughtData, raffleHistoryData] =
+          await Promise.all([
+            contract.maxTicketAmount(),
+            contract.ticketPrice(),
+            contract.draftTime(),
+            contract.getTicketsBought(),
+            contract.getRaffleHistory(),
+          ]);
 
         const tickets = generateTickets(maxTicketAmount.toNumber());
         const ticketsLeft: TicketType[] = [];
@@ -77,12 +82,23 @@ const useRaffle = () => {
           }
         });
 
+        const raffleHistory: RaffleHistory[] = raffleHistoryData
+          .slice(0)
+          .reverse()
+          .map((history) => ({
+            winner: history.winner,
+            winningTicket: history.winningTicket.toNumber(),
+            ticketPrice: parseFloat(utils.formatEther(history.ticketPrice)),
+            totalTickets: history.totalTickets.toNumber(),
+          }));
+
         setRaffleState({
           ticketPrice,
           draftTime: new Date(draftTime.toNumber() * 1000),
           tickets,
           ticketsLeft,
           ticketsBought,
+          raffleHistory,
         });
       } else {
         console.error(`Contract or library undefined`, { contract, library });
@@ -95,7 +111,7 @@ const useRaffle = () => {
   const purchase = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (tickets: TicketType[], resetTicketsSelected: () => void, options?: any) => {
-      const ticketIds = tickets.map((ticket) => ticket.id);
+      const ticketIds = getNonDefaultTicketsSelected(tickets).map((ticket) => ticket.id);
       const price = raffleState.ticketPrice.mul(ticketIds.length);
 
       try {
@@ -145,12 +161,13 @@ const useRaffle = () => {
           const contractBalance = await library.getBalance(contract.address);
           const draftTime = (await contract.draftTime()).toString();
           const ticketPrice = (await contract.ticketPrice()).toString();
+          const raffleHistory = await contract.getRaffleHistory();
           const ticketsBought = await contract.getTicketsBought();
           if (code != '0x0') {
             console.log(
               `SmartContract code successfully read. SmartContract balance: ${contractBalance}`
             );
-            console.log({ draftTime, ticketPrice, ticketsBought });
+            console.log({ draftTime, ticketPrice, ticketsBought, raffleHistory });
           } else {
             console.error(`SmartContract code unsuccessfully read, was ${code}`);
           }
@@ -174,6 +191,7 @@ const useRaffle = () => {
     ticketPrice: raffleState.ticketPrice,
     draftTime: raffleState.draftTime,
     refresh,
+    raffleHistory: raffleState.raffleHistory,
   };
 };
 

@@ -6,9 +6,9 @@ import { toast } from 'react-toastify';
 import useRaffle from '@/hooks/useRaffle';
 
 import Button from '@/components/buttons/Button';
-import Loading from '@/components/icons/Loading';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
+import { getNonDefaultTicketsSelected } from '@/components/raffle/helper';
 import Ticket from '@/components/raffle/Ticket';
 
 import { TicketType } from '@/types';
@@ -22,6 +22,7 @@ interface TicketsSelectedPropsType {
 const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const { networks } = useConfig();
   const { ticketPrice, purchase, isTransactionPending } = useRaffle();
+  const nonDefaultTicketsSelected = getNonDefaultTicketsSelected(props.selectedTickets);
 
   const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
     // Render black shade ticket instead of the one selected by the player.
@@ -70,7 +71,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             size='xs'
             className='mr-2 w-3 text-xs text-moonbeam-cyan md:mr-2 md:w-6'
           /> */}
-          <p className=' text-center text-lg font-bold text-moonbeam-cyan md:text-3xl'>
+          <p className='text-center text-lg font-bold text-moonbeam-cyan md:text-3xl'>
             Selected Tickets
           </p>
         </div>
@@ -78,24 +79,21 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
           Select up to 5 tickets per transaction.
         </p>
         <div className='flex w-full flex-col items-center justify-start  p-2 md:py-2 '>
-          <div className='p10 flex h-[255px] w-full  items-center justify-between overflow-hidden overflow-x-scroll pl-5	'>
+          <div className='flex h-[255px] w-full items-center  justify-between overflow-hidden overflow-x-scroll py-12 pl-5	'>
             {props.selectedTickets.map(renderMiniatureSelectedTicket)}
           </div>
           <Button
-            disabled={isTransactionPending}
+            isLoading={isTransactionPending}
             className='relative mt-8 inline-flex w-full items-center justify-center overflow-hidden rounded-md p-0.5  text-sm font-medium text-white '
             onClick={onPurchasePressed}
           >
             {isTransactionPending ? (
-              <div role='status'>
-                <Loading />
-                <span className='sr-only text-white'>Loading...</span>
-              </div>
+              <span className='py-2.5 text-lg font-extrabold uppercase text-white'>Loading...</span>
             ) : (
               <span className='relative flex w-full items-center justify-center px-5 py-2.5 text-lg font-extrabold uppercase'>
                 <p className='ml-2 '>
-                  Buy {props.selectedTickets.length} Tickets for{' '}
-                  {utils.formatEther(ticketPrice.mul(props.selectedTickets.length))}{' '}
+                  Buy {nonDefaultTicketsSelected.length} Tickets for{' '}
+                  {utils.formatEther(ticketPrice.mul(nonDefaultTicketsSelected.length))}{' '}
                   {renderCurrencySymbol()}{' '}
                 </p>
                 <div className='scale-[1.5] pl-2'>

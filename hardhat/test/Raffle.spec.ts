@@ -202,6 +202,7 @@ describe('Raffle', function () {
         // await checkTicketsAddress(address1, ticketIds1, raffle);
         expect(await raffle.currTicketAmount()).to.equal(0);
         expect(await (await raffle.getTicketsBought()).length).to.equal(0);
+        expect(await (await raffle.getRaffleHistory()).length).to.equal(1);
         expect(await raffle.maxTicketAmount()).to.equal(ticketAmount + 1);
         expect(await raffle.ticketPrice()).to.equal(PRICE);
       });
