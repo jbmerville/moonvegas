@@ -42,9 +42,9 @@ const InfoCards = (props: InfoCardsPropsType) => {
               <div className='flex text-3xl font-bold uppercase text-white'>
                 {ticketsLeft.length}/{tickets.length}
               </div>
-              <div className='text flex uppercase text-white opacity-75'>
+              <div className='text flex  text-white opacity-75'>
                 <FontAwesomeIcon icon={faReceipt} size='xs' className='mr-2 w-[10px]' />
-                tickets left
+                Tickets Left
               </div>
             </div>
             <div className='mx-8 flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
@@ -54,16 +54,18 @@ const InfoCards = (props: InfoCardsPropsType) => {
               >
                 <UnderlineLink href=''>Read the Rules</UnderlineLink>
               </button>
-              <div className='text flex uppercase text-white opacity-75'>
+              <div className='text flex  text-white opacity-75'>
                 <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-[12px]' />
-                How does it work?
+                How Does It Work?
               </div>
             </div>
             <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
-              <div className='min-w-[150px] text-center text-3xl font-bold uppercase text-white'>
-                <Countdown date={draftTime?.getTime()} />
-              </div>
-              <div className='text flex uppercase text-white opacity-75'>
+              <Countdown
+                key={draftTime.getTime()}
+                className='min-w-[150px] text-center text-3xl font-bold uppercase text-white'
+                date={draftTime}
+              />
+              <div className='text flex  text-white opacity-75'>
                 <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-[14px]' />
                 Ends
               </div>
@@ -84,9 +86,11 @@ const InfoCards = (props: InfoCardsPropsType) => {
                 </div>
               </div>
               <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
-                <p className='min-w-[130px] text-center text-base font-bold uppercase text-white'>
-                  <Countdown date={draftTime.getTime()} />
-                </p>
+                <Countdown
+                  key={draftTime.getTime()}
+                  className='min-w-[130px] text-center text-base font-bold uppercase text-white'
+                  date={draftTime}
+                />
                 <div className='flex text-xs  text-white opacity-75'>
                   <FontAwesomeIcon icon={faClock} size='xs' className='mr-1 w-[10px]' />
                   Ends
