@@ -3,19 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useState } from 'react';
 import Countdown from 'react-countdown';
 
+import InfoCard from '@/components/InfoCard';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import PopUp from '@/components/Popup';
 
 import { currentNetwork, currentRaffleAddress } from '@/config';
 import RaffleContext from '@/contexts/RaffleContext';
 
-import { TicketType } from '@/types';
-
-interface InfoCardsPropsType {
-  selectedTickets: TicketType[];
-}
-
-const InfoCards = (props: InfoCardsPropsType) => {
+const InfoCards = () => {
   const { raffleState } = useContext(RaffleContext);
   const [isReadRulesPopUpOpen, setIsReadRulesPopUpOpen] = useState(false);
 
@@ -29,85 +24,63 @@ const InfoCards = (props: InfoCardsPropsType) => {
         <div className='layout flex flex-col items-center justify-between'>
           <div className='mb-1 flex w-full flex-col items-start md:mb-10'>
             <p className='text-3xl font-bold text-moonbeam-cyan md:text-5xl'>Raffle</p>
-            <p className='text-xs text-moonbeam-cyan opacity-60 md:text-lg'>
-              Buy tickets, when tickets are sold out, one winning ticket receives all the funds.
+            <p className='text-xs text-moonbeam-cyan opacity-80 md:text-lg'>
+              Buy tickets, when tickets are sold out, one random winning ticket receives all the funds in the pool.
             </p>
           </div>
-          {
-            // Desktop
-          }
-          <div className='hidden w-full items-center md:flex'>
-            <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
-              <div className='flex text-3xl font-bold uppercase text-white'>
-                {raffleState.ticketsLeft.length}/{raffleState.maxTicketAmount}
-              </div>
-              <div className='text flex  text-white opacity-75'>
-                <FontAwesomeIcon icon={faReceipt} size='xs' className='mr-2 w-[10px]' />
-                Tickets Left
-              </div>
-            </div>
-            <div className='mx-8 flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
-              <button
-                onClick={onReadRulesClick}
-                className='cursor-pointer text-3xl font-bold uppercase text-white transition-all hover:text-moonbeam-cyan'
-              >
-                <UnderlineLink href=''>Read the Rules</UnderlineLink>
-              </button>
-              <div className='text flex  text-white opacity-75'>
-                <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-[12px]' />
-                How Does It Work?
-              </div>
-            </div>
-            <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
-              <Countdown
-                key={raffleState.draftTime.getTime()}
-                className='min-w-[150px] text-center text-3xl font-bold uppercase text-white'
-                date={raffleState.draftTime}
-              />
-              <div className='text flex  text-white opacity-75'>
-                <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-[14px]' />
-                Ends
-              </div>
-            </div>
-          </div>
-          {
-            // Mobile
-          }
-          <div className='m-5 flex w-full grow flex-col items-stretch justify-between md:hidden'>
-            <div className='flex grow items-stretch justify-between'>
-              <div className='mr-3 flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
-                <p className='text-base font-bold uppercase text-white'>
-                  {raffleState.ticketsLeft.length - props.selectedTickets.length}/{raffleState.maxTicketAmount}
-                </p>
-                <div className='flex text-xs  text-white opacity-75'>
-                  <FontAwesomeIcon icon={faReceipt} size='xs' className='mr-1 w-[7px]' />
+          <div className='grid w-full grid-rows-2 items-center gap-3 py-3 md:grid-cols-3 md:grid-rows-1 md:gap-5'>
+            <InfoCard
+              title={`${raffleState.ticketsLeft.length}/${raffleState.maxTicketAmount}`}
+              subtitle={
+                <>
+                  <FontAwesomeIcon icon={faReceipt} size='xs' className='mr-2 w-[10px]' />
                   Tickets Left
-                </div>
-              </div>
-              <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
+                </>
+              }
+            />
+            <InfoCard
+              title={<Countdown key={raffleState.draftTime.getTime()} date={raffleState.draftTime} />}
+              subtitle={
+                <>
+                  <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-[14px]' />
+                  Ends
+                </>
+              }
+              className='md:hidden'
+            />
+            <InfoCard
+              title={
+                <button
+                  onClick={onReadRulesClick}
+                  className='cursor-pointer  font-bold uppercase  transition-all hover:text-moonbeam-cyan'
+                >
+                  <UnderlineLink href=''>Read the Rules</UnderlineLink>
+                </button>
+              }
+              subtitle={
+                <>
+                  <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-[12px]' />
+                  How Does It Work?
+                </>
+              }
+              className='col-span-2 md:col-span-1'
+            />
+            <InfoCard
+              title={
                 <Countdown
                   key={raffleState.draftTime.getTime()}
-                  className='min-w-[130px] text-center text-base font-bold uppercase text-white'
+                  className=' text-center uppercase text-white'
                   date={raffleState.draftTime}
                 />
-                <div className='flex text-xs  text-white opacity-75'>
-                  <FontAwesomeIcon icon={faClock} size='xs' className='mr-1 w-[10px]' />
+              }
+              subtitle={
+                <>
+                  <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-[14px]' />
                   Ends
-                </div>
-              </div>
-            </div>
-            <div className='mt-3 flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
-              <p
-                onClick={onReadRulesClick}
-                className='cursor-pointer text-base font-bold uppercase text-white transition-all hover:text-moonbeam-cyan'
-              >
-                <UnderlineLink href=''>Read the Rules</UnderlineLink>
-              </p>
-              <div className='flex text-xs  text-white opacity-75'>
-                <FontAwesomeIcon icon={faBook} size='xs' className='mr-2 w-[8px]' />
-                How Does It Work?
-              </div>
-            </div>
+                </>
+              }
+              className='hidden md:flex'
+            />
           </div>
         </div>
       </div>

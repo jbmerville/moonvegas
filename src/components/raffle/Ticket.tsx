@@ -13,13 +13,6 @@ interface TicketPropsType {
   displayShimmer?: boolean;
 }
 const Ticket = (props: TicketPropsType) => {
-  // const [isOwner, setIsOwner] = useState(false);
-  // const { account } = useEthers();
-
-  // useEffect(() => {
-  //   setIsOwner(props.ticket.owner !== undefined);
-  // }, [props.ticket.owner]);
-
   const renderTicketHead = () => {
     return (
       <div className='absolute flex h-[210px] min-w-[100px] drop-shadow-[0_9px_3px_rgba(255,255,255,0.10)] md:h-[350px] md:min-w-[170px]'>
@@ -37,9 +30,7 @@ const Ticket = (props: TicketPropsType) => {
         className={`absolute flex h-[210px] min-w-[100px] transition-all duration-150 md:min-w-[170px] ${
           props.ticket.isSelected || props.removeHead ? 'mt-4 md:mt-8' : 'md:hover:mt-8'
         } ${
-          props.displayShimmer
-            ? 'opacity-50 brightness-0'
-            : 'cursor-pointer drop-shadow-[0_9px_3px_rgba(255,255,255,0.10)]'
+          props.displayShimmer ? ' brightness-0' : 'cursor-pointer drop-shadow-[0_9px_3px_rgba(255,255,255,0.10)]'
         } " md:h-[350px]`}
       >
         <div className='absolute left-[25px] top-[130px] z-10 rotate-270 font-secondary text-xs text-white md:top-[240px] md:left-[50px] md:text-xl'>

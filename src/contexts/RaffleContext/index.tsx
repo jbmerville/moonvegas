@@ -78,6 +78,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
         toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to submit transaction`, {
           type: toast.TYPE.ERROR,
         });
+        return;
       }
 
       if (!account) {
