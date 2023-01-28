@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import Footer from '@/components/layouts/Footer';
-import LastSalesSection from '@/components/raffle/LastSalesTable';
-import TicketSelectionSection from '@/components/raffle/TicketSelectionSection';
-import WinnerHistoryTable from '@/components/raffle/WinnerHistoryTable';
+import LastSalesSection from '@/components/pages/raffle/LastSalesTable';
+import TicketSelectionSection from '@/components/pages/raffle/TicketSelectionSection';
+import WinnerHistoryTable from '@/components/pages/raffle/WinnerHistoryTable';
 import Seo from '@/components/Seo';
 
 import { RaffleProvider } from '@/contexts/RaffleContext';

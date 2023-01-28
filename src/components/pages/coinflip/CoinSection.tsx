@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import useCoinFlip from '@/hooks/useCoinFlip';
 
 import Button from '@/components/buttons/Button';
-import ChoicesSection from '@/components/coinflip/ChoicesSection';
-import CoinFlipInfoCardsSection from '@/components/coinflip/CoinFlipInfoCardsSection';
+import ChoicesSection from '@/components/pages/coinflip/ChoicesSection';
+import CoinFlipInfoCardsSection from '@/components/pages/coinflip/CoinFlipInfoCardsSection';
 
-import coinHeads from '../../../public/images/coin-heads.png';
-import coinTails from '../../../public/images/coin-tails.png';
+import coinHeads from '../../../../public/images/coin-heads.png';
+import coinTails from '../../../../public/images/coin-tails.png';
 
 import { CoinFace } from '@/types';
 

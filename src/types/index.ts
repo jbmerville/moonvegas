@@ -21,6 +21,7 @@ export interface RaffleState {
   ticketPrice: BigNumber;
   raffleHistory: RaffleHistory[];
   maxTicketAmount: number;
+  royalty: number;
 }
 
 export interface CoinFlipState {

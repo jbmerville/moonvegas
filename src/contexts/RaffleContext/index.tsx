@@ -8,7 +8,7 @@ import { Raffle } from 'hardhat/types';
 import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { getNonDefaultTicketsSelected } from '@/components/raffle/helper';
+import { getNonDefaultTicketsSelected } from '@/components/pages/raffle/helper';
 
 import { currentNetwork, currentNetworkChainId, currentRaffleAddress } from '@/config';
 import { getRaffleState } from '@/contexts/RaffleContext/utils';
@@ -46,6 +46,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
     draftTime: new Date(),
     raffleHistory: [],
     maxTicketAmount: 0,
+    royalty: 0,
   });
 
   const refreshState = useCallback(async () => {

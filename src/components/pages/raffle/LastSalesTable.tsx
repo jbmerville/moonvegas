@@ -4,7 +4,7 @@ import { BigNumber, utils } from 'ethers';
 import Image from 'next/image';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
-import { renderTxPrice } from '@/components/raffle/helper';
+import { renderTxPrice } from '@/components/pages/raffle/helper';
 import Table from '@/components/Table';
 import { TableRowType } from '@/components/Table/TableRow';
 
@@ -12,7 +12,7 @@ import { currentNetwork, currentRaffleAddress } from '@/config';
 import { raffleAbi } from '@/contexts/RaffleContext';
 import RaffleContext from '@/contexts/RaffleContext';
 
-import moonbeam from '../../../public/images/moonbeam-token.png';
+import moonbeam from '../../../../public/images/moonbeam-token.png';
 
 import { TicketType } from '@/types';
 

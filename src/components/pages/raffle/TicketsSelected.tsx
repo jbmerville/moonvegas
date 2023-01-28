@@ -7,8 +7,8 @@ import useIsMobile from '@/hooks/useIsMobile';
 import Button from '@/components/buttons/Button';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
-import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/raffle/helper';
-import Ticket from '@/components/raffle/Ticket';
+import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/helper';
+import Ticket from '@/components/pages/raffle/Ticket';
 
 import RaffleContext from '@/contexts/RaffleContext';
 

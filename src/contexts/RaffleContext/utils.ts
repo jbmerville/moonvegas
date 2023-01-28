@@ -54,18 +54,21 @@ function parseTicketsBoughtData(
  * @param raffleContract - The raffle object derived from smart-contract abi
  */
 export async function getRaffleState(raffleContract: Raffle): Promise<RaffleState> {
-  const [maxTicketAmountData, ticketPrice, draftTimeData, ticketsBoughtData, raffleHistoryData] = await Promise.all([
-    raffleContract.maxTicketAmount(),
-    raffleContract.ticketPrice(),
-    raffleContract.draftTime(),
-    raffleContract.getTicketsBought(),
-    raffleContract.getRaffleHistory(),
-  ]);
+  const [maxTicketAmountData, ticketPrice, draftTimeData, ticketsBoughtData, raffleHistoryData, royaltyData] =
+    await Promise.all([
+      raffleContract.maxTicketAmount(),
+      raffleContract.ticketPrice(),
+      raffleContract.draftTime(),
+      raffleContract.getTicketsBought(),
+      raffleContract.getRaffleHistory(),
+      raffleContract.royalty(),
+    ]);
 
   const maxTicketAmount = maxTicketAmountData.toNumber();
   const draftTime = new Date(draftTimeData.toNumber() * 1000);
   const { tickets, ticketsBought, ticketsLeft } = parseTicketsBoughtData(ticketsBoughtData, maxTicketAmount);
   const raffleHistory = parseRaffleHistory(raffleHistoryData);
+  const royalty = royaltyData / 10; // Ex: 50  -> 5% royalty
 
   return {
     maxTicketAmount,
@@ -75,5 +78,6 @@ export async function getRaffleState(raffleContract: Raffle): Promise<RaffleStat
     ticketsBought,
     ticketsLeft,
     raffleHistory,
+    royalty,
   };
 }
