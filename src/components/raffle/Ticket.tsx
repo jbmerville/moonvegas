@@ -52,9 +52,7 @@ const Ticket = (props: TicketPropsType) => {
 
   if (props.ticket.owner) {
     return (
-      <div className='relative flex h-[210px] min-w-[100px] md:h-[350px] md:min-w-[170px]'>
-        {renderTicketHead()}
-      </div>
+      <div className='relative flex h-[210px] min-w-[100px] md:h-[350px] md:min-w-[170px]'>{renderTicketHead()}</div>
     );
   }
 

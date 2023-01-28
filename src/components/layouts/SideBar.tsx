@@ -1,9 +1,4 @@
-import {
-  faCircleQuestion,
-  faCoins,
-  faEllipsis,
-  faReceipt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircleQuestion, faCoins, faEllipsis, faReceipt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -35,41 +30,27 @@ const SideBar = (props: SideBarProps) => {
                   <FontAwesomeIcon
                     icon={faEllipsis}
                     size='xs'
-                    className={` w-8 text-xs text-gray-500 ${
-                      isSideBarOpen ? 'rotate-0' : 'rotate-90'
-                    } transition`}
+                    className={` w-8 text-xs text-gray-500 ${isSideBarOpen ? 'rotate-0' : 'rotate-90'} transition`}
                   />
                 </div>
               </li>
               <li>
                 <Link href='/'>
                   <div className='flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
-                    <FontAwesomeIcon
-                      icon={faReceipt}
-                      size='xs'
-                      className='  w-6 text-xs text-gray-500 '
-                    />
+                    <FontAwesomeIcon icon={faReceipt} size='xs' className='  w-6 text-xs text-gray-500 ' />
                   </div>
                 </Link>
               </li>
               <li>
                 <Link href='/coinflip'>
                   <div className='mt-5 flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
-                    <FontAwesomeIcon
-                      icon={faCoins}
-                      size='xs'
-                      className=' w-6 text-xs text-gray-500 '
-                    />
+                    <FontAwesomeIcon icon={faCoins} size='xs' className=' w-6 text-xs text-gray-500 ' />
                   </div>
                 </Link>
               </li>
               <li>
                 <div className='mt-5 flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white'>
-                  <FontAwesomeIcon
-                    icon={faCircleQuestion}
-                    size='xs'
-                    className='w-6 text-xs text-gray-500'
-                  />
+                  <FontAwesomeIcon icon={faCircleQuestion} size='xs' className='w-6 text-xs text-gray-500' />
                 </div>
               </li>
             </ul>
@@ -167,8 +148,7 @@ const SideBar = (props: SideBarProps) => {
                   </button>
                 </div>
                 <p className='mb-3 text-sm text-blue-400'>
-                  Welcome to MoonVegas! Website is under construction. Your feedback is highly
-                  appreciated 🎉
+                  Welcome to MoonVegas! Website is under construction. Your feedback is highly appreciated 🎉
                 </p>
                 <a className='text-sm text-blue-400 underline  hover:text-blue-300' href='#'>
                   Give feedback

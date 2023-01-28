@@ -20,6 +20,7 @@ export interface RaffleState {
   draftTime: Date;
   ticketPrice: BigNumber;
   raffleHistory: RaffleHistory[];
+  maxTicketAmount: number;
 }
 
 export interface CoinFlipState {

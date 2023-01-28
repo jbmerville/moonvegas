@@ -1,6 +1,6 @@
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 
-import { MAX_RAFFLE_TICKET_PER_TX, MAX_RAFFLE_TICKET_PER_TX_MOBILE } from '@/constant/env';
+import { MAX_RAFFLE_TICKET_PER_TX, MAX_RAFFLE_TICKET_PER_TX_MOBILE } from '@/constants/env';
 
 import { TicketType } from '@/types';
 

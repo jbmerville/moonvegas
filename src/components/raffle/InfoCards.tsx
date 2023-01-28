@@ -1,14 +1,13 @@
 import { faBook, faCircleInfo, faClock, faReceipt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Countdown from 'react-countdown';
 
-import useRaffle from '@/hooks/useRaffle';
-
 import UnderlineLink from '@/components/links/UnderlineLink';
-import PopUp from '@/components/popup';
+import PopUp from '@/components/Popup';
 
 import { currentNetwork, currentRaffleAddress } from '@/config';
+import RaffleContext from '@/contexts/RaffleContext';
 
 import { TicketType } from '@/types';
 
@@ -17,7 +16,7 @@ interface InfoCardsPropsType {
 }
 
 const InfoCards = (props: InfoCardsPropsType) => {
-  const { draftTime, ticketsLeft, tickets } = useRaffle();
+  const { raffleState } = useContext(RaffleContext);
   const [isReadRulesPopUpOpen, setIsReadRulesPopUpOpen] = useState(false);
 
   const onReadRulesClick = () => {
@@ -40,7 +39,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
           <div className='hidden w-full items-center md:flex'>
             <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
               <div className='flex text-3xl font-bold uppercase text-white'>
-                {ticketsLeft.length}/{tickets.length}
+                {raffleState.ticketsLeft.length}/{raffleState.maxTicketAmount}
               </div>
               <div className='text flex  text-white opacity-75'>
                 <FontAwesomeIcon icon={faReceipt} size='xs' className='mr-2 w-[10px]' />
@@ -61,9 +60,9 @@ const InfoCards = (props: InfoCardsPropsType) => {
             </div>
             <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-6'>
               <Countdown
-                key={draftTime.getTime()}
+                key={raffleState.draftTime.getTime()}
                 className='min-w-[150px] text-center text-3xl font-bold uppercase text-white'
-                date={draftTime}
+                date={raffleState.draftTime}
               />
               <div className='text flex  text-white opacity-75'>
                 <FontAwesomeIcon icon={faClock} size='xs' className='mr-2 w-[14px]' />
@@ -78,7 +77,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
             <div className='flex grow items-stretch justify-between'>
               <div className='mr-3 flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
                 <p className='text-base font-bold uppercase text-white'>
-                  {ticketsLeft.length - props.selectedTickets.length}/{tickets.length}
+                  {raffleState.ticketsLeft.length - props.selectedTickets.length}/{raffleState.maxTicketAmount}
                 </p>
                 <div className='flex text-xs  text-white opacity-75'>
                   <FontAwesomeIcon icon={faReceipt} size='xs' className='mr-1 w-[7px]' />
@@ -87,9 +86,9 @@ const InfoCards = (props: InfoCardsPropsType) => {
               </div>
               <div className='flex grow flex-col items-center justify-center rounded-2xl bg-moonbeam-grey-light py-2'>
                 <Countdown
-                  key={draftTime.getTime()}
+                  key={raffleState.draftTime.getTime()}
                   className='min-w-[130px] text-center text-base font-bold uppercase text-white'
-                  date={draftTime}
+                  date={raffleState.draftTime}
                 />
                 <div className='flex text-xs  text-white opacity-75'>
                   <FontAwesomeIcon icon={faClock} size='xs' className='mr-1 w-[10px]' />
@@ -155,8 +154,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
 
               <span>
                 Winner is picked when either all tickets are{' '}
-                <span className='font-extrabold'>sold out or the timer ends</span>. Whichever comes
-                first.
+                <span className='font-extrabold'>sold out or the timer ends</span>. Whichever comes first.
               </span>
             </li>
             {/* <li className='!my-4 flex items-center'>
@@ -228,8 +226,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
                 ></path>
               </svg>
               <span>
-                Raffle <span className='font-extrabold'>restarts automatically</span> after the end
-                of every Raffle.
+                Raffle <span className='font-extrabold'>restarts automatically</span> after the end of every Raffle.
               </span>
             </li>
             <li className='!my-4 flex items-center'>

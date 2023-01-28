@@ -18,10 +18,7 @@ export const coinFlipAbi = new utils.Interface(coinFlipArtifacts.abi);
 const useCoinFlip = () => {
   const { account, library, chainId } = useEthers();
 
-  const contract = useMemo(
-    () => new Contract(currentCoinFlipAddress, coinFlipAbi, library) as CoinFlip,
-    [library]
-  );
+  const contract = useMemo(() => new Contract(currentCoinFlipAddress, coinFlipAbi, library) as CoinFlip, [library]);
 
   const { send, state } = useContractFunction(contract, 'flip');
 
@@ -104,9 +101,7 @@ const useCoinFlip = () => {
         if (chainId == currentNetworkChainId) {
           console.log(`Provider on the correct chain: ${currentNetworkChainId}`);
         } else {
-          console.error(
-            `Provider not on the correct chain. Expected: ${currentNetworkChainId}, actual: ${chainId}`
-          );
+          console.error(`Provider not on the correct chain. Expected: ${currentNetworkChainId}, actual: ${chainId}`);
         }
       }
 

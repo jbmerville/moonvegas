@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import useIsMobile from '@/hooks/useIsMobile';
-import useRaffle from '@/hooks/useRaffle';
 
 import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/raffle/helper';
 import InfoCards from '@/components/raffle/InfoCards';
 import Ticket from '@/components/raffle/Ticket';
 import TicketsSelected from '@/components/raffle/TicketsSelected';
+
+import RaffleContext from '@/contexts/RaffleContext';
 
 import { TicketType } from '@/types';
 
@@ -17,12 +18,11 @@ const TicketSelectionSection = () => {
   const [selectedTickets, setSelectedTickets] = useState<TicketType[]>(
     Array(maxTicketPerTx).fill({ id: -1, isSelected: false })
   );
+  const { raffleState } = useContext(RaffleContext);
 
   useEffect(() => {
     setSelectedTickets(Array(maxTicketPerTx).fill({ id: -1, isSelected: false }));
   }, [maxTicketPerTx]);
-
-  const { tickets } = useRaffle();
 
   const toggleSelectedTickets = (ticket: TicketType): void => {
     if (selectedTickets.includes(ticket)) {
@@ -38,9 +38,9 @@ const TicketSelectionSection = () => {
       ticket.isSelected = false;
     } else {
       if (getNonDefaultTicketsSelected(selectedTickets).length >= maxTicketPerTx) {
-        toast.error(
-          `You already have selected the maximum of ${maxTicketPerTx} tickets per transaction.`
-        );
+        toast.dark(`Maximum of ${maxTicketPerTx} tickets reached.`, {
+          type: toast.TYPE.WARNING,
+        });
         return;
       }
       setSelectedTickets((selectedTickets) => {
@@ -57,14 +57,14 @@ const TicketSelectionSection = () => {
   };
 
   const resetTicketsSelected = () => {
-    setSelectedTickets([]);
+    setSelectedTickets(Array(maxTicketPerTx).fill({ id: -1, isSelected: false }));
   };
 
   return (
     <>
       <InfoCards selectedTickets={selectedTickets} />
-      <div className='mb-4 mt-2 flex w-full items-start justify-center overflow-x-scroll md:mt-10 md:mb-4	'>
-        {tickets.map((ticket) => (
+      <div className='mb-4 mt-2 flex w-full items-start justify-start overflow-x-scroll md:mt-10 md:mb-4	'>
+        {raffleState.tickets.map((ticket) => (
           <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
         ))}
       </div>

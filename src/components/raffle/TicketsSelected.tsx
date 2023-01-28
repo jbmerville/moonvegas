@@ -1,16 +1,16 @@
 import { useConfig } from '@usedapp/core';
 import { utils } from 'ethers';
-import React, { ReactNode } from 'react';
-import { toast } from 'react-toastify';
+import React, { ReactNode, useContext } from 'react';
 
 import useIsMobile from '@/hooks/useIsMobile';
-import useRaffle from '@/hooks/useRaffle';
 
 import Button from '@/components/buttons/Button';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/raffle/helper';
 import Ticket from '@/components/raffle/Ticket';
+
+import RaffleContext from '@/contexts/RaffleContext';
 
 import { TicketType } from '@/types';
 
@@ -22,16 +22,16 @@ interface TicketsSelectedPropsType {
 
 const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const { networks } = useConfig();
-  const { ticketPrice, purchase, isTransactionPending } = useRaffle();
+  const { raffleState, purchase, isTransactionPending } = useContext(RaffleContext);
   const isMobile = useIsMobile();
   const maxTicketPerTx = getMaxTicketPerTx(isMobile);
   const nonDefaultTicketsSelected = getNonDefaultTicketsSelected(props.selectedTickets);
 
-  const renderMiniatureSelectedTicket = (ticket: TicketType): ReactNode => {
+  const renderMiniatureSelectedTicket = (ticket: TicketType, index: number): ReactNode => {
     // Render black shade ticket instead of the one selected by the player.
     if (!ticket.isSelected) {
       return (
-        <div className='mx-[0px] mb-[-40px] mt-[-90px] md:mx-[0px] md:mb-[-110px] md:mt-[-215px] '>
+        <div key={index} className='mx-[0px] mb-[-40px] mt-[-90px] md:mx-[0px] md:mb-[-110px] md:mt-[-215px] '>
           <Ticket
             ticket={ticket}
             removeHead
@@ -44,7 +44,10 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
 
     // Render the ticket the player selected
     return (
-      <div className=' mx-[0px] mb-[-40px] mt-[-90px] duration-150 ease-in-out hover:drop-shadow-[0_9px_9px_rgba(255,255,255,0.05)] md:mx-[0px] md:mb-[-110px] md:mt-[-240px] hover:md:mb-[-100px] hover:md:scale-[1.05]'>
+      <div
+        key={index}
+        className=' mx-[0px] mb-[-40px] mt-[-90px] duration-150 ease-in-out hover:drop-shadow-[0_9px_9px_rgba(255,255,255,0.05)] md:mx-[0px] md:mb-[-110px] md:mt-[-240px] hover:md:mb-[-100px] hover:md:scale-[1.05]'
+      >
         <Ticket ticket={ticket} removeHead toggleSelectedTickets={props.toggleSelectedTickets} />
       </div>
     );
@@ -58,11 +61,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
   };
 
   const onPurchasePressed = (): void => {
-    if (props.selectedTickets.length === 0) {
-      toast.warn(`No tickets selected`, {});
-    } else {
-      purchase(props.selectedTickets, props.resetTicketsSelected);
-    }
+    purchase(props.selectedTickets, props.resetTicketsSelected);
   };
 
   return (
@@ -74,9 +73,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             size='xs'
             className='mr-2 w-3 text-xs text-moonbeam-cyan md:mr-2 md:w-6'
           /> */}
-          <p className='text-center text-lg font-bold text-moonbeam-cyan md:text-3xl'>
-            Selected Tickets
-          </p>
+          <p className='text-center text-lg font-bold text-moonbeam-cyan md:text-3xl'>Selected Tickets</p>
         </div>
         <p className='text-center text-xs text-moonbeam-cyan opacity-60 md:text-lg'>
           Select up to {maxTicketPerTx} tickets per transaction.
@@ -91,12 +88,12 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             onClick={onPurchasePressed}
           >
             {isTransactionPending ? (
-              <span className='py-2.5 text-lg font-extrabold uppercase text-white'>Loading...</span>
+              <span className='py-2.5 text-lg font-extrabold uppercase text-white'>Pending...</span>
             ) : (
               <span className='relative flex w-full items-center justify-center px-5 py-2.5 text-lg font-extrabold uppercase'>
                 <p className='ml-2 '>
                   Buy {nonDefaultTicketsSelected.length} Tickets for{' '}
-                  {utils.formatEther(ticketPrice.mul(nonDefaultTicketsSelected.length))}{' '}
+                  {utils.formatEther(raffleState.ticketPrice.mul(nonDefaultTicketsSelected.length))}{' '}
                   {renderCurrencySymbol()}{' '}
                 </p>
                 <div className='scale-[1.5] pl-2'>

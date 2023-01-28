@@ -99,9 +99,7 @@ const LastSalesSection = () => {
           <p className='mr-2 w-4 text-xs text-moonbeam-cyan md:mr-3 md:w-6'>
             <FontAwesomeIcon icon={faClockRotateLeft} size='xs' />
           </p>
-          <p className=' text-center text-lg uppercase text-moonbeam-cyan md:text-xl'>
-            Recent Plays
-          </p>
+          <p className=' text-center text-lg uppercase text-moonbeam-cyan md:text-xl'>Recent Plays</p>
         </div>
         <div
           className={`${
@@ -138,10 +136,9 @@ const LastSalesSection = () => {
                         <p className=''>{transaction.date.toLocaleString()}</p>
                       </td>
                       <td className='hidden md:table-cell  '>
-                        <p className=''>{`${transaction.address.substring(
-                          0,
-                          8
-                        )}...${transaction.address.substring(transaction.address.length - 6)}`}</p>
+                        <p className=''>{`${transaction.address.substring(0, 8)}...${transaction.address.substring(
+                          transaction.address.length - 6
+                        )}`}</p>
                       </td>
 
                       <td className='   '>
@@ -169,28 +166,14 @@ const LastSalesSection = () => {
                       <td className='   '>
                         <div className='flex scale-75 items-center justify-center py-2 md:scale-100'>
                           {transaction.choice === CoinFace.HEADS ? (
-                            <Image
-                              src={coinHeads}
-                              layout='fixed'
-                              height='40px'
-                              width='40px'
-                              alt=''
-                            />
+                            <Image src={coinHeads} layout='fixed' height='40px' width='40px' alt='' />
                           ) : (
-                            <Image
-                              src={coinTails}
-                              layout='fixed'
-                              height='40px'
-                              width='40px'
-                              alt=''
-                            />
+                            <Image src={coinTails} layout='fixed' height='40px' width='40px' alt='' />
                           )}
                         </div>
                       </td>
                       <td className='hidden md:table-cell  '>
-                        <UnderlineLink
-                          href={currentNetwork.getExplorerTransactionLink(transaction.hash)}
-                        >
+                        <UnderlineLink href={currentNetwork.getExplorerTransactionLink(transaction.hash)}>
                           {shortenTransactionHash(transaction.hash)}
                         </UnderlineLink>
                       </td>

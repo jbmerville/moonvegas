@@ -2,14 +2,15 @@
 import { shortenAddress } from '@usedapp/core';
 import { BigNumber, utils } from 'ethers';
 import Image from 'next/image';
-import React, { ReactNode, useEffect, useState } from 'react';
-
-import useRaffle, { raffleAbi } from '@/hooks/useRaffle';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
 import { renderTxPrice } from '@/components/raffle/helper';
-import Table, { TableRow } from '@/components/Table';
+import Table from '@/components/Table';
+import { TableRowType } from '@/components/Table/TableRow';
 
-import { currentRaffleAddress } from '@/config';
+import { currentNetwork, currentRaffleAddress } from '@/config';
+import { raffleAbi } from '@/contexts/RaffleContext';
+import RaffleContext from '@/contexts/RaffleContext';
 
 import moonbeam from '../../../public/images/moonbeam-token.png';
 
@@ -27,7 +28,7 @@ const MOONBASE_ALPHA_RPC_API_BASE_URL = 'https://api-moonbase.moonscan.io/api';
 
 const LastSalesTable = () => {
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
-  const { tickets } = useRaffle();
+  const { raffleState } = useContext(RaffleContext);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -52,7 +53,7 @@ const LastSalesTable = () => {
     };
 
     fetchHistory();
-  }, [tickets]); // Refresh when tickets updates (some tickets have been bought)
+  }, [raffleState.ticketsBought]); // Refresh when tickets updates (some tickets have been bought)
 
   const parseTxInput = (tx: any) => {
     try {
@@ -71,7 +72,7 @@ const LastSalesTable = () => {
     }
   };
 
-  const renderRowsFromTx = (): TableRow<any>[] => {
+  const renderRowsFromTx = (): TableRowType<any>[] => {
     return transactions.map((transaction) => ({
       inputs: [
         {
@@ -94,7 +95,7 @@ const LastSalesTable = () => {
           transformation: renderTxPrice,
         },
       ],
-      url: 'No transcations for this raffle yet.',
+      url: currentNetwork.getExplorerTransactionLink(transaction.hash),
     }));
   };
 
@@ -118,12 +119,7 @@ const LastSalesTable = () => {
     <Table
       title='Last Tickets Sold'
       header={{
-        inputs: [
-          { value: 'Date' },
-          { value: 'Address' },
-          { value: 'Tickets Bought' },
-          { value: 'Price' },
-        ],
+        inputs: [{ value: 'Date' }, { value: 'Address' }, { value: 'Tickets Bought' }, { value: 'Price' }],
       }}
       rows={renderRowsFromTx()}
       emptyRowMessage='No transactions for this raffle yet.'

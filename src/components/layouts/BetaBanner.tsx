@@ -8,8 +8,7 @@ const BetaBanner = () => {
   return (
     <div className='flex h-fit w-full items-center justify-center bg-[#01193c] px-4 py-2'>
       <p className='text-xs text-blue-400 md:text-sm'>
-        Welcome to MoonVegas 🎉 - The website is under construction. Your feedback is highly
-        appreciated
+        Welcome to MoonVegas 🎉 - The website is under construction. Your feedback is highly appreciated
       </p>
       <Button
         onClick={() => window.open(FEEDBACK_FORM_URL, '_blank')}

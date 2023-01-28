@@ -14,15 +14,7 @@ import { CoinFace } from '@/types';
 
 const CoinSection = () => {
   const [playerCoinFaceChoice, setPlayerCoinFaceChoice] = useState<CoinFace | undefined>();
-  const {
-    outcome,
-    flip,
-    isTransactionPending,
-    totalFlips,
-    totalVolume,
-    resetOutcome,
-    contractBalance,
-  } = useCoinFlip();
+  const { outcome, flip, isTransactionPending, totalFlips, totalVolume, resetOutcome, contractBalance } = useCoinFlip();
 
   return (
     <>
@@ -39,11 +31,7 @@ const CoinSection = () => {
           ) : (
             <div className='mt-5 text-2xl text-red-500'>You Lost</div>
           )}
-          <Button
-            onClick={resetOutcome}
-            variant='outline'
-            className='text hover:bg-moonbeam-cyan/40 mt-5  capitalize'
-          >
+          <Button onClick={resetOutcome} variant='outline' className='text hover:bg-moonbeam-cyan/40 mt-5  capitalize'>
             Try your luck again?
           </Button>
         </div>

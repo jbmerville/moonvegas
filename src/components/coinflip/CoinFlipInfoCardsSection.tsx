@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
 import UnderlineLink from '@/components/links/UnderlineLink';
-import PopUp from '@/components/popup';
+import PopUp from '@/components/Popup';
 
 import { currentCoinFlipAddress, currentNetwork, currentRaffleAddress } from '@/config';
 
@@ -117,8 +117,8 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
                 ></path>
               </svg>
               <span>
-                Select either <span className=' font-extrabold '> HEADS or TAILS</span>, then choose
-                the amount of {currentNetwork.nativeCurrency?.symbol} to flip.
+                Select either <span className=' font-extrabold '> HEADS or TAILS</span>, then choose the amount of{' '}
+                {currentNetwork.nativeCurrency?.symbol} to flip.
               </span>
             </li>
             <li className='!my-4 flex items-center'>
@@ -135,11 +135,10 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
                 ></path>
               </svg>
               <span>
-                The SmartContract randomly flips a coin. If it is the one you picked, you win and
-                you get back
-                <span className='font-extrabold'> 2x</span> your{' '}
-                {currentNetwork.nativeCurrency?.symbol}. If it&apos;s not the one you picked, you
-                lose your {currentNetwork.nativeCurrency?.symbol}. The house keeps 5% of all wins.
+                The SmartContract randomly flips a coin. If it is the one you picked, you win and you get back
+                <span className='font-extrabold'> 2x</span> your {currentNetwork.nativeCurrency?.symbol}. If it&apos;s
+                not the one you picked, you lose your {currentNetwork.nativeCurrency?.symbol}. The house keeps 5% of all
+                wins.
               </span>
             </li>
             <li className='!my-4 flex items-center'>
@@ -156,8 +155,8 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
                 ></path>
               </svg>
               <span>
-                The SmartContract uses an <span className='font-extrabold'>Oracle</span> to ensure
-                randomeness is not deterministic.
+                The SmartContract uses an <span className='font-extrabold'>Oracle</span> to ensure randomeness is not
+                deterministic.
               </span>
             </li>
             <li className='!my-4 flex items-center'>
@@ -174,8 +173,7 @@ const CoinFlipInfoCardsSection = (props: CoinFlipInfoCardsSectionProps) => {
                 ></path>
               </svg>
               <span>
-                Winner also might receives an <span className='font-extrabold'>NFT </span> of a
-                MoonVegas CoinFlip coin.
+                Winner also might receives an <span className='font-extrabold'>NFT </span> of a MoonVegas CoinFlip coin.
               </span>
             </li>
           </ul>

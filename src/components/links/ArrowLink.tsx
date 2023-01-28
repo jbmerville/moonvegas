@@ -21,10 +21,7 @@ export default function ArrowLink<C extends React.ElementType>({
   const Component = as || UnderlineLink;
 
   return (
-    <Component
-      {...rest}
-      className={clsxm('group gap-[0.25em]', direction === 'left' && 'flex-row-reverse', className)}
-    >
+    <Component {...rest} className={clsxm('group gap-[0.25em]', direction === 'left' && 'flex-row-reverse', className)}>
       <span>{children}</span>
       <svg
         viewBox='0 0 16 16'

@@ -1,10 +1,12 @@
 import * as React from 'react';
 
-import Footer from '@/components/layout/Footer';
+import Footer from '@/components/layouts/Footer';
 import LastSalesSection from '@/components/raffle/LastSalesTable';
 import TicketSelectionSection from '@/components/raffle/TicketSelectionSection';
 import WinnerHistoryTable from '@/components/raffle/WinnerHistoryTable';
 import Seo from '@/components/Seo';
+
+import { RaffleProvider } from '@/contexts/RaffleContext';
 
 /**
  * SVGR Support
@@ -24,12 +26,14 @@ export default function Raffle() {
       <Seo templateTitle='Raffle' />
       <main className='h-fit w-full'>
         <section className='h-fit pt-36 md:pt-10'>
-          {/* TODO: find better solution. Currently we need to adjust pt above to account for header size */}
-          <TicketSelectionSection />
-          <div className='mt-10 flex min-w-full grow flex-col justify-between rounded-t-3xl bg-moonbeam-grey text-white'>
-            <WinnerHistoryTable />
-            <LastSalesSection />
-          </div>
+          <RaffleProvider>
+            {/* TODO: find better solution. Currently we need to adjust pt above to account for header size */}
+            <TicketSelectionSection />
+            <div className='mt-10 flex min-w-full grow flex-col justify-between rounded-t-3xl bg-moonbeam-grey text-white'>
+              <WinnerHistoryTable />
+              <LastSalesSection />
+            </div>
+          </RaffleProvider>
           <Footer />
         </section>
       </main>

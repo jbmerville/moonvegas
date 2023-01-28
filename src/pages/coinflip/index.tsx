@@ -2,7 +2,7 @@ import React from 'react';
 
 import Choose from '@/components/coinflip/CoinSection';
 import LastSalesSection from '@/components/coinflip/LastSalesSection';
-import Footer from '@/components/layout/Footer';
+import Footer from '@/components/layouts/Footer';
 import Seo from '@/components/Seo';
 
 export default function CoinFlip() {

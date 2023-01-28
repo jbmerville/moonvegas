@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
-import BetaBanner from '@/components/layout/BetaBanner';
+import BetaBanner from '@/components/layouts/BetaBanner';
 
 import { currentNetwork, currentNetworkChainId } from '@/config';
 
@@ -43,7 +43,7 @@ export default function Header(props: HeaderProps) {
     if (window && window.ethereum && window.ethereum.networkVersion !== currentNetworkChainId) {
       try {
         await switchNetwork(currentNetworkChainId);
-        toast.success(`Connected to ${currentNetwork.chainName}.`);
+        toast.dark(`Connected to ${currentNetwork.chainName}.`, { type: toast.TYPE.INFO });
       } catch (err) {
         // Send request for user to add the network to their MetaMask if not already present
         try {
@@ -58,9 +58,9 @@ export default function Header(props: HeaderProps) {
               },
             ],
           });
-          toast.success(`Connected to ${currentNetwork.chainName}.`);
+          toast.dark(`Connected to ${currentNetwork.chainName}.`, { type: toast.TYPE.SUCCESS });
         } catch (err) {
-          toast.error(`Error connecting to ${currentNetwork.chainName}.`);
+          toast.dark(`Error connecting to ${currentNetwork.chainName}.`, { type: toast.TYPE.ERROR });
         }
       }
     }

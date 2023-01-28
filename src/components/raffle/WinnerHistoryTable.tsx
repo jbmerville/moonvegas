@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { shortenAddress } from '@usedapp/core';
 import Image from 'next/image';
-import React, { ReactNode } from 'react';
-
-import useRaffle from '@/hooks/useRaffle';
+import React, { ReactNode, useContext } from 'react';
 
 import { renderTxPrice } from '@/components/raffle/helper';
-import Table, { TableRow } from '@/components/Table';
+import Table from '@/components/Table';
+import { TableRowType } from '@/components/Table/TableRow';
+
+import RaffleContext from '@/contexts/RaffleContext';
 
 import moonbeam from '../../../public/images/moonbeam-token.png';
 
@@ -22,10 +23,10 @@ export interface TransactionType {
 }
 
 const WinnerHistoryTable = () => {
-  const { raffleHistory } = useRaffle();
+  const { raffleState } = useContext(RaffleContext);
 
-  const renderRowsFromTx = (): TableRow<any>[] => {
-    return raffleHistory.map((history) => ({
+  const renderRowsFromTx = (): TableRowType<any>[] => {
+    return raffleState.raffleHistory.map((history) => ({
       inputs: [
         {
           value: history.winner,

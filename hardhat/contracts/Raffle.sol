@@ -66,10 +66,7 @@ contract Raffle is Ownable {
    * @param _nextRaffleTicketPrice The max amount of tickets in the next raffle
    */
   function setNextRaffleTicketPrice(uint256 _nextRaffleTicketPrice) external onlyOwner {
-    require(
-      _nextRaffleTicketPrice >= 0,
-      'Next raffle ticket price must be greater than or equal to 0'
-    );
+    require(_nextRaffleTicketPrice >= 0, 'Next raffle ticket price must be greater than or equal to 0');
 
     nextRaffleTicketPrice = _nextRaffleTicketPrice;
   }
@@ -160,15 +157,7 @@ contract Raffle is Ownable {
     return
       ((
         uint256(
-          keccak256(
-            abi.encodePacked(
-              msg.sender,
-              block.coinbase,
-              block.difficulty,
-              block.gaslimit,
-              block.timestamp
-            )
-          )
+          keccak256(abi.encodePacked(msg.sender, block.coinbase, block.difficulty, block.gaslimit, block.timestamp))
         )
       ) % ticketsBought.length) + 1;
   }

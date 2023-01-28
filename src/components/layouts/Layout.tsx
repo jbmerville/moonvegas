@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-import Header from '@/components/layout/Header';
+import Header from '@/components/layouts/Header';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSideBarOpen, setIsSideBarOpen] = React.useState(true);
@@ -21,7 +21,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
         draggable
         pauseOnHover
       />

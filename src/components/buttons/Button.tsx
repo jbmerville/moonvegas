@@ -20,15 +20,7 @@ type ButtonProps = {
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    {
-      children,
-      className,
-      disabled: buttonDisabled,
-      isLoading,
-      variant = 'primary',
-      isDarkBg = false,
-      ...rest
-    },
+    { children, className, disabled: buttonDisabled, isLoading, variant = 'primary', isDarkBg = false, ...rest },
     ref
   ) => {
     const disabled = isLoading || buttonDisabled;
@@ -77,8 +69,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ],
           //#endregion  //*======== Variants ===========
           'disabled:cursor-not-allowed',
-          isLoading &&
-            'relative text-transparent transition-none hover:text-transparent disabled:cursor-wait',
+          isLoading && 'relative text-transparent transition-none hover:text-transparent disabled:cursor-wait',
           className
         )}
         {...rest}

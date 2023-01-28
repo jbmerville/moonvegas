@@ -10,10 +10,8 @@ export const LocalhostChain: Chain = {
   isTestChain: true,
   isLocalChain: true,
   multicallAddress: '0x0000000000000000000000000000000000000000',
-  getExplorerAddressLink: (address: string) =>
-    `https://tutorialchain.etherscan.io/address/${address}`,
-  getExplorerTransactionLink: (transactionHash: string) =>
-    `https://tutorialchain.etherscan.io/tx/${transactionHash}`,
+  getExplorerAddressLink: (address: string) => `https://tutorialchain.etherscan.io/address/${address}`,
+  getExplorerTransactionLink: (transactionHash: string) => `https://tutorialchain.etherscan.io/tx/${transactionHash}`,
   // Optional parameters:
   rpcUrl: 'http://127.0.0.1:9933',
   blockExplorerUrl: 'https://tutorialchain.etherscan.io',
@@ -59,9 +57,7 @@ export const contractConfig = {
   },
 };
 
-export const currentNetworkChainId = isMoonbaseAlpha
-  ? MoonbaseAlpha.chainId
-  : LocalhostChain.chainId;
+export const currentNetworkChainId = isMoonbaseAlpha ? MoonbaseAlpha.chainId : LocalhostChain.chainId;
 export const currentNetwork: Chain = isMoonbaseAlpha
   ? {
       ...MoonbaseAlpha,

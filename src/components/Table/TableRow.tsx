@@ -1,13 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
-
-import { TableRow } from './index';
+import React, { ReactNode } from 'react';
 
 interface TableRowProps<T> {
-  row: TableRow<T>;
+  row: TableRowType<T>;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface TableRowType<T> {
+  inputs: InputType<T>[];
+  url?: string;
+}
+
+export interface InputType<T> {
+  value: T;
+  transformation?: (value: T) => ReactNode;
+  transformationMobile?: (value: T) => ReactNode;
+}
+
 const TableRow = (props: TableRowProps<any>) => {
   const { row } = props;
 

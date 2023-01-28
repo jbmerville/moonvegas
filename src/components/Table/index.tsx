@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ReactNode } from 'react';
+import React from 'react';
 
-import TableRow from '@/components/Table/TableRow';
+import TableRow, { TableRowType } from '@/components/Table/TableRow';
 
 import { TicketType } from '@/types';
 
@@ -14,25 +14,14 @@ export interface TransactionType {
   block: string;
 }
 
-export interface TableRow<T> {
-  inputs: Input<T>[];
-  url?: string;
-}
-
-export interface Input<T> {
-  value: T;
-  transformation?: (value: T) => ReactNode;
-  transformationMobile?: (value: T) => ReactNode;
-}
-
-interface TableProps<T> {
+interface TablePropsType<T> {
   title: string;
-  header: TableRow<T>;
-  rows: TableRow<T>[];
+  header: TableRowType<T>;
+  rows: TableRowType<T>[];
   emptyRowMessage: string;
 }
 
-const Table = (props: TableProps<any>) => {
+const Table = (props: TablePropsType<any>) => {
   const { rows, header, emptyRowMessage, title } = props;
 
   return (

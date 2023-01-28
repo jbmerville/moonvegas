@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import Loading from '@/components/icons/Loading';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
-import PopOver from '@/components/popover';
+import PopOver from '@/components/Popover';
 
 import { currentNetwork } from '@/config';
 
@@ -78,9 +78,7 @@ const ChoicesSection = (props: ChoicesSectionProps) => {
                   disabled={isDisabled}
                   onClick={() => setPlayerBetAmount(entry[1] as BetAmount)}
                   className={`${
-                    isSelected
-                      ? 'from-purple-600 to-blue-500 ring-blue-800'
-                      : 'from-[#5258bd] to-[#6d388a]'
+                    isSelected ? 'from-purple-600 to-blue-500 ring-blue-800' : 'from-[#5258bd] to-[#6d388a]'
                   } group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-gradient-to-r 
                       p-0.5 text-sm font-medium text-white group-hover:bg-opacity-0 group-hover:from-purple-600 group-hover:to-blue-500`}
                 >

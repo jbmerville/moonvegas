@@ -77,15 +77,7 @@ contract CoinFlip is Ownable {
   function getRandomFlip() private view returns (bool) {
     return
       uint256(
-        keccak256(
-          abi.encodePacked(
-            msg.sender,
-            block.coinbase,
-            block.difficulty,
-            block.gaslimit,
-            block.timestamp
-          )
-        )
+        keccak256(abi.encodePacked(msg.sender, block.coinbase, block.difficulty, block.gaslimit, block.timestamp))
       ) %
         2 ==
       1;
