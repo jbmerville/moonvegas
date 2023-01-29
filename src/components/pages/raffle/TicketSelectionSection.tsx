@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/helper';
-import RaffleInfoCards from '@/components/pages/raffle/RaffleInfoCards';
 import Ticket from '@/components/pages/raffle/Ticket';
 import TicketsSelected from '@/components/pages/raffle/TicketsSelected';
 
@@ -62,7 +61,6 @@ const TicketSelectionSection = () => {
 
   return (
     <>
-      <RaffleInfoCards />
       <div className='mb-4 mt-2 flex w-full items-start justify-start overflow-x-scroll md:mt-10 md:mb-4	'>
         {raffleState.tickets.map((ticket) => (
           <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />

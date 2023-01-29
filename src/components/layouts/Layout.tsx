@@ -21,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         newestOnTop={false}
         closeOnClick
         rtl={false}
+        limit={5}
         draggable
         pauseOnHover
       />

@@ -13,6 +13,7 @@ contract CoinFlip is Ownable {
   uint256 public roundId; // Current round number
   uint256 public totalVolume; // Total volume flipped
   uint16 public royalty; // Royalty to give to the owner account when funds are redistributed. Ex: 10 => 1%, 15 => 1.5%
+  uint16 public maxPoolBetRatio; // Maximum bet amount ratio allowed per transaction based on current smart contract balance (pool). Ex: Ex: 10 => 1%, 15 => 1.5%
   address payable[] players; // All the addresses that have flipped some tokens
   mapping(uint256 => Round) public flipHistory; // map the roundId with the round data
   mapping(address => Round[]) public playerFlipHistory; // map the address of player to its history of flips
@@ -22,15 +23,25 @@ contract CoinFlip is Ownable {
   constructor() {
     roundId = 0;
     royalty = 35; // 3.5%
+    maxPoolBetRatio = 250; // 25%
   }
 
   /**
-   * @param _royalty The new royalty amount
+   * @param _royalty The new royalty ratio
    */
   function setRoyalty(uint16 _royalty) public onlyOwner {
     require(_royalty <= 1000, 'Royalty should be less than or equal to 100%');
     require(_royalty >= 0, 'Royalty should be greater than or equal to 0%');
     royalty = _royalty;
+  }
+
+  /**
+   * @param _maxPoolBetRatio The new maxPoolBetRatio ratio
+   */
+  function setMaxPoolBetRatio(uint16 _maxPoolBetRatio) public onlyOwner {
+    require(_maxPoolBetRatio <= 1000, 'maxPoolBetRatio should be less than or equal to 100%');
+    require(_maxPoolBetRatio >= 0, 'maxPoolBetRatio should be greater than or equal to 0%');
+    maxPoolBetRatio = _maxPoolBetRatio;
   }
 
   function flip(bool _playerChoice) external payable {
@@ -39,8 +50,8 @@ contract CoinFlip is Ownable {
 
     // Maximum amout to bet
     require(
-      msg.value < (address(this).balance - msg.value) / 4,
-      'Transaction value should be lesser than 1/4th of the contracts balance'
+      msg.value * 1000 < (address(this).balance - msg.value) * maxPoolBetRatio,
+      'Transaction value should be lesser than maxPoolBetRatio of the contracts balance'
     );
 
     // update states

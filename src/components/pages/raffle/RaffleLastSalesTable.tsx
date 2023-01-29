@@ -26,7 +26,7 @@ export interface TransactionType {
 }
 const MOONBASE_ALPHA_RPC_API_BASE_URL = 'https://api-moonbase.moonscan.io/api';
 
-const LastSalesTable = () => {
+const RaffleLastSalesTable = () => {
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
   const { raffleState } = useContext(RaffleContext);
 
@@ -127,4 +127,4 @@ const LastSalesTable = () => {
   );
 };
 
-export default LastSalesTable;
+export default RaffleLastSalesTable;

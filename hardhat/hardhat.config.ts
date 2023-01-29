@@ -52,14 +52,11 @@ const config = {
 };
 
 task('deploy', 'Deploy the smart contracts to a network')
-  .addParam(
-    'networkname',
-    'The network name, used to store the smartcontract addresses under the /sc-address dir'
-  )
+  .addParam('networkname', 'The network name, used to store the smartcontract addresses under the /sc-address dir')
   .addParam('deployraffle', 'Whether to deploy the raffle smartcontract or not')
   .addParam('deploycoinflip', 'Whether to deploy the coin flip smartcontract or not')
   .setAction(async ({ networkname, deployraffle, deploycoinflip }, hre) => {
-    if (deployraffle) {
+    if (deployraffle === 'true') {
       const currentTimestampInSeconds = Math.round(Date.now() / 1000);
       const ONE_DAY_IN_SECS = 24 * 60 * 60;
       const ONE_WEEK_IN_SECS = 7 * ONE_DAY_IN_SECS;
@@ -69,11 +66,7 @@ task('deploy', 'Deploy the smart contracts to a network')
       const maxTicketAmount = 6;
 
       const Raffle = await hre.ethers.getContractFactory('Raffle');
-      const raffle = await Raffle.deploy(
-        draftTime,
-        maxTicketAmount,
-        hre.ethers.utils.parseEther(ticketPrice)
-      );
+      const raffle = await Raffle.deploy(draftTime, maxTicketAmount, hre.ethers.utils.parseEther(ticketPrice));
 
       await raffle.deployed();
 
@@ -81,7 +74,7 @@ task('deploy', 'Deploy the smart contracts to a network')
 
       writeContractAddress(networkname, 'Raffle', raffle.address);
     }
-    if (deploycoinflip) {
+    if (deploycoinflip === 'true') {
       const CoinFlip = await hre.ethers.getContractFactory('CoinFlip');
       const coinFlip = await CoinFlip.deploy();
 
@@ -94,10 +87,7 @@ task('deploy', 'Deploy the smart contracts to a network')
   });
 
 function writeContractAddress(networkName: string, contractName: string, contractAddress: string) {
-  fs.writeFileSync(
-    `sc-addresses/${networkName}/${contractName}.address.js`,
-    `module.exports = '${contractAddress}';`
-  );
+  fs.writeFileSync(`sc-addresses/${networkName}/${contractName}.address.js`, `module.exports = '${contractAddress}';`);
   console.log(`${contractName} deployed to ${contractAddress}`);
 }
 

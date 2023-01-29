@@ -29,7 +29,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
     <>
       <div className='flex min-w-full grow flex-row justify-between'>
         <div className='layout flex flex-col items-center justify-between'>
-          <div className='mb-1 flex w-full flex-col items-start md:mb-10'>
+          <div className='mb-1 flex w-full flex-col items-start justify-start md:mb-10'>
             <p className='text-3xl font-bold text-moonbeam-cyan md:text-5xl'>{gameName}</p>
             <p className='text-xs text-moonbeam-cyan opacity-80 md:text-lg'>{description}</p>
           </div>

@@ -6,6 +6,8 @@ import useIsMobile from '@/hooks/useIsMobile';
 import TablePaginationButton from '@/components/Table/TablePaginationButton';
 import TableRow, { TableRowType } from '@/components/Table/TableRow';
 
+import { PAGINATION_BUTTON_COUNT, PAGINATION_BUTTON_COUNT_MOBILE } from '@/constants/env';
+
 import { TicketType } from '@/types';
 
 export interface TransactionType {
@@ -23,9 +25,6 @@ interface TablePropsType<T> {
   rows: TableRowType<T>[];
   emptyRowMessage: string;
 }
-
-const PAGINATION_BUTTON_COUNT = 10;
-const PAGINATION_BUTTON_COUNT_MOBILE = 5;
 
 const Table = (props: TablePropsType<any>) => {
   const { rows, header, emptyRowMessage, title } = props;

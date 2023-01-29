@@ -2,6 +2,7 @@ import { useConfig } from '@usedapp/core';
 import { utils } from 'ethers';
 import React, { ReactNode, useContext } from 'react';
 
+import { getCurrenNetworkCurrencySymbol } from '@/lib/helpers';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import Button from '@/components/buttons/Button';
@@ -53,13 +54,6 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
     );
   };
 
-  const renderCurrencySymbol = (): string => {
-    if (networks && networks.length > 0) {
-      return networks[0].nativeCurrency?.symbol || 'DEV';
-    }
-    return 'ERROR';
-  };
-
   const onPurchasePressed = (): void => {
     purchase(props.selectedTickets, props.resetTicketsSelected);
   };
@@ -68,11 +62,6 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
     <div className='layout mx-10 flex items-center justify-between md:mx-4'>
       <div className='flex w-full flex-col items-start justify-start '>
         <div className='flex w-full items-center '>
-          {/* <FontAwesomeIcon
-            icon={faReceipt}
-            size='xs'
-            className='mr-2 w-3 text-xs text-moonbeam-cyan md:mr-2 md:w-6'
-          /> */}
           <p className='text-center text-lg font-bold text-moonbeam-cyan md:text-3xl'>Selected Tickets</p>
         </div>
         <p className='text-center text-xs text-moonbeam-cyan opacity-80 md:text-lg'>
@@ -96,7 +85,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
                 <p className='ml-2 '>
                   Buy {nonDefaultTicketsSelected.length} Tickets for{' '}
                   {utils.formatEther(raffleState.ticketPrice.mul(nonDefaultTicketsSelected.length))}{' '}
-                  {renderCurrencySymbol()}{' '}
+                  {getCurrenNetworkCurrencySymbol(networks)}{' '}
                 </p>
                 <div className='scale-[1.5] pl-2'>
                   <MoonbeamIcon />

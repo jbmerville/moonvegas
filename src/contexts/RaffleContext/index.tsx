@@ -13,7 +13,7 @@ import { getNonDefaultTicketsSelected } from '@/components/pages/raffle/helper';
 import { currentNetwork, currentNetworkChainId, currentRaffleAddress } from '@/config';
 import { getRaffleState } from '@/contexts/RaffleContext/utils';
 
-import { RaffleState, TicketType } from '@/types';
+import { RaffleStateType, TicketType } from '@/types';
 
 export const raffleAbi = new utils.Interface(raffleArtifacts.abi);
 
@@ -22,7 +22,7 @@ export interface RaffleContextType {
   purchase: (tickets: TicketType[], resetTicketsSelected: () => void, options?: any) => Promise<void>;
   isTransactionPending: boolean;
   transactionStatus: string;
-  raffleState: RaffleState;
+  raffleState: RaffleStateType;
 }
 
 const RaffleContext = createContext<RaffleContextType>({} as RaffleContextType);
@@ -39,7 +39,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
   const { send, state } = useContractFunction(contract, 'purchase');
   const transactionStatus = state.status;
   const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
-  const [raffleState, setRaffleState] = useState<RaffleState>({
+  const [raffleState, setRaffleState] = useState<RaffleStateType>({
     tickets: [],
     ticketsLeft: [],
     ticketsBought: [],
@@ -118,8 +118,8 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
           return;
         }
         if (result.status === 1) {
-          // Wait 1s for changes to propagate on blockchain
-          await new Promise((resolve) => setTimeout(resolve, 500));
+          // Wait 1s for changes to propagate to the blockchain
+          await new Promise((resolve) => setTimeout(resolve, 1000));
           await refreshState();
           resetTicketsSelected();
           setIsTransactionPending(false);
@@ -127,6 +127,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
         console.error('Something went wrong', error);
+        setIsTransactionPending(false);
         return;
       }
     },

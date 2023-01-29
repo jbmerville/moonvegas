@@ -80,7 +80,7 @@ describe('CoinFlip', function () {
 
         // Assert
         await expect(actual).to.be.revertedWith(
-          'Transaction value should be lesser than 1/4th of the contracts balance'
+          'Transaction value should be lesser than maxPoolBetRatio of the contracts balance'
         );
       });
 
@@ -111,14 +111,12 @@ describe('CoinFlip', function () {
 
         // Assert
         expect(
-          account1Balance
-            .add(betAmount.sub(ownerFees))
-            .sub(await ethers.provider.getBalance(account1.address))
+          account1Balance.add(betAmount.sub(ownerFees)).sub(await ethers.provider.getBalance(account1.address))
         ).to.lte(ethers.utils.parseEther('0.001'));
 
-        expect(
-          ownerBalance.add(ownerFees).sub(await ethers.provider.getBalance(owner.address))
-        ).to.lte(ethers.utils.parseEther('0.001'));
+        expect(ownerBalance.add(ownerFees).sub(await ethers.provider.getBalance(owner.address))).to.lte(
+          ethers.utils.parseEther('0.001')
+        );
       });
 
       it('Should lose sending opposite tx', async function () {
@@ -136,13 +134,13 @@ describe('CoinFlip', function () {
         await coinFlip.connect(account1).flip(false, { value: betAmount });
 
         // Assert
-        expect(
-          account1Balance.sub(betAmount).sub(await ethers.provider.getBalance(account1.address))
-        ).to.lte(ethers.utils.parseEther('0.001'));
+        expect(account1Balance.sub(betAmount).sub(await ethers.provider.getBalance(account1.address))).to.lte(
+          ethers.utils.parseEther('0.001')
+        );
 
-        expect(
-          ownerBalance.add(ownerFees).sub(await ethers.provider.getBalance(owner.address))
-        ).to.lte(ethers.utils.parseEther('0.001'));
+        expect(ownerBalance.add(ownerFees).sub(await ethers.provider.getBalance(owner.address))).to.lte(
+          ethers.utils.parseEther('0.001')
+        );
       });
 
       it('Should not send rewards to player after losing transaction', async function () {
@@ -160,13 +158,13 @@ describe('CoinFlip', function () {
         await coinFlip.connect(account1).flip(true, { value: betAmount });
 
         // Assert
-        expect(
-          account1Balance.sub(betAmount).sub(await ethers.provider.getBalance(account1.address))
-        ).to.lte(ethers.utils.parseEther('0.001'));
+        expect(account1Balance.sub(betAmount).sub(await ethers.provider.getBalance(account1.address))).to.lte(
+          ethers.utils.parseEther('0.001')
+        );
 
-        expect(
-          ownerBalance.add(ownerFees).sub(await ethers.provider.getBalance(owner.address))
-        ).to.lte(ethers.utils.parseEther('0.001'));
+        expect(ownerBalance.add(ownerFees).sub(await ethers.provider.getBalance(owner.address))).to.lte(
+          ethers.utils.parseEther('0.001')
+        );
       });
     });
 
@@ -176,10 +174,7 @@ describe('CoinFlip', function () {
         const { coinFlip } = await loadFixture(deployCoinFlipFixture);
 
         // Act + Assert
-        await expect(coinFlip.flip(true, { value: ethers.utils.parseEther('1') })).to.emit(
-          coinFlip,
-          'Flip'
-        );
+        await expect(coinFlip.flip(true, { value: ethers.utils.parseEther('1') })).to.emit(coinFlip, 'Flip');
       });
     });
   });

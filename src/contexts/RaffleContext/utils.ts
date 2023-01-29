@@ -1,13 +1,13 @@
 import { utils } from 'ethers/lib/ethers';
 import { Raffle } from 'hardhat/types';
 
-import { RaffleHistory, RaffleState, TicketType } from '@/types';
+import { RaffleHistoryType, RaffleStateType, TicketType } from '@/types';
 
 /*
  * Parse raffle history data received from smart-contract
  * @param raffleHistory - The data object received from proxy call to smart-contract
  */
-function parseRaffleHistory(raffleHistory: Raffle.RaffleHistoryStructOutput[]): RaffleHistory[] {
+function parseRaffleHistoryType(raffleHistory: Raffle.RaffleHistoryStructOutput[]): RaffleHistoryType[] {
   return raffleHistory
     .slice(0)
     .reverse()
@@ -53,7 +53,7 @@ function parseTicketsBoughtData(
  * Get raffle states from the raffle smart-contract by querying proxy
  * @param raffleContract - The raffle object derived from smart-contract abi
  */
-export async function getRaffleState(raffleContract: Raffle): Promise<RaffleState> {
+export async function getRaffleState(raffleContract: Raffle): Promise<RaffleStateType> {
   const [maxTicketAmountData, ticketPrice, draftTimeData, ticketsBoughtData, raffleHistoryData, royaltyData] =
     await Promise.all([
       raffleContract.maxTicketAmount(),
@@ -67,7 +67,7 @@ export async function getRaffleState(raffleContract: Raffle): Promise<RaffleStat
   const maxTicketAmount = maxTicketAmountData.toNumber();
   const draftTime = new Date(draftTimeData.toNumber() * 1000);
   const { tickets, ticketsBought, ticketsLeft } = parseTicketsBoughtData(ticketsBoughtData, maxTicketAmount);
-  const raffleHistory = parseRaffleHistory(raffleHistoryData);
+  const raffleHistory = parseRaffleHistoryType(raffleHistoryData);
   const royalty = royaltyData / 10; // Ex: 50  -> 5% royalty
 
   return {
