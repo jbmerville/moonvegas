@@ -21,6 +21,7 @@ export interface RaffleContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   purchase: (tickets: TicketType[], resetTicketsSelected: () => void, options?: any) => Promise<void>;
   isTransactionPending: boolean;
+  transactionStatus: string;
   raffleState: RaffleState;
 }
 
@@ -36,7 +37,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
   const contract = useMemo(() => new Contract(currentRaffleAddress, raffleAbi, library) as Raffle, [library]);
 
   const { send, state } = useContractFunction(contract, 'purchase');
-
+  const transactionStatus = state.status;
   const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
   const [raffleState, setRaffleState] = useState<RaffleState>({
     tickets: [],
@@ -66,6 +67,24 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
     refreshState();
   }, [refreshState]);
 
+  useEffect(() => {
+    if (state.status === 'Mining') {
+      toast.dark('Transaction sent', { type: toast.TYPE.INFO });
+    } else if (state.status === 'PendingSignature') {
+      toast.dark('Please confirm transaction on Metamask', { type: toast.TYPE.INFO });
+    } else if (state.status === 'Success') {
+      toast.dark('Successfully purchased tickets', { type: toast.TYPE.SUCCESS });
+    } else if (state.status === 'Fail') {
+      toast.dark(`Transaction failed with error: ${state.errorMessage}`, {
+        type: toast.TYPE.ERROR,
+      });
+    } else if (state.status === 'Exception') {
+      toast.dark(`Transaction failed with exception: ${state.errorMessage}`, {
+        type: toast.TYPE.ERROR,
+      });
+    }
+  }, [state.status, state.errorMessage]);
+
   const purchase = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (tickets: TicketType[], resetTicketsSelected: () => void, options?: any) => {
@@ -92,7 +111,6 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
 
       try {
         setIsTransactionPending(true);
-        toast.dark('Sending purchase transaction', { type: toast.TYPE.INFO });
 
         const result = await send(ticketIds, { value: price, ...options });
 
@@ -100,17 +118,11 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
           return;
         }
         if (result.status === 1) {
-          toast.dark('Successfully purchased tickets', { type: toast.TYPE.SUCCESS });
-
           // Wait 1s for changes to propagate on blockchain
           await new Promise((resolve) => setTimeout(resolve, 500));
           await refreshState();
           resetTicketsSelected();
           setIsTransactionPending(false);
-        } else {
-          toast.dark(`Transaction unsuccessful with error: ${state.errorMessage}`, {
-            type: toast.TYPE.ERROR,
-          });
         }
       } catch (error) {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
@@ -118,11 +130,13 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
     },
-    [account, send, raffleState.ticketPrice, refreshState, chainId, state.errorMessage]
+    [account, send, raffleState.ticketPrice, refreshState, chainId]
   );
 
   return (
-    <RaffleContext.Provider value={{ purchase, isTransactionPending, raffleState }}>{children}</RaffleContext.Provider>
+    <RaffleContext.Provider value={{ purchase, isTransactionPending, raffleState, transactionStatus }}>
+      {children}
+    </RaffleContext.Provider>
   );
 };
 

@@ -12,7 +12,7 @@ const TablePaginationButton = (props: TablePaginationButtonPropsType) => {
     <div
       onClick={() => setCurrentPageNumber(pageNumber)}
       className={`mx-1 rounded-md text-xs md:text-base ${
-        isCurrentPageNumber ? 'bg-moonbeam-grey-light' : 'cursor-pointer text-white/60'
+        isCurrentPageNumber ? 'cursor-default bg-moonbeam-grey-light' : 'cursor-pointer text-white/60'
       } px-3 py-1.5 hover:bg-moonbeam-grey-light`}
     >
       {pageNumber}

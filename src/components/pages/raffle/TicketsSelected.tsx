@@ -22,7 +22,7 @@ interface TicketsSelectedPropsType {
 
 const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const { networks } = useConfig();
-  const { raffleState, purchase, isTransactionPending } = useContext(RaffleContext);
+  const { raffleState, purchase, isTransactionPending, transactionStatus } = useContext(RaffleContext);
   const isMobile = useIsMobile();
   const maxTicketPerTx = getMaxTicketPerTx(isMobile);
   const nonDefaultTicketsSelected = getNonDefaultTicketsSelected(props.selectedTickets);
@@ -88,7 +88,9 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             onClick={onPurchasePressed}
           >
             {isTransactionPending ? (
-              <span className='py-2.5 text-lg font-extrabold uppercase text-white'>Pending...</span>
+              <span className='py-2.5 text-lg font-extrabold uppercase text-white'>
+                {transactionStatus === 'PendingSignature' ? 'Pending Signature' : transactionStatus}...
+              </span>
             ) : (
               <span className='relative flex w-full items-center justify-center px-5 py-2.5 text-lg font-extrabold uppercase'>
                 <p className='ml-2 '>
