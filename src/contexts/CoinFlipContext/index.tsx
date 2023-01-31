@@ -8,6 +8,8 @@ import { CoinFlip } from 'hardhat/types';
 import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { wait } from '@/lib/helpers';
+
 import { currentCoinFlipAddress, currentNetwork, currentNetworkChainId } from '@/config';
 import { getCoinFlipState } from '@/contexts/CoinFlipContext/utils';
 
@@ -17,7 +19,7 @@ export const coinFlipAbi = new utils.Interface(coinFlipArtifacts.abi);
 
 export interface CoinFlipContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  flip: (choice?: CoinFace, betAmount?: BetAmount, options?: any) => Promise<void>;
+  flip: (betAmount: BetAmount, choice?: CoinFace, options?: any) => Promise<void>;
   isTransactionPending: boolean;
   transactionStatus: string;
   coinFlipState: CoinFlipStateType;
@@ -78,22 +80,16 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         type: toast.TYPE.ERROR,
       });
     } else if (state.status === 'Exception') {
-      toast.dark(`Transaction failed with exception: ${state.errorMessage}`, {
+      toast.dark(`Transaction resulted in exception: ${state.errorMessage}`, {
         type: toast.TYPE.ERROR,
       });
     }
   }, [state.status, state.errorMessage]);
 
   const flip = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async (choice?: CoinFace, betAmount?: BetAmount, options?: any) => {
+    async (betAmount: BetAmount, choice?: CoinFace) => {
       if (choice === undefined) {
         toast.dark('No coin face selected. Select either heads or tails.', { type: toast.TYPE.ERROR });
-        return;
-      }
-
-      if (betAmount === undefined) {
-        toast.dark('No bet amount selected.', { type: toast.TYPE.ERROR });
         return;
       }
 
@@ -106,7 +102,6 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
 
       if (!account) {
         toast.dark('Please login to MetaMask', { type: toast.TYPE.ERROR });
-        console.error(`Account not found`);
         return;
       }
 
@@ -116,21 +111,20 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
       try {
         setIsTransactionPending(true);
 
-        const result = await send(playerChoice, { value: price, ...options });
-
+        const result = await send(playerChoice, { value: price });
         if (result === undefined) {
           return;
         }
-        if (result.status === 1) {
-          // Wait 1s for changes to propagate to the blockchain
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          await refreshState();
-          setIsTransactionPending(false);
-        }
+
+        // Wait 1s for changes to propagate to the blockchain
+        await wait(1_000);
+        await refreshState();
       } catch (error) {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
         console.error('Something went wrong', error);
         return;
+      } finally {
+        setIsTransactionPending(false);
       }
     },
     [account, send, refreshState, chainId]

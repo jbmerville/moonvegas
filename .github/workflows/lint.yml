@@ -100,6 +100,15 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
+      - name: 📥 Download deps - Hardhat
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ./hardhat
+
+      - name: 🃏 Compile SmartContract
+        run: yarn compile:force
+        working-directory: ./hardhat
+
       - name: 🃏 Run jest
         run: yarn test
 

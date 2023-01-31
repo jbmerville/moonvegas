@@ -10,3 +10,11 @@ export function getCurrenNetworkCurrencySymbol(networks?: Chain[]): string {
   }
   return 'ERROR';
 }
+
+/**
+ * Function that pauses execution
+ * @param milliseconds - The amount of time to wait for, in milliseconds
+ */
+export async function wait(milliseconds: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, milliseconds));
+}

@@ -29,11 +29,11 @@ const InfoCards = (props: InfoCardsPropsType) => {
     <>
       <div className='flex min-w-full grow flex-row justify-between'>
         <div className='layout flex flex-col items-center justify-between'>
-          <div className='mb-1 flex w-full flex-col items-start justify-start md:mb-10'>
+          <div className='mb-1 flex w-full flex-col items-start justify-start '>
             <p className='text-3xl font-bold text-moonbeam-cyan md:text-5xl'>{gameName}</p>
-            <p className='text-xs text-moonbeam-cyan opacity-80 md:text-lg'>{description}</p>
+            <p className='text-xs font-light text-moonbeam-cyan opacity-80 md:text-lg'>{description}</p>
           </div>
-          <div className='grid w-full grid-rows-2 items-center gap-3 py-3 md:grid-cols-3 md:grid-rows-1 md:gap-5'>
+          <div className='grid w-full grid-rows-2 items-center gap-3 pt-8 md:grid-cols-3 md:grid-rows-1 md:gap-5 md:pt-5'>
             <InfoCard {...infoCard1} />
             <InfoCard {...infoCard2} className='md:hidden' />
             <InfoCard {...infoCard3} className='col-span-2 md:col-span-1' onClick={onReadRulesClick} />

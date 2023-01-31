@@ -19,7 +19,7 @@ const BetAmountSelection = (props: BetAmountSelectionPropsType) => {
   const [currentSelectedBetAmount, setCurrentSelectedBetAmount] = useState<BetAmount>({ name: 'One', value: 1 });
 
   const onFlipClick = () => {
-    flip(playerCoinFaceChoice, currentSelectedBetAmount);
+    flip(currentSelectedBetAmount, playerCoinFaceChoice);
   };
 
   return (
@@ -28,7 +28,7 @@ const BetAmountSelection = (props: BetAmountSelectionPropsType) => {
         <div className='flex w-full items-center'>
           <p className='text-left text-lg font-bold text-moonbeam-cyan md:text-3xl'>Selected Tickets</p>
         </div>
-        <p className='text-left text-xs text-moonbeam-cyan opacity-80 md:text-lg'>
+        <p className='text-left text-xs font-light text-moonbeam-cyan opacity-80 md:text-lg'>
           Select a bet amount. Max bet amount is capped based on pool balance.
         </p>
         <div className='flex w-full flex-col items-center justify-start '>
