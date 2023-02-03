@@ -5,30 +5,30 @@ import React from 'react';
 
 import { LinkType } from '@/components/layouts/Layout';
 
-interface SideBarProps {
-  isSideBarOpen: boolean;
-  toggleSideBar: () => void;
+interface MobileSideBarProps {
+  isMobileSideBarOpen: boolean;
+  toggleMobileSideBar: () => void;
   links: LinkType[];
 }
-const SideBar = (props: SideBarProps) => {
-  const { isSideBarOpen, toggleSideBar, links } = props;
+const MobileSideBar = (props: MobileSideBarProps) => {
+  const { isMobileSideBarOpen, toggleMobileSideBar, links } = props;
 
   return (
     <nav
       className={`fixed right-0 block h-full overflow-hidden ${
-        isSideBarOpen ? 'w-11/12' : 'w-[0px]'
+        isMobileSideBarOpen ? 'w-11/12' : 'w-[0px]'
       } z-50  transition-width duration-100`}
     >
       <div className='item-center flex h-full w-full flex-col justify-between overflow-y-auto bg-moonbeam-grey py-4 px-3'>
         <div className='item-center sticky flex h-full w-full flex-col'>
           <div
-            onClick={toggleSideBar}
+            onClick={toggleMobileSideBar}
             className='absolute top-0 right-5 flex cursor-pointer items-center justify-center rounded-lg  text-base font-normal text-white hover:bg-gray-700'
           >
             <FontAwesomeIcon
               icon={faEllipsis}
               size='xs'
-              className={`w-8 text-sm text-gray-500 ${isSideBarOpen ? 'rotate-0' : 'rotate-90'} transition`}
+              className={`w-8 text-sm text-gray-500 ${isMobileSideBarOpen ? 'rotate-0' : 'rotate-90'} transition`}
             />
           </div>
           <ul className='mt-12 space-y-2'>
@@ -36,7 +36,7 @@ const SideBar = (props: SideBarProps) => {
               <li key={link.url}>
                 <Link key={link.url} href={link.url}>
                   <a
-                    onClick={toggleSideBar}
+                    onClick={toggleMobileSideBar}
                     className='flex items-center justify-start rounded-lg p-4 text-lg text-white hover:bg-gray-700'
                   >
                     {link.name}{' '}
@@ -52,4 +52,4 @@ const SideBar = (props: SideBarProps) => {
   );
 };
 
-export default SideBar;
+export default MobileSideBar;

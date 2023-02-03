@@ -20,13 +20,13 @@ import moonvegasLogo from '../../../public/images/moonvegas-logo.png';
 const REFERRAL = '1YCYB8B5';
 
 interface HeaderProps {
-  isSideBarOpen: boolean;
-  toggleSideBar: () => void;
+  isMobileSideBarOpen: boolean;
+  toggleMobileSideBar: () => void;
   links: LinkType[];
 }
 
 export default function Header(props: HeaderProps) {
-  const { isSideBarOpen, toggleSideBar, links } = props;
+  const { isMobileSideBarOpen, toggleMobileSideBar, links } = props;
 
   const { account, deactivate, activateBrowserWallet, switchNetwork } = useEthers();
   const [isShowCopiedReferral, setIsShowCopiedReferral] = useState(false);
@@ -115,14 +115,14 @@ export default function Header(props: HeaderProps) {
           </div>
         )}
         <div
-          onClick={toggleSideBar}
+          onClick={toggleMobileSideBar}
           className='ml-2 w-fit cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700 md:hidden'
         >
           <FontAwesomeIcon
             icon={faEllipsis}
             size='xs'
             className={`mx-2 w-6 text-xs text-gray-500 md:mx-1 md:w-6 ${
-              isSideBarOpen ? 'rotate-0' : 'rotate-90'
+              isMobileSideBarOpen ? 'rotate-0' : 'rotate-90'
             } transition`}
           />
         </div>

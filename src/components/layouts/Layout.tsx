@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import Header from '@/components/layouts/Header';
-import SideBar from '@/components/layouts/SideBar';
+import MobileSideBar from '@/components/layouts/MobileSideBar';
 
 export interface LinkType {
   url: string;
@@ -28,14 +28,20 @@ const links = [
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [isSideBarOpen, setIsSideBarOpen] = React.useState(false);
-  const toggleSideBar = () => setIsSideBarOpen(!isSideBarOpen);
+  const [isMobileSideBarOpen, setIsMobileSideBarOpen] = React.useState(false);
+  const toggleMobileSideBar = () => setIsMobileSideBarOpen(!isMobileSideBarOpen);
   const isMobile = useIsMobile();
 
   return (
     <div className='flex h-full w-full flex-col'>
-      <Header isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} links={links} />
-      {isMobile && <SideBar isSideBarOpen={isSideBarOpen} toggleSideBar={toggleSideBar} links={links} />}
+      <Header isMobileSideBarOpen={isMobileSideBarOpen} toggleMobileSideBar={toggleMobileSideBar} links={links} />
+      {isMobile && (
+        <MobileSideBar
+          isMobileSideBarOpen={isMobileSideBarOpen}
+          toggleMobileSideBar={toggleMobileSideBar}
+          links={links}
+        />
+      )}
       <div className='h-full w-full overflow-y-scroll'>{children}</div>
       <ToastContainer
         position='bottom-right'
