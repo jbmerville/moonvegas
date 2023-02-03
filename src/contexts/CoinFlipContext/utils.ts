@@ -1,7 +1,17 @@
-import { utils } from 'ethers/lib/ethers';
+import { BigNumber, providers, utils } from 'ethers/lib/ethers';
 import { CoinFlip } from 'hardhat/types';
 
-import { CoinFlipStateType } from '@/types';
+import { coinFlipAbi } from '@/contexts/CoinFlipContext';
+
+import { CoinFace, CoinFlipStateType } from '@/types';
+
+export interface FlipEventType {
+  draw: CoinFace;
+  player: string;
+  betAmount: BigNumber;
+  playerChoice: CoinFace;
+  transactionHash: string;
+}
 
 /*
  * Get coin flip states from the coin flip smart-contract by querying proxy
@@ -30,4 +40,18 @@ export async function getCoinFlipState(coinFlipContract: CoinFlip, library: any)
     royalty,
     maxPoolBetAmount,
   };
+}
+
+/*
+ * Get coin flip outcome from a transaction log
+ * @param log - A coin flip "Flip" log event
+ */
+export function convertLogToFlipEvent(log: providers.Log): FlipEventType {
+  const flipEvent = coinFlipAbi.decodeEventLog('Flip', log.data).round;
+  return {
+    ...flipEvent,
+    draw: flipEvent.draw ? CoinFace.HEADS : CoinFace.TAILS,
+    playerChoice: flipEvent.playerChoice ? CoinFace.HEADS : CoinFace.TAILS,
+    transactionHash: log.transactionHash,
+  } as FlipEventType;
 }

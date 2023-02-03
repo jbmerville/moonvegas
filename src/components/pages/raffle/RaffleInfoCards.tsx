@@ -10,7 +10,7 @@ import { currentNetwork, currentRaffleAddress } from '@/config';
 import RaffleContext from '@/contexts/RaffleContext';
 
 const RaffleInfoCards = () => {
-  const { raffleState } = useContext(RaffleContext);
+  const { raffleState, isRaffleStateFetching } = useContext(RaffleContext);
   const infoCard1: InfoCardPropsType = {
     title: `${raffleState.ticketsLeft.length}/${raffleState.maxTicketAmount}`,
     subtitle: (
@@ -19,6 +19,7 @@ const RaffleInfoCards = () => {
         Tickets Left
       </>
     ),
+    isLoading: isRaffleStateFetching,
   };
   const infoCard2: InfoCardPropsType = {
     title: <Countdown key={raffleState.draftTime.getTime()} date={raffleState.draftTime} />,
@@ -28,6 +29,7 @@ const RaffleInfoCards = () => {
         Ends
       </>
     ),
+    isLoading: isRaffleStateFetching,
   };
   const infoCard3: InfoCardPropsType = {
     title: 'Read the Rules',
@@ -63,7 +65,7 @@ const RaffleInfoCards = () => {
   return (
     <InfoCards
       gameName='Raffle'
-      description='Buy tickets, when tickets are sold out, one random ticket receives all the funds in the pool.'
+      description='Buy tickets, when tickets are sold out, one winner is picked at random and receives all the funds in the pool.'
       infoCard1={infoCard1}
       infoCard2={infoCard2}
       infoCard3={infoCard3}

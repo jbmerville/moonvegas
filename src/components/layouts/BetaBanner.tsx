@@ -12,7 +12,7 @@ const BetaBanner = () => {
       </p>
       <Button
         onClick={() => window.open(FEEDBACK_FORM_URL, '_blank')}
-        className='mx-0 min-w-fit py-1 px-2 text-sm md:ml-6'
+        className='ml-2 min-w-fit py-1 px-2 text-sm md:ml-6'
       >
         Give feedback
       </Button>

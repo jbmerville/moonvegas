@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 
 import useIsMobile from '@/hooks/useIsMobile';
 
+import Loading from '@/components/icons/Loading';
 import Ticket from '@/components/pages/raffle/Ticket';
 import TicketsSelected from '@/components/pages/raffle/TicketsSelected';
 import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
@@ -17,7 +18,7 @@ const TicketSelectionSection = () => {
   const [selectedTickets, setSelectedTickets] = useState<TicketType[]>(
     Array(maxTicketPerTx).fill({ id: -1, isSelected: false })
   );
-  const { raffleState } = useContext(RaffleContext);
+  const { raffleState, isRaffleStateFetching } = useContext(RaffleContext);
 
   useEffect(() => {
     setSelectedTickets(Array(maxTicketPerTx).fill({ id: -1, isSelected: false }));
@@ -61,12 +62,20 @@ const TicketSelectionSection = () => {
 
   return (
     <>
-      <div className='mb-4 mt-8 flex w-full items-start justify-start overflow-x-scroll md:mt-10 md:mb-4	'>
-        {raffleState.tickets.map((ticket) => (
-          <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
-        ))}
+      <div className='mb-4 mt-8 flex w-full items-center justify-center md:mt-10 md:mb-4'>
+        {!isRaffleStateFetching ? (
+          <div className=' flex w-full items-start justify-start overflow-x-scroll 	'>
+            {raffleState.tickets.map((ticket) => (
+              <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
+            ))}
+          </div>
+        ) : (
+          <div className='scale-125 md:scale-150'>
+            <Loading />
+          </div>
+        )}
       </div>
-      <div className=' flex flex-col items-center justify-center'>
+      <div className='flex flex-col items-center justify-center'>
         <TicketsSelected
           selectedTickets={selectedTickets}
           toggleSelectedTickets={toggleSelectedTickets}

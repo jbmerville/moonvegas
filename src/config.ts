@@ -31,7 +31,7 @@ export const LocalhostConfig: Config = {
   },
 };
 
-export const currentNetworkChainId = () => {
+export const getCurrentNetworkChainId = () => {
   if (process.env.NEXT_PUBLIC_ENV === 'production') {
     return Moonbeam.chainId;
   }
@@ -85,14 +85,13 @@ export const explorerApiEndpoints = {
   [Moonbeam.chainId]: 'https://api-moonbeam.moonscan.io/api',
 };
 
-export const currentNetwork = dappConfig[currentNetworkChainId()] as Chain;
-export const currentRaffleAddress = contractConfig[currentNetworkChainId()].raffleAddress;
-export const currentCoinFlipAddress = contractConfig[currentNetworkChainId()].coinFlipAddress;
-export const currentExplorerApi = explorerApiEndpoints[currentNetworkChainId()];
+export const currentNetwork = dappConfig[getCurrentNetworkChainId()] as Chain;
+export const currentRaffleAddress = contractConfig[getCurrentNetworkChainId()].raffleAddress;
+export const currentCoinFlipAddress = contractConfig[getCurrentNetworkChainId()].coinFlipAddress;
+export const currentExplorerApi = explorerApiEndpoints[getCurrentNetworkChainId()];
 
 // To override the currentNetwork, set the NEXT_PUBLIC_ENV variable to "production" in .env
-export const currentDappConfig = dappConfig[currentNetworkChainId()] as Config;
-console.log(currentDappConfig.readOnlyChainId);
+export const currentDappConfig = dappConfig[getCurrentNetworkChainId()] as Config;
 
 // eslint-disable-next-line no-console
 console.log({

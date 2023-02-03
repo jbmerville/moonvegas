@@ -23,7 +23,7 @@ export interface TransactionType {
 }
 
 const WinnerHistoryTable = () => {
-  const { raffleState } = useContext(RaffleContext);
+  const { raffleState, isRaffleStateFetching } = useContext(RaffleContext);
 
   const renderRowsFromTx = (): TableRowType<any>[] => {
     return raffleState.raffleHistory.map((history) => ({
@@ -70,6 +70,7 @@ const WinnerHistoryTable = () => {
       header={{
         inputs: [{ value: 'Address' }, { value: 'Winnings' }, { value: 'Winning Ticket' }, { value: 'Total Tickets' }],
       }}
+      isLoading={isRaffleStateFetching}
       rows={renderRowsFromTx()}
       emptyRowMessage='No raffle winners yet.'
     ></Table>

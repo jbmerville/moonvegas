@@ -5,6 +5,7 @@ import BetAmountSelection from '@/components/pages/coinflip/BetAmountSelection';
 import CoinFaceSelection from '@/components/pages/coinflip/CoinFaceSelection';
 import CoinFlipInfoCards from '@/components/pages/coinflip/CoinFlipInfoCards';
 import CoinFlipLastSalesTable from '@/components/pages/coinflip/CoinFlipLastSalesTable';
+import CoinFlipTransactionResult from '@/components/pages/coinflip/CoinFlipTransactionResult';
 import Seo from '@/components/Seo';
 
 import { CoinFlipProvider } from '@/contexts/CoinFlipContext';
@@ -20,6 +21,7 @@ export default function CoinFlip() {
       <main className='h-full w-full overflow-y-auto '>
         <section className='h-fit pt-36 md:pt-10'>
           <CoinFlipProvider>
+            <CoinFlipTransactionResult />
             <CoinFlipInfoCards />
             <CoinFaceSelection
               playerCoinFaceChoice={playerCoinFaceChoice}

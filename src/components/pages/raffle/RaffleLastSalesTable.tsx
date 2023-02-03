@@ -16,16 +16,22 @@ import { TicketType } from '@/types';
 
 const RaffleLastSalesTable = () => {
   const [transactions, setTransactions] = useState<RaffleTransactionType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { raffleState } = useContext(RaffleContext);
 
   useEffect(() => {
     const fetchHistory = async () => {
+      setIsLoading(true);
       const raffleTransactionHistory = await getRaffleTransactionHistory();
-      setTransactions(raffleTransactionHistory);
+      if (raffleTransactionHistory.length > transactions.length) {
+        setTransactions(raffleTransactionHistory);
+      }
+      setIsLoading(false);
     };
 
     fetchHistory();
-  }, [raffleState.ticketsBought]); // Refresh when tickets updates (some tickets have been bought)
+  }, [raffleState.ticketsBought.length]); // Refresh when tickets updates (some tickets have been bought)
 
   const renderRowsFromTx = (): TableRowType<any>[] => {
     return transactions.map((transaction: RaffleTransactionType) => ({
@@ -77,7 +83,8 @@ const RaffleLastSalesTable = () => {
         inputs: [{ value: 'Date' }, { value: 'Address' }, { value: 'Tickets Bought' }, { value: 'Price' }],
       }}
       rows={renderRowsFromTx()}
-      emptyRowMessage='No transactions for this raffle yet.'
+      isLoading={isLoading}
+      emptyRowMessage='No transactions found'
     ></Table>
   );
 };

@@ -16,11 +16,16 @@ import { CoinFace } from '@/types';
 
 const CoinFlipLastSalesTable = () => {
   const [transactions, setTransactions] = useState<CoinFlipTransactionType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchHistory = async () => {
+      setIsLoading(true);
       const transactionHistory = await getCoinFlipTransactionHistory();
-      setTransactions(transactionHistory);
+      if (transactionHistory.length > transactions.length) {
+        setTransactions(transactionHistory);
+      }
+      setIsLoading(false);
     };
 
     fetchHistory();
@@ -87,6 +92,7 @@ const CoinFlipLastSalesTable = () => {
       }}
       rows={renderRowsFromTx()}
       emptyRowMessage='No transactions for this coin flip yet.'
+      isLoading={isLoading}
     ></Table>
   );
 };

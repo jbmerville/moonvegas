@@ -9,7 +9,7 @@ import { currentCoinFlipAddress, currentNetwork } from '@/config';
 import CoinFlipContext from '@/contexts/CoinFlipContext';
 
 const CoinFlipInfoCards = () => {
-  const { coinFlipState } = useContext(CoinFlipContext);
+  const { coinFlipState, isCoinFlipStateFetching } = useContext(CoinFlipContext);
 
   const infoCard1: InfoCardPropsType = {
     title: `${coinFlipState.totalFlips} Flips`,
@@ -19,6 +19,7 @@ const CoinFlipInfoCards = () => {
         Total Flips
       </>
     ),
+    isLoading: isCoinFlipStateFetching,
   };
   const infoCard2: InfoCardPropsType = {
     title: `${coinFlipState.totalVolume} ${currentNetwork.nativeCurrency?.symbol}`,
@@ -28,6 +29,7 @@ const CoinFlipInfoCards = () => {
         Total Volume
       </>
     ),
+    isLoading: isCoinFlipStateFetching,
   };
   const infoCard3: InfoCardPropsType = {
     title: 'Read the Rules',

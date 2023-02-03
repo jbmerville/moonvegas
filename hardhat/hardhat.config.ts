@@ -11,7 +11,7 @@ import '@openzeppelin/hardhat-upgrades';
 
 const localhostChainId = 1281;
 
-export const currentNetworkChainId = () => {
+export const getCurrentNetworkChainId = () => {
   if (process.env.NEXT_PUBLIC_ENV === 'production') {
     return Moonbeam.chainId;
   }
@@ -24,7 +24,7 @@ export const currentNetworkChainId = () => {
 const accounts = [];
 console.log({ NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV });
 
-if (currentNetworkChainId() !== localhostChainId) {
+if (getCurrentNetworkChainId() !== localhostChainId) {
   // TODO: add test account private key to .env to deploy contract in moonbase alpha during deployment
   if (process.env.PRIVATE_KEY) accounts.push(process.env.PRIVATE_KEY);
 } else {

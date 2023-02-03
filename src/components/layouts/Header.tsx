@@ -13,7 +13,7 @@ import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 import BetaBanner from '@/components/layouts/BetaBanner';
 import { LinkType } from '@/components/layouts/Layout';
 
-import { currentNetwork, currentNetworkChainId } from '@/config';
+import { currentNetwork, getCurrentNetworkChainId } from '@/config';
 
 import moonvegasLogo from '../../../public/images/moonvegas-logo.png';
 
@@ -43,28 +43,23 @@ export default function Header(props: HeaderProps) {
   };
 
   const changeNetwork = async () => {
-    if (window && window.ethereum && window.ethereum.networkVersion !== currentNetworkChainId) {
+    if (window && window.ethereum && window.ethereum.networkVersion !== getCurrentNetworkChainId()) {
       try {
-        await switchNetwork(currentNetworkChainId());
+        await window.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainName: currentNetwork.chainName,
+              chainId: utils.hexStripZeros(utils.hexlify(getCurrentNetworkChainId())),
+              nativeCurrency: currentNetwork.nativeCurrency,
+              rpcUrls: [currentNetwork.rpcUrl],
+            },
+          ],
+        });
         toast.dark(`Connected to ${currentNetwork.chainName}`, { type: toast.TYPE.INFO });
-      } catch (err) {
-        // Send request for user to add the network to their MetaMask if not already present
-        try {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainName: currentNetwork.chainName,
-                chainId: utils.hexStripZeros(utils.hexlify(currentNetworkChainId())),
-                nativeCurrency: currentNetwork.nativeCurrency,
-                rpcUrls: [currentNetwork.rpcUrl],
-              },
-            ],
-          });
-          toast.dark(`Connected to ${currentNetwork.chainName}`, { type: toast.TYPE.SUCCESS });
-        } catch (err) {
-          toast.dark(`Error connecting to ${currentNetwork.chainName}`, { type: toast.TYPE.ERROR });
-        }
+      } catch (error) {
+        console.error(`Error connecting to ${currentNetwork.chainName}`, error);
+        toast.dark(`Error connecting to ${currentNetwork.chainName}`, { type: toast.TYPE.ERROR });
       }
     }
   };

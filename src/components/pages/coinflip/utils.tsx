@@ -2,16 +2,9 @@ import { BigNumber, providers, utils } from 'ethers/lib/ethers';
 
 import { currentCoinFlipAddress, currentExplorerApi, currentNetwork } from '@/config';
 import { coinFlipAbi } from '@/contexts/CoinFlipContext';
+import { convertLogToFlipEvent } from '@/contexts/CoinFlipContext/utils';
 
 import { CoinFace, ExplorerTransactionType } from '@/types';
-
-interface FlipEventType {
-  draw: boolean;
-  player: string;
-  betAmount: BigNumber;
-  playerChoice: boolean;
-  transactionHash: string;
-}
 
 export interface CoinFlipTransactionType {
   address: string;
@@ -56,19 +49,12 @@ async function getTransactionOutcome(transaction: ExplorerTransactionType) {
   });
 
   const matchingEventLogs = logs
-    .map(convertToFlipEvent)
+    .map(convertLogToFlipEvent)
     .filter((flipEvent) => flipEvent.transactionHash === transaction.hash);
   if (matchingEventLogs.length === 0) {
     return false;
   }
   return matchingEventLogs[0].draw === matchingEventLogs[0].playerChoice;
-}
-
-function convertToFlipEvent(log: providers.Log): FlipEventType {
-  return {
-    ...coinFlipAbi.decodeEventLog('Flip', log.data).round,
-    transactionHash: log.transactionHash,
-  } as FlipEventType;
 }
 
 function shouldTransactionBeFiltered(transaction: ExplorerTransactionType): boolean {

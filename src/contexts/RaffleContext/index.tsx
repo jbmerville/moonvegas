@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 import { getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
 
-import { currentNetwork, currentNetworkChainId, currentRaffleAddress } from '@/config';
+import { currentNetwork, currentRaffleAddress, getCurrentNetworkChainId } from '@/config';
 import { getRaffleState } from '@/contexts/RaffleContext/utils';
 
 import { RaffleStateType, TicketType } from '@/types';
@@ -23,6 +23,7 @@ export interface RaffleContextType {
   isTransactionPending: boolean;
   transactionStatus: string;
   raffleState: RaffleStateType;
+  isRaffleStateFetching: boolean;
 }
 
 const RaffleContext = createContext<RaffleContextType>({} as RaffleContextType);
@@ -39,6 +40,8 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
   const { send, state } = useContractFunction(contract, 'purchase');
   const transactionStatus = state.status;
   const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
+  const [isRaffleStateFetching, setIsRaffleStateFetching] = useState<boolean>(false);
+
   const [raffleState, setRaffleState] = useState<RaffleStateType>({
     tickets: [],
     ticketsLeft: [],
@@ -56,8 +59,10 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
         console.error('Raffle contract undefined');
         return;
       }
+      setIsRaffleStateFetching(true);
       const raffleState = await getRaffleState(contract);
       setRaffleState(raffleState);
+      setIsRaffleStateFetching(false);
     } catch (error) {
       console.error('Something went wrong', error);
     }
@@ -94,8 +99,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      if (chainId !== currentNetworkChainId()) {
-        console.log({ chainId, currentNetworkChainId: currentNetworkChainId(), account, library: library?.network });
+      if (chainId !== getCurrentNetworkChainId()) {
         toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to submit transaction`, {
           type: toast.TYPE.ERROR,
         });
@@ -132,11 +136,13 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
     },
-    [account, send, raffleState.ticketPrice, refreshState, chainId]
+    [chainId, account, raffleState.ticketPrice, send, refreshState]
   );
 
   return (
-    <RaffleContext.Provider value={{ purchase, isTransactionPending, raffleState, transactionStatus }}>
+    <RaffleContext.Provider
+      value={{ purchase, isTransactionPending, raffleState, transactionStatus, isRaffleStateFetching }}
+    >
       {children}
     </RaffleContext.Provider>
   );

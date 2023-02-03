@@ -10,8 +10,8 @@ import { toast } from 'react-toastify';
 
 import { wait } from '@/lib/helpers';
 
-import { currentCoinFlipAddress, currentNetwork, currentNetworkChainId } from '@/config';
-import { getCoinFlipState } from '@/contexts/CoinFlipContext/utils';
+import { currentCoinFlipAddress, currentNetwork, getCurrentNetworkChainId } from '@/config';
+import { convertLogToFlipEvent, FlipEventType, getCoinFlipState } from '@/contexts/CoinFlipContext/utils';
 
 import { BetAmount, CoinFace, CoinFlipStateType } from '@/types';
 
@@ -23,6 +23,8 @@ export interface CoinFlipContextType {
   isTransactionPending: boolean;
   transactionStatus: string;
   coinFlipState: CoinFlipStateType;
+  isCoinFlipStateFetching: boolean;
+  lastCoinFlipResult?: FlipEventType;
 }
 
 const CoinFlipContext = createContext<CoinFlipContextType>({} as CoinFlipContextType);
@@ -39,6 +41,9 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   const { send, state } = useContractFunction(contract, 'flip');
   const transactionStatus = state.status;
   const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
+  const [isCoinFlipStateFetching, setIsCoinFlipStateFetching] = useState<boolean>(false);
+  const [lastCoinFlipResult, setLastCoinFlipResult] = useState<FlipEventType | undefined>();
+
   const [coinFlipState, setCoinFlipState] = useState<CoinFlipStateType>({
     totalFlips: 0,
     totalVolume: 0,
@@ -57,8 +62,10 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         console.error('CoinFlip library undefined');
         return;
       }
+      setIsCoinFlipStateFetching(true);
       const coinFlipState = await getCoinFlipState(contract, library);
       setCoinFlipState(coinFlipState);
+      setIsCoinFlipStateFetching(false);
     } catch (error) {
       console.error('Something went wrong', error);
     }
@@ -93,7 +100,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      if (chainId !== currentNetworkChainId()) {
+      if (chainId !== getCurrentNetworkChainId()) {
         toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to flip coin`, {
           type: toast.TYPE.ERROR,
         });
@@ -116,6 +123,13 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
           return;
         }
 
+        if (result.logs.length > 0) {
+          const flipEvent = convertLogToFlipEvent(result.logs[0]);
+          setLastCoinFlipResult(flipEvent);
+        } else {
+          toast.dark('Error reading transaction result', { type: toast.TYPE.ERROR });
+        }
+
         // Wait 1s for changes to propagate to the blockchain
         await wait(1_000);
         await refreshState();
@@ -131,7 +145,16 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <CoinFlipContext.Provider value={{ flip, isTransactionPending, coinFlipState, transactionStatus }}>
+    <CoinFlipContext.Provider
+      value={{
+        flip,
+        isTransactionPending,
+        coinFlipState,
+        transactionStatus,
+        isCoinFlipStateFetching,
+        lastCoinFlipResult,
+      }}
+    >
       {children}
     </CoinFlipContext.Provider>
   );

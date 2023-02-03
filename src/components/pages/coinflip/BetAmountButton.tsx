@@ -51,7 +51,7 @@ const BetAmountButton = (props: BetAmountButtonPropsType) => {
       }}
       variant={isCurrentSelectedBetAmount ? 'outline' : 'primary'}
       onClick={onButtonClick}
-      className={`box-border flex w-full justify-center text-xs uppercase md:text-lg  ${
+      className={`box-border flex w-full justify-center text-xs uppercase text-white md:text-lg  ${
         isDisabled && isHover ? 'text-[0.55em]' : ''
       } ${isDisabled ? 'bg-moonbeam-grey-light text-white' : 'font-bold '}`}
     >

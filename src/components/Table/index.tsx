@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import useIsMobile from '@/hooks/useIsMobile';
 
+import Loading from '@/components/icons/Loading';
 import TablePaginationButton from '@/components/Table/TablePaginationButton';
 import TableRow, { TableRowType } from '@/components/Table/TableRow';
 
@@ -24,10 +25,11 @@ interface TablePropsType<T> {
   header: TableRowType<T>;
   rows: TableRowType<T>[];
   emptyRowMessage: string;
+  isLoading?: boolean;
 }
 
 const Table = (props: TablePropsType<any>) => {
-  const { rows, header, emptyRowMessage, title } = props;
+  const { rows, header, emptyRowMessage, title, isLoading } = props;
   const isMobile = useIsMobile();
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const pageNumberToRows = new Map<number, TableRowType<any>[]>();
@@ -55,6 +57,7 @@ const Table = (props: TablePropsType<any>) => {
   };
 
   rows.forEach((row, index) => putPageNumberToRows(~~(index / 10) + 1, row));
+  const isEmptyRow = rows.length === 0 || pageNumberToRows.get(currentPageNumber) === undefined;
 
   return (
     <div className='layout my-6 flex flex-col items-start justify-between md:mt-10 md:mb-10'>
@@ -66,16 +69,14 @@ const Table = (props: TablePropsType<any>) => {
           <TableRow row={header} />
         </thead>
         <tbody className='text-lg'>
-          {rows.length === 0 || pageNumberToRows.get(currentPageNumber) === undefined ? (
-            <tr className=' box-border flex h-full w-full grow items-center justify-center border-b-[0.5px] border-[#474d57] py-5'>
-              <td>{emptyRowMessage}</td>
-            </tr>
-          ) : (
-            pageNumberToRows.get(currentPageNumber)?.map((row, i) => <TableRow key={i} row={row} />)
-          )}
+          {!isEmptyRow && pageNumberToRows.get(currentPageNumber)?.map((row, i) => <TableRow key={i} row={row} />)}
         </tbody>
       </table>
-
+      {isEmptyRow && (
+        <div className=' box-border flex h-full w-full grow items-center justify-center border-b-[0.5px] border-[#474d57] py-5 text-sm md:text-base'>
+          {isLoading ? <Loading /> : emptyRowMessage}
+        </div>
+      )}
       <div className='mt-6 flex w-full justify-end'>
         {getPageNumberKeysAroundCurrentPageNumber().map((pageNumber) => (
           <TablePaginationButton

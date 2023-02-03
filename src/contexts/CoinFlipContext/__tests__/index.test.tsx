@@ -43,6 +43,7 @@ jest.mock('@usedapp/core', () => ({
 }));
 
 jest.mock('../utils', () => ({
+  ...jest.requireActual('../utils'),
   getCoinFlipState: jest.fn().mockResolvedValue({
     totalFlips: 1,
     totalVolume: 1,
@@ -232,7 +233,15 @@ const setUpUseContractFunctionMock = (status: core.TransactionState, sendExcepti
   mockUseContractFunction.mockReturnValue({
     send: jest.fn().mockImplementation(() => {
       if (sendException) throw new Error('Mock function threw an error');
-      return {};
+      return {
+        logs: [
+          {
+            data: '0x0000000000000000000000002c1a07a4cceeedbbb2f8134867cbde7cc812652d0000000000000000000000000000000000000000000000000de0b6b3a764000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+            topics: '0x3419036def9952f45dbfaa88ccbb2008b3c97cf9fe09f9b8e13e9df7b14b84ae',
+            transactionHash: '012345',
+          },
+        ],
+      };
     }),
     state: {
       status,

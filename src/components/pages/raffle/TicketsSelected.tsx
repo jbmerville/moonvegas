@@ -5,8 +5,8 @@ import { getCurrenNetworkCurrencySymbol } from '@/lib/helpers';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import Button from '@/components/buttons/Button';
+import DevTokenLink from '@/components/DevTokenLink';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
-import UnderlineLink from '@/components/links/UnderlineLink';
 import Ticket from '@/components/pages/raffle/Ticket';
 import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
 
@@ -75,12 +75,12 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
             onClick={onPurchasePressed}
           >
             {isTransactionPending ? (
-              <span className='py-2.5 text-lg font-extrabold uppercase text-white'>
+              <span className='py-2.5 pl-2 text-lg font-extrabold uppercase text-white'>
                 {transactionStatus === 'PendingSignature' ? 'Pending Signature' : transactionStatus}...
               </span>
             ) : (
-              <span className='relative flex w-full items-center justify-center px-5 py-2.5 text-lg font-extrabold uppercase'>
-                <p className='ml-2 '>
+              <span className='relative flex w-full items-center justify-center py-2.5 text-lg font-extrabold uppercase md:px-5'>
+                <p className=''>
                   Buy {nonDefaultTicketsSelected.length} Tickets for{' '}
                   {utils.formatEther(raffleState.ticketPrice.mul(nonDefaultTicketsSelected.length))}{' '}
                   {getCurrenNetworkCurrencySymbol()}{' '}
@@ -91,13 +91,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
               </span>
             )}
           </Button>
-          <p className='mt-2 text-xs text-white '>
-            Get DEV tokens at the{' '}
-            <UnderlineLink href='https://apps.moonbeam.network/moonbase-alpha/faucet/'>
-              Moonbase Alpha Faucet
-            </UnderlineLink>
-            .
-          </p>
+          <DevTokenLink />
         </div>
       </div>
     </div>
