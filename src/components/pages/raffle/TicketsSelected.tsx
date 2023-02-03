@@ -1,4 +1,3 @@
-import { useConfig } from '@usedapp/core';
 import { utils } from 'ethers';
 import React, { ReactNode, useContext } from 'react';
 
@@ -8,8 +7,8 @@ import useIsMobile from '@/hooks/useIsMobile';
 import Button from '@/components/buttons/Button';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import UnderlineLink from '@/components/links/UnderlineLink';
-import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/helper';
 import Ticket from '@/components/pages/raffle/Ticket';
+import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
 
 import RaffleContext from '@/contexts/RaffleContext';
 
@@ -22,7 +21,6 @@ interface TicketsSelectedPropsType {
 }
 
 const TicketsSelected = (props: TicketsSelectedPropsType) => {
-  const { networks } = useConfig();
   const { raffleState, purchase, isTransactionPending, transactionStatus } = useContext(RaffleContext);
   const isMobile = useIsMobile();
   const maxTicketPerTx = getMaxTicketPerTx(isMobile);
@@ -85,7 +83,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
                 <p className='ml-2 '>
                   Buy {nonDefaultTicketsSelected.length} Tickets for{' '}
                   {utils.formatEther(raffleState.ticketPrice.mul(nonDefaultTicketsSelected.length))}{' '}
-                  {getCurrenNetworkCurrencySymbol(networks)}{' '}
+                  {getCurrenNetworkCurrencySymbol()}{' '}
                 </p>
                 <div className='scale-[1.5] pl-2'>
                   <MoonbeamIcon />

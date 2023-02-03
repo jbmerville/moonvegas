@@ -8,7 +8,7 @@ import { Raffle } from 'hardhat/types';
 import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { getNonDefaultTicketsSelected } from '@/components/pages/raffle/helper';
+import { getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
 
 import { currentNetwork, currentNetworkChainId, currentRaffleAddress } from '@/config';
 import { getRaffleState } from '@/contexts/RaffleContext/utils';
@@ -94,7 +94,8 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      if (chainId !== currentNetworkChainId) {
+      if (chainId !== currentNetworkChainId()) {
+        console.log({ chainId, currentNetworkChainId: currentNetworkChainId(), account, library: library?.network });
         toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to submit transaction`, {
           type: toast.TYPE.ERROR,
         });
