@@ -4,12 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { shortenAddress, useEthers } from '@usedapp/core';
 import { utils } from 'ethers';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 import BetaBanner from '@/components/layouts/BetaBanner';
+import { LinkType } from '@/components/layouts/Layout';
 
 import { currentNetwork, currentNetworkChainId } from '@/config';
 
@@ -20,10 +22,11 @@ const REFERRAL = '1YCYB8B5';
 interface HeaderProps {
   isSideBarOpen: boolean;
   toggleSideBar: () => void;
+  links: LinkType[];
 }
 
 export default function Header(props: HeaderProps) {
-  const { isSideBarOpen, toggleSideBar } = props;
+  const { isSideBarOpen, toggleSideBar, links } = props;
 
   const { account, deactivate, activateBrowserWallet, switchNetwork } = useEthers();
   const [isShowCopiedReferral, setIsShowCopiedReferral] = useState(false);
@@ -68,14 +71,16 @@ export default function Header(props: HeaderProps) {
 
   return (
     <header className='fixed top-0 z-50 w-full bg-moonbeam-grey md:sticky'>
-      <div className='layout z-50 flex items-center justify-between  py-1 md:py-1'>
-        <div className='relative my-2  mr-auto hidden h-[50px] w-[120px] items-center justify-center	md:block'>
-          <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
-        </div>
-        <div className='mr-auto flex items-center justify-center md:hidden'>
-          <div className='relative block h-[70px] w-[70px] items-center justify-center	md:hidden'>
+      <div className='layout z-50 flex items-center justify-start py-1 md:py-1'>
+        <div className='flex w-full items-center justify-start'>
+          <div className='relative my-2 h-[50px] w-[70px] items-center justify-center transition duration-75	md:h-[50px] md:w-[120px]'>
             <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
           </div>
+          {links.map((link) => (
+            <Link key={link.url} href={link.url}>
+              <a className='ml-6 hidden text-white hover:text-moonbeam-cyan md:block'>{link.name}</a>
+            </Link>
+          ))}
         </div>
         {account ? (
           <>
@@ -103,9 +108,9 @@ export default function Header(props: HeaderProps) {
             {/* <Button variant='dark' className='lg-2 hidden md:block'>
               <p>Have a referral?</p>
             </Button> */}
-            <Button onClick={connectToNetwork}>
+            <Button className='w-max' onClick={connectToNetwork}>
               <MetaMaskIcon />
-              <p className=' text-sm md:text-base'>Connect MetaMask</p>
+              <p className='text-sm md:text-base'>Connect MetaMask</p>
             </Button>
           </div>
         )}

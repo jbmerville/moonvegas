@@ -68,7 +68,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
           Select up to {maxTicketPerTx} tickets per transaction.
         </p>
         <div className='flex w-full flex-col items-center justify-start  p-2 md:py-2 '>
-          <div className='flex w-full items-center justify-between overflow-hidden overflow-x-scroll py-12 pl-5 md:h-[255px]	'>
+          <div className='flex w-full items-center justify-between overflow-hidden overflow-x-scroll py-6 md:h-[255px] md:py-12	'>
             {props.selectedTickets.map(renderMiniatureSelectedTicket)}
           </div>
           <Button

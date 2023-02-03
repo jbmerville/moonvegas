@@ -1,167 +1,54 @@
-import { faCircleQuestion, faCoins, faEllipsis, faReceipt } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
+
+import { LinkType } from '@/components/layouts/Layout';
 
 interface SideBarProps {
   isSideBarOpen: boolean;
   toggleSideBar: () => void;
+  links: LinkType[];
 }
 const SideBar = (props: SideBarProps) => {
-  const { isSideBarOpen, toggleSideBar } = props;
-  const [isBetaPopUpOpen, setIsBetaPopUpOpen] = useState(true);
+  const { isSideBarOpen, toggleSideBar, links } = props;
 
   return (
-    <>
-      <nav
-        className={`navbar-navbar fixed right-0 block h-full overflow-hidden md:hidden ${
-          isSideBarOpen ? 'w-[75px]' : 'w-[0px]'
-        } z-50 transition transition-width duration-100`}
-        aria-label='Sidebar'
-      >
-        <div className=' item-center flex h-full w-full flex-col justify-between overflow-y-auto bg-gray-900 py-4 px-3'>
-          <div className='item-center sticky flex h-full w-full flex-col'>
-            <ul className='space-y-2 '>
-              <li>
-                <div
-                  onClick={toggleSideBar}
-                  className='mt-1 mb-10 flex cursor-pointer items-center justify-center rounded-lg  text-base font-normal text-white hover:bg-gray-700'
-                >
-                  <FontAwesomeIcon
-                    icon={faEllipsis}
-                    size='xs'
-                    className={` w-8 text-xs text-gray-500 ${isSideBarOpen ? 'rotate-0' : 'rotate-90'} transition`}
-                  />
-                </div>
-              </li>
-              <li>
-                <Link href='/'>
-                  <div className='flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
-                    <FontAwesomeIcon icon={faReceipt} size='xs' className='  w-6 text-xs text-gray-500 ' />
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link href='/coinflip'>
-                  <div className='mt-5 flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
-                    <FontAwesomeIcon icon={faCoins} size='xs' className=' w-6 text-xs text-gray-500 ' />
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <div className='mt-5 flex cursor-pointer items-center justify-center rounded-lg p-2 text-base font-normal text-white'>
-                  <FontAwesomeIcon icon={faCircleQuestion} size='xs' className='w-6 text-xs text-gray-500' />
-                </div>
-              </li>
-            </ul>
+    <nav
+      className={`fixed right-0 block h-full overflow-hidden ${
+        isSideBarOpen ? 'w-11/12' : 'w-[0px]'
+      } z-50  transition-width duration-100`}
+    >
+      <div className='item-center flex h-full w-full flex-col justify-between overflow-y-auto bg-moonbeam-grey py-4 px-3'>
+        <div className='item-center sticky flex h-full w-full flex-col'>
+          <div
+            onClick={toggleSideBar}
+            className='absolute top-0 right-5 flex cursor-pointer items-center justify-center rounded-lg  text-base font-normal text-white hover:bg-gray-700'
+          >
+            <FontAwesomeIcon
+              icon={faEllipsis}
+              size='xs'
+              className={`w-8 text-sm text-gray-500 ${isSideBarOpen ? 'rotate-0' : 'rotate-90'} transition`}
+            />
           </div>
-          <div className='break-words p-1 text-center text-sm text-gray-500'>
-            &copy;{new Date().getFullYear()} MoonVegas
-          </div>
-        </div>
-      </nav>
-      <nav
-        className={`navbar-navbar sticky hidden overflow-hidden md:block ${
-          isSideBarOpen ? 'md:w-[280px]' : 'md:w-[80px]'
-        } transition transition-width duration-100 `}
-        aria-label='Sidebar'
-      >
-        <div className=' item-center flex h-full w-full flex-col justify-between overflow-y-auto bg-gray-900 py-4 px-3'>
-          <div className='item-center sticky flex h-full w-full flex-col'>
-            <ul className='space-y-2 '>
-              <li>
-                <div
-                  onClick={toggleSideBar}
-                  className='mb-10 w-fit cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'
-                >
-                  <FontAwesomeIcon
-                    icon={faEllipsis}
-                    size='xs'
-                    className={`mx-2 w-3 text-xs text-gray-500 md:mx-1 md:w-6 ${
-                      isSideBarOpen ? 'rotate-0' : 'rotate-90'
-                    } transition`}
-                  />
-                </div>
-              </li>
-              <li>
-                <Link href='/'>
-                  <div className='flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
-                    <FontAwesomeIcon
-                      icon={faReceipt}
-                      size='xs'
-                      className='mx-2 w-3 text-xs text-gray-500 md:mx-1 md:w-6'
-                    />
-                    {isSideBarOpen && <span className={`ml-3 text-white transition `}>Raffle</span>}
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link href='/coinflip'>
-                  <div className='mt-5 flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white hover:bg-gray-700'>
-                    <FontAwesomeIcon
-                      icon={faCoins}
-                      size='xs'
-                      className='mx-2 w-3 text-xs text-gray-500 md:mx-1 md:w-7'
-                    />
-                    {isSideBarOpen && <span className='ml-3 text-white'>CoinFlip</span>}
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <div className='mt-5 flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-white'>
-                  <FontAwesomeIcon
-                    icon={faCircleQuestion}
-                    size='xs'
-                    className='mx-2 w-3 text-xs text-gray-500 md:mx-1 md:w-7'
-                  />
-                  {isSideBarOpen && <span className='ml-3 text-gray-500'>More coming soon</span>}
-                </div>
-              </li>
-            </ul>
-            {isSideBarOpen && isBetaPopUpOpen && (
-              <div id='dropdown-cta' className='mt-6 rounded-lg  bg-blue-900 p-4' role='alert'>
-                <div className='mb-3 flex items-center'>
-                  <span className='text-orange-800 bg-orange-200 text-orange-900 mr-2 rounded bg-orange px-2.5 py-0.5 text-sm font-semibold'>
-                    Beta
-                  </span>
-                  <button
-                    onClick={() => setIsBetaPopUpOpen(false)}
-                    type='button'
-                    className='-mx-1.5 -my-1.5 ml-auto inline-flex h-6 w-6 rounded-lg bg-blue-900   p-1 text-blue-400 hover:bg-blue-800 focus:ring-2 focus:ring-blue-400'
-                    data-collapse-toggle='dropdown-cta'
-                    aria-label='Close'
+          <ul className='mt-12 space-y-2'>
+            {links.map((link) => (
+              <li key={link.url}>
+                <Link key={link.url} href={link.url}>
+                  <a
+                    onClick={toggleSideBar}
+                    className='flex items-center justify-start rounded-lg p-4 text-lg text-white hover:bg-gray-700'
                   >
-                    <span className='sr-only'>Close</span>
-                    <svg
-                      aria-hidden='true'
-                      className='h-4 w-4'
-                      fill='currentColor'
-                      viewBox='0 0 20 20'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
-                        clipRule='evenodd'
-                      ></path>
-                    </svg>
-                  </button>
-                </div>
-                <p className='mb-3 text-sm text-blue-400'>
-                  Welcome to MoonVegas! Website is under construction. Your feedback is highly appreciated 🎉
-                </p>
-                <a className='text-sm text-blue-400 underline  hover:text-blue-300' href='#'>
-                  Give feedback
-                </a>
-              </div>
-            )}
-          </div>
-          <div className='break-words p-1 text-center text-sm text-gray-500'>
-            &copy;{new Date().getFullYear()} MoonVegas
-          </div>
+                    {link.name}{' '}
+                    {link.description && <div className='pl-2 text-xs text-white/50'> - {link.description}</div>}
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 };
 

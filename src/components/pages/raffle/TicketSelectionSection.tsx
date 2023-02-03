@@ -61,7 +61,7 @@ const TicketSelectionSection = () => {
 
   return (
     <>
-      <div className='mb-4 mt-2 flex w-full items-start justify-start overflow-x-scroll md:mt-10 md:mb-4	'>
+      <div className='mb-4 mt-8 flex w-full items-start justify-start overflow-x-scroll md:mt-10 md:mb-4	'>
         {raffleState.tickets.map((ticket) => (
           <Ticket toggleSelectedTickets={toggleSelectedTickets} ticket={ticket} key={ticket.id} />
         ))}
