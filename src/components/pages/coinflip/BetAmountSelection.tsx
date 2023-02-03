@@ -26,9 +26,9 @@ const BetAmountSelection = (props: BetAmountSelectionPropsType) => {
     <div className='layout mx-10 flex items-center justify-between md:mx-4'>
       <div className='flex w-full flex-col items-start justify-start '>
         <div className='flex w-full items-center'>
-          <p className='text-left text-lg font-bold text-moonbeam-cyan md:text-3xl'>Selected Tickets</p>
+          <p className='text-left text-lg font-bold text-moonbeam-cyan md:text-3xl'>Bet Amount</p>
         </div>
-        <p className='text-left text-xs font-light text-moonbeam-cyan opacity-80 md:text-lg'>
+        <p className='text-left text-sm font-light text-moonbeam-cyan opacity-80 md:text-lg'>
           Select a bet amount. Max bet amount is capped based on pool balance.
         </p>
         <div className='flex w-full flex-col items-center justify-start '>

@@ -81,7 +81,7 @@ describe('CoinFlipContext', () => {
       await context.flip(betAmount);
     });
 
-    expect(toast.dark).toHaveBeenCalledWith('No coin face selected. Select either heads or tails.', {
+    expect(toast.dark).toHaveBeenCalledWith('No coin face selected. Select either heads or tails', {
       type: 'ERROR',
     });
     expect(console.error).not.toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe('CoinFlipContext', () => {
       context.flip(betAmount, CoinFace.HEADS);
     });
 
-    expect(toast.dark).toHaveBeenCalledWith(`Incorrect chain, connect to Moonbase Alpha to flip coin.`, {
+    expect(toast.dark).toHaveBeenCalledWith(`Incorrect chain, connect to Moonbase Alpha to flip coin`, {
       type: 'ERROR',
     });
     expect(console.error).not.toHaveBeenCalled();

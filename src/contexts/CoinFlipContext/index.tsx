@@ -89,12 +89,12 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   const flip = useCallback(
     async (betAmount: BetAmount, choice?: CoinFace) => {
       if (choice === undefined) {
-        toast.dark('No coin face selected. Select either heads or tails.', { type: toast.TYPE.ERROR });
+        toast.dark('No coin face selected. Select either heads or tails', { type: toast.TYPE.ERROR });
         return;
       }
 
       if (chainId !== currentNetworkChainId) {
-        toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to flip coin.`, {
+        toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to flip coin`, {
           type: toast.TYPE.ERROR,
         });
         return;

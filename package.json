@@ -17,7 +17,7 @@
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "prepare": "husky install",
     "hardhat": "cd hardhat && yarn install && yarn compile && cd ..",
-    "pipeline": "yarn lint:fix && yarn typecheck && yarn build && yarn test"
+    "pipeline": "yarn lint:fix && yarn typecheck && yarn test && yarn build"
   },
   "dependencies": {
     "@ethersproject/contracts": "^5.7.0",
@@ -68,13 +68,17 @@
   },
   "lint-staged": {
     "src/**/*!(test).{js,jsx,ts,tsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "prettier --check"
+    ],
+    "hardhat/contracts/**/*.sol": [
+      "prettier --check"
     ],
     "src/**/*.{js,jsx,ts,tsx}": [
       "yarn test"
     ],
     "src/**/*.{json,css,scss,md}": [
-      "prettier -w"
+      "prettier --check"
     ]
   }
 }

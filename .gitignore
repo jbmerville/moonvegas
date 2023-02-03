@@ -46,3 +46,6 @@ hardhat/cache
 hardhat/node_modules
 hardhat/types
 hardhat/*.address.js
+
+# others
+tsconfig.tsbuildinfo

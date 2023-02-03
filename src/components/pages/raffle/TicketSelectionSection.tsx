@@ -37,7 +37,7 @@ const TicketSelectionSection = () => {
       ticket.isSelected = false;
     } else {
       if (getNonDefaultTicketsSelected(selectedTickets).length >= maxTicketPerTx) {
-        toast.dark(`Maximum of ${maxTicketPerTx} tickets reached.`, {
+        toast.dark(`Maximum of ${maxTicketPerTx} tickets reached`, {
           type: toast.TYPE.WARNING,
         });
         return;

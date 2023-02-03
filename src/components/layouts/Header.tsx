@@ -43,7 +43,7 @@ export default function Header(props: HeaderProps) {
     if (window && window.ethereum && window.ethereum.networkVersion !== currentNetworkChainId) {
       try {
         await switchNetwork(currentNetworkChainId);
-        toast.dark(`Connected to ${currentNetwork.chainName}.`, { type: toast.TYPE.INFO });
+        toast.dark(`Connected to ${currentNetwork.chainName}`, { type: toast.TYPE.INFO });
       } catch (err) {
         // Send request for user to add the network to their MetaMask if not already present
         try {
@@ -58,9 +58,9 @@ export default function Header(props: HeaderProps) {
               },
             ],
           });
-          toast.dark(`Connected to ${currentNetwork.chainName}.`, { type: toast.TYPE.SUCCESS });
+          toast.dark(`Connected to ${currentNetwork.chainName}`, { type: toast.TYPE.SUCCESS });
         } catch (err) {
-          toast.dark(`Error connecting to ${currentNetwork.chainName}.`, { type: toast.TYPE.ERROR });
+          toast.dark(`Error connecting to ${currentNetwork.chainName}`, { type: toast.TYPE.ERROR });
         }
       }
     }

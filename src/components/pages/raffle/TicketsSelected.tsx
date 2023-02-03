@@ -64,7 +64,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
         <div className='flex w-full items-center '>
           <p className='text-center text-lg font-bold text-moonbeam-cyan md:text-3xl'>Selected Tickets</p>
         </div>
-        <p className='text-center text-xs text-moonbeam-cyan opacity-80 md:text-lg'>
+        <p className='text-ms text-center text-moonbeam-cyan opacity-80 md:text-lg'>
           Select up to {maxTicketPerTx} tickets per transaction.
         </p>
         <div className='flex w-full flex-col items-center justify-start  p-2 md:py-2 '>
