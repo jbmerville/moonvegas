@@ -1,79 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { shortenAddress } from '@usedapp/core';
-import { BigNumber, utils } from 'ethers';
 import Image from 'next/image';
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
-import { renderTxPrice } from '@/components/pages/raffle/helper';
+import { getRaffleTransactionHistory, RaffleTransactionType, renderTxPrice } from '@/components/pages/raffle/utils';
 import Table from '@/components/Table';
 import { TableRowType } from '@/components/Table/TableRow';
 
-import { currentNetwork, currentRaffleAddress } from '@/config';
-import { raffleAbi } from '@/contexts/RaffleContext';
+import { currentNetwork } from '@/config';
 import RaffleContext from '@/contexts/RaffleContext';
 
 import moonbeam from '../../../../public/images/moonbeam-token.png';
 
 import { TicketType } from '@/types';
 
-export interface TransactionType {
-  address: string;
-  date: Date;
-  ticketsBought: TicketType[];
-  price: string;
-  hash: string;
-  block: string;
-}
-const MOONBASE_ALPHA_RPC_API_BASE_URL = 'https://api-moonbase.moonscan.io/api';
-
 const RaffleLastSalesTable = () => {
-  const [transactions, setTransactions] = useState<TransactionType[]>([]);
+  const [transactions, setTransactions] = useState<RaffleTransactionType[]>([]);
   const { raffleState } = useContext(RaffleContext);
 
   useEffect(() => {
     const fetchHistory = async () => {
-      const result = await fetch(
-        `${MOONBASE_ALPHA_RPC_API_BASE_URL}?module=account&action=txlist&address=${currentRaffleAddress}`
-      );
-      const json = await result.json();
-
-      const txHistory = json.result
-        .filter((tx: any) => tx.isError === '0' && tx.to !== '') // Remove failed tx and the tx sent to deploy the SC
-        .map((tx: any) => {
-          return {
-            address: tx.from,
-            date: new Date(parseInt(tx.timeStamp) * 1000),
-            ticketsBought: parseTxInput(tx),
-            price: utils.formatEther(BigNumber.from(tx.value)),
-            hash: tx.hash,
-            block: tx.blockNumber,
-          } as TransactionType;
-        }) as TransactionType[];
-      setTransactions(txHistory.sort((a, b) => (a.date > b.date ? -1 : 1)));
+      const raffleTransactionHistory = await getRaffleTransactionHistory();
+      setTransactions(raffleTransactionHistory);
     };
 
     fetchHistory();
   }, [raffleState.ticketsBought]); // Refresh when tickets updates (some tickets have been bought)
 
-  const parseTxInput = (tx: any) => {
-    try {
-      const decodedArgs = raffleAbi.decodeFunctionData(tx.input.slice(0, 10), tx.input);
-      const functionName = raffleAbi.getFunction(tx.input.slice(0, 10)).name;
-      if (functionName == 'purchase') {
-        return decodedArgs[0].map((ticketId: BigNumber) => ({
-          id: ticketId.toNumber(),
-          owner: tx.from,
-          isSelected: false,
-        })) as TicketType[];
-      }
-      return [];
-    } catch (e) {
-      return [];
-    }
-  };
-
   const renderRowsFromTx = (): TableRowType<any>[] => {
-    return transactions.map((transaction) => ({
+    return transactions.map((transaction: RaffleTransactionType) => ({
       inputs: [
         {
           value: transaction.date,

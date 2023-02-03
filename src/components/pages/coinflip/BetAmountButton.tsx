@@ -56,7 +56,7 @@ const BetAmountButton = (props: BetAmountButtonPropsType) => {
       } ${isDisabled ? 'bg-moonbeam-grey-light text-white' : 'font-bold '}`}
     >
       {doesSCHasInsufficiantBalanceForBet && isHover ? (
-        `Insufficient pool balance`
+        <div className='text-xs'>Insufficient pool balance</div>
       ) : doesPlayerHasInsufficiantBalanceForBet && isHover ? (
         'Insufficient balance'
       ) : (

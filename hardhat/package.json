@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "npx hardhat compile && npx hardhat test",
     "compile:force": "rm -rf ./types && npx hardhat compile --force",
+    "deploy:moonbeam": "npx hardhat deploy --network moonbeam --networkname moonbeam --deployraffle true --deploycoinflip true",
     "deploy:moonbase": "npx hardhat deploy --network moonbase --networkname moonbase-alpha --deployraffle true --deploycoinflip true",
     "deploy:localhost": "npx hardhat deploy --network localhost --networkname localhost --deployraffle true --deploycoinflip true",
     "format:check": "prettier --check 'contracts/**/*.sol'",
@@ -17,8 +18,11 @@
     "@openzeppelin/contracts": "^4.2.0",
     "@openzeppelin/contracts-upgradeable": "^4.4.1",
     "@openzeppelin/hardhat-upgrades": "^1.12.0",
+    "@usedapp/core": "^1.2.2",
     "dotenv": "^16.0.2",
-    "hardhat": "^2.10.2"
+    "hardhat": "^2.10.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",

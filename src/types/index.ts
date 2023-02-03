@@ -51,3 +51,16 @@ export const BetAmounts: BetAmount[] = [
   { name: 'Thirty', value: 30 },
   { name: 'One Hundred', value: 100 },
 ];
+
+export interface ExplorerTransactionType {
+  from: string;
+  to: string;
+  timeStamp: string;
+  value: string;
+  hash: string;
+  blockNumber: string;
+  methodId: string;
+  isError: string;
+  input: string;
+  blockHash: string;
+}

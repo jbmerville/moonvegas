@@ -1,12 +1,13 @@
 # https://github.com/kentcdodds/kentcdodds.com/blob/main/.github/workflows/deployment.yml
 name: Code Check
 env:
-  NEXT_PUBLIC_ENV: pipeline
+  NEXT_PUBLIC_ENV: development
 
 on:
   push:
     branches:
       - main
+      - development
   pull_request: {}
 
 jobs:

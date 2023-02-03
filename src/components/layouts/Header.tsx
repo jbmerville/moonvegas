@@ -45,7 +45,7 @@ export default function Header(props: HeaderProps) {
   const changeNetwork = async () => {
     if (window && window.ethereum && window.ethereum.networkVersion !== currentNetworkChainId) {
       try {
-        await switchNetwork(currentNetworkChainId);
+        await switchNetwork(currentNetworkChainId());
         toast.dark(`Connected to ${currentNetwork.chainName}`, { type: toast.TYPE.INFO });
       } catch (err) {
         // Send request for user to add the network to their MetaMask if not already present
@@ -55,7 +55,7 @@ export default function Header(props: HeaderProps) {
             params: [
               {
                 chainName: currentNetwork.chainName,
-                chainId: utils.hexStripZeros(utils.hexlify(currentNetworkChainId)),
+                chainId: utils.hexStripZeros(utils.hexlify(currentNetworkChainId())),
                 nativeCurrency: currentNetwork.nativeCurrency,
                 rpcUrls: [currentNetwork.rpcUrl],
               },

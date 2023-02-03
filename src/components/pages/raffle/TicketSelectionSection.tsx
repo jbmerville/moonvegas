@@ -3,9 +3,9 @@ import { toast } from 'react-toastify';
 
 import useIsMobile from '@/hooks/useIsMobile';
 
-import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/helper';
 import Ticket from '@/components/pages/raffle/Ticket';
 import TicketsSelected from '@/components/pages/raffle/TicketsSelected';
+import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
 
 import RaffleContext from '@/contexts/RaffleContext';
 

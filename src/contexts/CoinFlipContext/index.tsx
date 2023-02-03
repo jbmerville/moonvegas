@@ -93,7 +93,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      if (chainId !== currentNetworkChainId) {
+      if (chainId !== currentNetworkChainId()) {
         toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to flip coin`, {
           type: toast.TYPE.ERROR,
         });

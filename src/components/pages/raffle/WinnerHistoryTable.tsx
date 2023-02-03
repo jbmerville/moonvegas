@@ -3,7 +3,7 @@ import { shortenAddress } from '@usedapp/core';
 import Image from 'next/image';
 import React, { ReactNode, useContext } from 'react';
 
-import { renderTxPrice } from '@/components/pages/raffle/helper';
+import { renderTxPrice } from '@/components/pages/raffle/utils';
 import Table from '@/components/Table';
 import { TableRowType } from '@/components/Table/TableRow';
 
@@ -68,12 +68,7 @@ const WinnerHistoryTable = () => {
     <Table
       title='Winner History'
       header={{
-        inputs: [
-          { value: 'Address' },
-          { value: 'Price Pool' },
-          { value: 'Winning Ticket' },
-          { value: 'Total Tickets' },
-        ],
+        inputs: [{ value: 'Address' }, { value: 'Winnings' }, { value: 'Winning Ticket' }, { value: 'Total Tickets' }],
       }}
       rows={renderRowsFromTx()}
       emptyRowMessage='No raffle winners yet.'
