@@ -30,7 +30,9 @@
   /* #endregion  /**======== Primary Color =========== */
   --color-moonbeam-cyan: 239 54 252;
   --bnb-accent: 252 195 54;
-  --color-moonbeam-accent: 239 54 252;
+  /* --color-moonbeam-accent: 224 18 123; */
+  --color-moonbeam-accent: 81 203 199;
+  --color-moonriver-accent: 243 183 6;
   --color-moonbase-alpha-accent: 98 126 234;
   --color-moonbeam-blue-dark: 10 14 18;
   --color-moonbeam-blue: #0b0e11;

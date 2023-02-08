@@ -7,7 +7,7 @@ import { getCoinFlipState } from '@/contexts/CoinFlipContext/utils';
 
 import { CoinFace } from '@/types';
 
-const betAmount = { value: 11, name: 'ELEVEN' };
+const betAmount = 11;
 const errorMessage = 'errorMessage';
 
 const mockUseEthers = core.useEthers as jest.Mock;

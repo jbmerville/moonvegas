@@ -4,7 +4,9 @@ import raffleAddressLocalhost from 'hardhat/sc-addresses/localhost/Raffle.addres
 import coinFlipAddressMoonbaseAlpha from 'hardhat/sc-addresses/moonbase/CoinFlip.address.js';
 import raffleAddresssMoonbaseAlpha from 'hardhat/sc-addresses/moonbase/Raffle.address.js';
 import coinFlipAddressMoonbeam from 'hardhat/sc-addresses/moonbeam/CoinFlip.address.js';
-import raffleAddressMoonbeam from 'hardhat/sc-addresses/moonbeam/Raffe.address';
+import raffleAddressMoonbeam from 'hardhat/sc-addresses/moonbeam/Raffle.address';
+import coinFlipAddressMoonriver from 'hardhat/sc-addresses/moonriver/CoinFlip.address.js';
+import raffleAddressMoonriver from 'hardhat/sc-addresses/moonriver/Raffle.address';
 
 import { isDev, isProd } from '@/constants/env';
 
@@ -34,11 +36,20 @@ export const LocalhostConfig: Config = {
   },
 };
 
+const defaultBetAmounts = [1, 2, 5, 10, 15, 20, 30, 100];
+
 export const chains: { [key: number]: Chain } = {
   [LocalhostChain.chainId]: LocalhostChain,
   [MoonbaseAlpha.chainId]: MoonbaseAlpha,
   [Moonriver.chainId]: Moonriver,
   [Moonbeam.chainId]: Moonbeam,
+};
+
+export const chainBetAmounts: { [key: number]: number[] } = {
+  [LocalhostChain.chainId]: defaultBetAmounts,
+  [MoonbaseAlpha.chainId]: defaultBetAmounts,
+  [Moonriver.chainId]: [0.1, 0.5, 1, 2, 5, 10, 15, 20],
+  [Moonbeam.chainId]: defaultBetAmounts,
 };
 
 export const contractAddresses: { [key: number]: { raffleAddress: string; coinFlipAddress: string } } = {
@@ -54,6 +65,10 @@ export const contractAddresses: { [key: number]: { raffleAddress: string; coinFl
     raffleAddress: raffleAddressMoonbeam,
     coinFlipAddress: coinFlipAddressMoonbeam,
   },
+  [Moonriver.chainId]: {
+    raffleAddress: raffleAddressMoonriver,
+    coinFlipAddress: coinFlipAddressMoonriver,
+  },
 };
 
 // These values should be found in tailwind.config.js
@@ -61,11 +76,12 @@ export const chainColorAccents: { [key: number]: string } = {
   [LocalhostChain.chainId]: 'moonbase-alpha-accent',
   [MoonbaseAlpha.chainId]: 'moonbase-alpha-accent',
   [Moonbeam.chainId]: 'moonbeam-accent',
+  [Moonriver.chainId]: 'moonriver-accent',
 };
 
 export const availableNetworks: Chain[] = [
   chains[Moonbeam.chainId],
-  // chains[Moonriver.chainId],
+  chains[Moonriver.chainId],
   chains[MoonbaseAlpha.chainId],
 ];
 

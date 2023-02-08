@@ -1,6 +1,23 @@
 import { Chain } from '@usedapp/core';
 
-import { chainColorAccents, chains, contractAddresses, explorerApiEndpoints, getDefaultChainId } from '@/config';
+import {
+  chainBetAmounts,
+  chainColorAccents,
+  chains,
+  contractAddresses,
+  explorerApiEndpoints,
+  getDefaultChainId,
+} from '@/config';
+
+export interface CurrentNetworkStateType {
+  network: Chain;
+  raffleAddress: string;
+  coinFlipAddress: string;
+  explorerApiEndpoint: string;
+  currencySymbol: string;
+  rpcUrl: string;
+  betAmounts: number[];
+}
 
 export const getCoinFlipAddress = (chainId?: number): string => {
   if (!chainId || !contractAddresses[chainId]) {
@@ -35,4 +52,23 @@ export const getColorAccent = (chainId?: number): string => {
     return chainColorAccents[getDefaultChainId()];
   }
   return chainColorAccents[chainId];
+};
+
+export const getBetAmounts = (chainId?: number): number[] => {
+  if (!chainId || !chainBetAmounts[chainId]) {
+    return chainBetAmounts[getDefaultChainId()];
+  }
+  return chainBetAmounts[chainId];
+};
+
+export const getCurrentNetworkState = (chainId?: number): CurrentNetworkStateType => {
+  return {
+    network: getNetwork(chainId),
+    raffleAddress: getRaffleAddress(chainId),
+    coinFlipAddress: getCoinFlipAddress(chainId),
+    explorerApiEndpoint: getExplorerApiEndpoint(chainId),
+    currencySymbol: getNetwork(chainId).nativeCurrency?.symbol || 'ERROR',
+    rpcUrl: getNetwork(chainId).rpcUrl || 'ERROR',
+    betAmounts: getBetAmounts(chainId),
+  };
 };

@@ -10,11 +10,9 @@ import Button from '@/components/buttons/Button';
 import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
-import { BetAmount } from '@/types';
-
 interface CoinFlipBetAmountButtonPropsType {
-  betAmount: BetAmount;
-  setCurrentSelectedBetAmount: (betAmount: BetAmount) => void;
+  betAmount: number;
+  setCurrentSelectedBetAmount: (betAmount: number) => void;
   isCurrentSelectedBetAmount: boolean;
 }
 const CoinFlipBetAmountButton = (props: CoinFlipBetAmountButtonPropsType) => {
@@ -24,19 +22,16 @@ const CoinFlipBetAmountButton = (props: CoinFlipBetAmountButtonPropsType) => {
   const { currentNetwork } = useCurrentNetworkContext();
   const accountBalance = useEtherBalance(account);
   const doesPlayerHasInsufficiantBalanceForBet =
-    accountBalance && parseFloat(utils.formatEther(accountBalance)) < betAmount.value;
-  const doesSCHasInsufficiantBalanceForBet = betAmount.value >= coinFlipState.maxPoolBetAmount;
+    accountBalance && parseFloat(utils.formatEther(accountBalance)) < betAmount;
+  const doesSCHasInsufficiantBalanceForBet = betAmount >= coinFlipState.maxPoolBetAmount;
   const [isHover, setIsHover] = useState(false);
   const isDisabled = doesSCHasInsufficiantBalanceForBet || doesPlayerHasInsufficiantBalanceForBet;
 
   const onButtonClick = () => {
     if (doesSCHasInsufficiantBalanceForBet) {
-      toast.dark(
-        `Insufficient ${currentNetwork.currencySymbol} balance in the Coin Flip smart contract to support this bet amount`,
-        {
-          type: toast.TYPE.ERROR,
-        }
-      );
+      toast.dark(`Insufficient smart contract balance to allow this bet amount`, {
+        type: toast.TYPE.ERROR,
+      });
     } else if (doesPlayerHasInsufficiantBalanceForBet) {
       toast.dark(`Insufficient ${currentNetwork.currencySymbol} balance in your account`, {
         type: toast.TYPE.ERROR,
@@ -66,7 +61,7 @@ const CoinFlipBetAmountButton = (props: CoinFlipBetAmountButtonPropsType) => {
       ) : (
         <div className='flex items-center justify-center'>
           <div className='mr-3 scale-[1.2] md:scale-[1.5]'>{getNetworkLogo(currentNetwork.network.chainId)}</div>
-          {betAmount.value} {currentNetwork.currencySymbol}
+          {betAmount} {currentNetwork.currencySymbol}
         </div>
       )}
     </Button>

@@ -9,7 +9,7 @@
     "deploy:moonbeam": "npx hardhat deploy --network moonbeam --deployraffle true --deploycoinflip true",
     "deploy:moonbase": "npx hardhat deploy --network moonbase --deployraffle true --deploycoinflip true",
     "deploy:moonriver": "npx hardhat deploy --network moonriver --deployraffle true --deploycoinflip true",
-    "deploy:localhost": "npx hardhat deploy --network localhost --networkname localhost --deployraffle true --deploycoinflip true",
+    "deploy:localhost": "npx hardhat deploy --network localhost --deployraffle true --deploycoinflip true",
     "format:check": "prettier --check 'contracts/**/*.sol'",
     "format": "prettier --write 'contracts/**/*.sol'",
     "docker:moonbeam": "docker run --rm --name moonbeam_development -p 9944:9944 -p 9933:9933 purestake/moonbeam:v0.25.0 --dev --ws-external --rpc-external"

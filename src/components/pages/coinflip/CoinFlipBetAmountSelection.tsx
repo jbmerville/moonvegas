@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { getNetworkLogo } from '@/lib/helpers';
 
@@ -9,7 +9,7 @@ import CoinFlipBetAmountButton from '@/components/pages/coinflip/CoinFlipBetAmou
 import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
-import { BetAmount, BetAmounts, CoinFace } from '@/types';
+import { CoinFace } from '@/types';
 
 interface CoinFlipBetAmountSelectionPropsType {
   playerCoinFaceChoice?: CoinFace;
@@ -18,12 +18,16 @@ interface CoinFlipBetAmountSelectionPropsType {
 const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) => {
   const { playerCoinFaceChoice } = props;
   const { isTransactionPending, flip, transactionStatus } = useCoinFlipContext();
-  const [currentSelectedBetAmount, setCurrentSelectedBetAmount] = useState<BetAmount>({ name: 'One', value: 1 });
   const { currentNetwork, colorAccent } = useCurrentNetworkContext();
+  const [currentSelectedBetAmount, setCurrentSelectedBetAmount] = useState(currentNetwork.betAmounts[0]);
 
   const onFlipClick = () => {
     flip(currentSelectedBetAmount, playerCoinFaceChoice);
   };
+
+  useEffect(() => {
+    setCurrentSelectedBetAmount(currentNetwork.betAmounts[0]);
+  }, [currentNetwork.betAmounts]);
 
   return (
     <div className='layout flex flex-col items-center justify-center'>
@@ -36,12 +40,12 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
         </p>
         <div className='flex w-full flex-col items-center justify-start '>
           <div className='my-10 grid w-full grid-cols-2 grid-rows-4 gap-4 md:grid-cols-4 md:grid-rows-2'>
-            {BetAmounts.map((betAmount, index) => (
+            {currentNetwork.betAmounts.map((betAmount, index) => (
               <CoinFlipBetAmountButton
                 betAmount={betAmount}
                 key={index}
                 setCurrentSelectedBetAmount={setCurrentSelectedBetAmount}
-                isCurrentSelectedBetAmount={betAmount.value === currentSelectedBetAmount?.value}
+                isCurrentSelectedBetAmount={betAmount === currentSelectedBetAmount}
               />
             ))}
           </div>

@@ -27,9 +27,7 @@ const CoinFlipLastSalesTable = () => {
         currentNetwork.explorerApiEndpoint,
         currentNetwork.coinFlipAddress
       );
-      if (transactionHistory.length > transactions.length) {
-        setTransactions(transactionHistory);
-      }
+      setTransactions(transactionHistory);
       setIsLoading(false);
     };
 

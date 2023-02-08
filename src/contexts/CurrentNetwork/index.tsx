@@ -1,11 +1,14 @@
 /* eslint-disable no-console */
 
-import { Chain, useEthers } from '@usedapp/core';
-import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
+import { useEthers } from '@usedapp/core';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 
 import {
+  CurrentNetworkStateType,
+  getBetAmounts,
   getCoinFlipAddress,
   getColorAccent,
+  getCurrentNetworkState,
   getExplorerApiEndpoint,
   getNetwork,
   getRaffleAddress,
@@ -17,15 +20,6 @@ export interface CurrentNetworkContextType {
   colorAccent: string;
 }
 
-export interface CurrentNetworkStateType {
-  network: Chain;
-  raffleAddress: string;
-  coinFlipAddress: string;
-  explorerApiEndpoint: string;
-  currencySymbol: string;
-  rpcUrl: string;
-}
-
 const CurrentNetworkContext = createContext<CurrentNetworkContextType>({} as CurrentNetworkContextType);
 
 /*
@@ -33,7 +27,7 @@ const CurrentNetworkContext = createContext<CurrentNetworkContextType>({} as Cur
  * @param children - The react children components that consume the CurrentNetworkContext
  */
 export const CurrentNetworkProvider = ({ children }: { children: ReactNode }) => {
-  const { switchNetwork } = useEthers();
+  const { switchNetwork, chainId } = useEthers();
 
   const [currentNetworkState, setCurrentNetworkState] = useState<CurrentNetworkStateType>({
     raffleAddress: getRaffleAddress(),
@@ -42,25 +36,26 @@ export const CurrentNetworkProvider = ({ children }: { children: ReactNode }) =>
     explorerApiEndpoint: getExplorerApiEndpoint(),
     currencySymbol: getNetwork().nativeCurrency?.symbol || 'ERROR',
     rpcUrl: getNetwork().rpcUrl || 'ERROR',
+    betAmounts: getBetAmounts(),
   });
 
   const [colorAccent, setColorAccent] = useState(getColorAccent());
 
   const changeNetwork = useCallback(
-    async (chainId: number) => {
-      await switchNetwork(chainId);
-      setCurrentNetworkState({
-        network: getNetwork(chainId),
-        raffleAddress: getRaffleAddress(chainId),
-        coinFlipAddress: getCoinFlipAddress(chainId),
-        explorerApiEndpoint: getExplorerApiEndpoint(),
-        currencySymbol: getNetwork(chainId).nativeCurrency?.symbol || 'ERROR',
-        rpcUrl: getNetwork(chainId).rpcUrl || 'ERROR',
-      });
-      setColorAccent(getColorAccent(chainId));
+    async (_chainId: number) => {
+      await switchNetwork(_chainId);
+      setCurrentNetworkState(getCurrentNetworkState(_chainId));
+      setColorAccent(getColorAccent(_chainId));
     },
     [switchNetwork]
   );
+
+  useEffect(() => {
+    if (chainId !== undefined && chainId !== currentNetworkState.network.chainId) {
+      setCurrentNetworkState(getCurrentNetworkState(chainId));
+      setColorAccent(getColorAccent(chainId));
+    }
+  }, [chainId]);
 
   return (
     <CurrentNetworkContext.Provider value={{ currentNetwork: currentNetworkState, changeNetwork, colorAccent }}>

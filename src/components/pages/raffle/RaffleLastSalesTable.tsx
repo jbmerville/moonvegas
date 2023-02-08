@@ -30,9 +30,7 @@ const RaffleLastSalesTable = () => {
         currentNetwork.explorerApiEndpoint,
         currentNetwork.raffleAddress
       );
-      if (raffleTransactionHistory.length !== 0) {
-        setTransactions(raffleTransactionHistory);
-      }
+      setTransactions(raffleTransactionHistory);
       setIsLoading(false);
     };
 

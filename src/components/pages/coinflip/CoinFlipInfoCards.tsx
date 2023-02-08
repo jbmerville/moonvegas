@@ -69,7 +69,7 @@ const CoinFlipInfoCards = () => {
   return (
     <InfoCards
       gameName='Coin Flip'
-      description='Choose either heads or tails, select a bet amount, 50% chance of winning and doubling your bet or losing it all'
+      description='Choose either heads or tails, select a bet amount, 50% chance of winning and doubling your bet or losing it all.'
       infoCard1={infoCard1}
       infoCard2={infoCard2}
       infoCard3={infoCard3}

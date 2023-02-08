@@ -37,21 +37,6 @@ export enum CoinFace {
   TAILS = 'TAILS',
 }
 
-export interface BetAmount {
-  name: string;
-  value: number;
-}
-export const BetAmounts: BetAmount[] = [
-  { name: 'One', value: 1 },
-  { name: 'Two', value: 2 },
-  { name: 'Five', value: 5 },
-  { name: 'Ten', value: 10 },
-  { name: 'Fifteen', value: 15 },
-  { name: 'Tweenty', value: 20 },
-  { name: 'Thirty', value: 30 },
-  { name: 'One Hundred', value: 100 },
-];
-
 export interface ExplorerTransactionType {
   from: string;
   to: string;

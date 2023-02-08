@@ -13,13 +13,13 @@ import { wait } from '@/lib/helpers';
 import { convertLogToFlipEvent, FlipEventType, getCoinFlipState } from '@/contexts/CoinFlipContext/utils';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
-import { BetAmount, CoinFace, CoinFlipStateType } from '@/types';
+import { CoinFace, CoinFlipStateType } from '@/types';
 
 export const coinFlipAbi = new utils.Interface(coinFlipArtifacts.abi);
 
 export interface CoinFlipContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  flip: (betAmount: BetAmount, choice?: CoinFace, options?: any) => Promise<void>;
+  flip: (betAmount: number, choice?: CoinFace, options?: any) => Promise<void>;
   isTransactionPending: boolean;
   transactionStatus: string;
   coinFlipState: CoinFlipStateType;
@@ -98,7 +98,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   }, [state.status, state.errorMessage]);
 
   const flip = useCallback(
-    async (betAmount: BetAmount, choice?: CoinFace) => {
+    async (betAmount: number, choice?: CoinFace) => {
       if (choice === undefined) {
         toast.dark('No coin face selected. Select either heads or tails', { type: toast.TYPE.ERROR });
         return;
@@ -109,7 +109,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      const price = utils.parseEther('1').mul(betAmount.value);
+      const price = utils.parseEther('1').mul(betAmount);
       const playerChoice = choice === CoinFace.HEADS;
 
       try {
@@ -138,7 +138,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         setIsTransactionPending(false);
       }
     },
-    [account, send, refreshState, chainId]
+    [account, send, refreshState]
   );
 
   return (
