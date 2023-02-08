@@ -1,7 +1,6 @@
 import { utils } from 'ethers';
 import React, { ReactNode, useContext } from 'react';
 
-import { getCurrenNetworkCurrencySymbol } from '@/lib/helpers';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import Button from '@/components/buttons/Button';
@@ -10,6 +9,7 @@ import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import Ticket from '@/components/pages/raffle/Ticket';
 import { getMaxTicketPerTx, getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
 
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 import RaffleContext from '@/contexts/RaffleContext';
 
 import { TicketType } from '@/types';
@@ -25,6 +25,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
   const isMobile = useIsMobile();
   const maxTicketPerTx = getMaxTicketPerTx(isMobile);
   const nonDefaultTicketsSelected = getNonDefaultTicketsSelected(props.selectedTickets);
+  const { currentNetwork } = useCurrentNetworkContext();
 
   const renderMiniatureSelectedTicket = (ticket: TicketType, index: number): ReactNode => {
     // Render black shade ticket instead of the one selected by the player.
@@ -83,7 +84,7 @@ const TicketsSelected = (props: TicketsSelectedPropsType) => {
                 <p className=''>
                   Buy {nonDefaultTicketsSelected.length} Tickets for{' '}
                   {utils.formatEther(raffleState.ticketPrice.mul(nonDefaultTicketsSelected.length))}{' '}
-                  {getCurrenNetworkCurrencySymbol()}{' '}
+                  {currentNetwork.network.nativeCurrency?.symbol}{' '}
                 </p>
                 <div className='scale-[1.5] pl-2'>
                   <MoonbeamIcon />

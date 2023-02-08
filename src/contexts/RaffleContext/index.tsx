@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 
 import { getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
 
-import { currentNetwork, currentRaffleAddress, getCurrentNetworkChainId } from '@/config';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 import { getRaffleState } from '@/contexts/RaffleContext/utils';
 
 import { RaffleStateType, TicketType } from '@/types';
@@ -18,8 +18,7 @@ import { RaffleStateType, TicketType } from '@/types';
 export const raffleAbi = new utils.Interface(raffleArtifacts.abi);
 
 export interface RaffleContextType {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  purchase: (tickets: TicketType[], resetTicketsSelected: () => void, options?: any) => Promise<void>;
+  purchase: (tickets: TicketType[], resetTicketsSelected: () => void) => Promise<void>;
   isTransactionPending: boolean;
   transactionStatus: string;
   raffleState: RaffleStateType;
@@ -34,8 +33,12 @@ const RaffleContext = createContext<RaffleContextType>({} as RaffleContextType);
  */
 export const RaffleProvider = ({ children }: { children: ReactNode }) => {
   const { account, library, chainId } = useEthers();
+  const { currentNetwork } = useCurrentNetworkContext();
 
-  const contract = useMemo(() => new Contract(currentRaffleAddress, raffleAbi, library) as Raffle, [library]);
+  const contract = useMemo(
+    () => new Contract(currentNetwork.raffleAddress, raffleAbi, library) as Raffle,
+    [library, currentNetwork.raffleAddress]
+  );
 
   const { send, state } = useContractFunction(contract, 'purchase');
   const transactionStatus = state.status;
@@ -62,15 +65,16 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
       setIsRaffleStateFetching(true);
       const raffleState = await getRaffleState(contract);
       setRaffleState(raffleState);
-      setIsRaffleStateFetching(false);
     } catch (error) {
-      console.error('Something went wrong', error);
+      console.error('Something went wrong while fetching raffle state', error);
+    } finally {
+      setIsRaffleStateFetching(false);
     }
   }, [contract]);
 
   useEffect(() => {
     refreshState();
-  }, [refreshState]);
+  }, [refreshState, currentNetwork.raffleAddress]);
 
   useEffect(() => {
     if (state.status === 'Mining') {
@@ -96,13 +100,6 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
       const ticketIds = getNonDefaultTicketsSelected(tickets).map((ticket) => ticket.id);
       if (ticketIds.length === 0) {
         toast.dark('No ticket selected', { type: toast.TYPE.ERROR });
-        return;
-      }
-
-      if (chainId !== getCurrentNetworkChainId()) {
-        toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to submit transaction`, {
-          type: toast.TYPE.ERROR,
-        });
         return;
       }
 

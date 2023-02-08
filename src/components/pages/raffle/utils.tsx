@@ -1,9 +1,7 @@
 import { BigNumber, utils } from 'ethers/lib/ethers';
 
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
-import { CoinFlipTransactionType } from '@/components/pages/coinflip/utils';
 
-import { currentExplorerApi, currentRaffleAddress } from '@/config';
 import { MAX_RAFFLE_TICKET_PER_TX, MAX_RAFFLE_TICKET_PER_TX_MOBILE } from '@/constants/env';
 import { raffleAbi } from '@/contexts/RaffleContext';
 
@@ -36,8 +34,11 @@ export const getMaxTicketPerTx = (isMobile: boolean) => {
   return isMobile ? MAX_RAFFLE_TICKET_PER_TX_MOBILE : MAX_RAFFLE_TICKET_PER_TX;
 };
 
-export async function getRaffleTransactionHistory(): Promise<RaffleTransactionType[]> {
-  const result = await fetch(`${currentExplorerApi}?module=account&action=txlist&address=${currentRaffleAddress}`);
+export async function getRaffleTransactionHistory(
+  explorerApiEndpoint: string,
+  raffleAddress: string
+): Promise<RaffleTransactionType[]> {
+  const result = await fetch(`${explorerApiEndpoint}?module=account&action=txlist&address=${raffleAddress}`);
   const json = await result.json();
 
   const transactions = json.result as ExplorerTransactionType[];
@@ -61,7 +62,7 @@ function shouldTransactionBeFiltered(transaction: ExplorerTransactionType): bool
   return transaction.isError === '0' && transaction.to !== '';
 }
 
-function sortTransactions(transaction1: CoinFlipTransactionType, transaction2: CoinFlipTransactionType) {
+function sortTransactions(transaction1: RaffleTransactionType, transaction2: RaffleTransactionType) {
   return transaction1.date > transaction2.date ? -1 : 1;
 }
 
@@ -80,7 +81,7 @@ function parseTransactionIput(transaction: ExplorerTransactionType): TicketType[
     }
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(error);
+    console.error(`Error while parsing transaction ${transaction.input}`, error);
   }
   return [];
 }

@@ -1,10 +1,11 @@
-import { Chain, Config, MoonbaseAlpha, Moonbeam } from '@usedapp/core';
+import { Chain, Config, MoonbaseAlpha, Moonbeam, Moonriver } from '@usedapp/core';
 import coinFlipAddressLocalhost from 'hardhat/sc-addresses/localhost/CoinFlip.address.js';
 import raffleAddressLocalhost from 'hardhat/sc-addresses/localhost/Raffle.address.js';
-import coinFlipAddressMoonbaseAlpha from 'hardhat/sc-addresses/moonbase-alpha/CoinFlip.address.js';
-import raffleAddresssMoonbaseAlpha from 'hardhat/sc-addresses/moonbase-alpha/Raffle.address.js';
+import coinFlipAddressMoonbaseAlpha from 'hardhat/sc-addresses/moonbase/CoinFlip.address.js';
+import raffleAddresssMoonbaseAlpha from 'hardhat/sc-addresses/moonbase/Raffle.address.js';
 import coinFlipAddressMoonbeam from 'hardhat/sc-addresses/moonbeam/CoinFlip.address.js';
 import raffleAddressMoonbeam from 'hardhat/sc-addresses/moonbeam/Raffe.address';
+
 export const LocalhostChain: Chain = {
   chainId: 1281,
   chainName: 'Moonbeam Localhost',
@@ -31,41 +32,14 @@ export const LocalhostConfig: Config = {
   },
 };
 
-export const getCurrentNetworkChainId = () => {
-  if (process.env.NEXT_PUBLIC_ENV === 'production') {
-    return Moonbeam.chainId;
-  }
-  if (process.env.NEXT_PUBLIC_ENV === 'development') {
-    return MoonbaseAlpha.chainId;
-  }
-  return LocalhostChain.chainId;
+export const chains: { [key: number]: Chain } = {
+  [LocalhostChain.chainId]: LocalhostChain,
+  [MoonbaseAlpha.chainId]: MoonbaseAlpha,
+  [Moonriver.chainId]: Moonriver,
+  [Moonbeam.chainId]: Moonbeam,
 };
 
-export const dappConfig = {
-  [LocalhostChain.chainId]: LocalhostConfig,
-  [MoonbaseAlpha.chainId]: {
-    ...MoonbaseAlpha,
-    readOnlyChainId: MoonbaseAlpha.chainId,
-    nativeCurrency: {
-      name: 'DEV',
-      symbol: 'DEV',
-      decimals: 18,
-    },
-    readOnlyUrls: { [MoonbaseAlpha.chainId]: MoonbaseAlpha.rpcUrl },
-  },
-  [Moonbeam.chainId]: {
-    ...Moonbeam,
-    nativeCurrency: {
-      name: 'GLMR',
-      symbol: 'GLMR',
-      decimals: 18,
-    },
-    readOnlyChainId: Moonbeam.chainId,
-    readOnlyUrls: { [Moonbeam.chainId]: Moonbeam.rpcUrl },
-  },
-};
-
-export const contractConfig = {
+export const contractAddresses = {
   [LocalhostChain.chainId]: {
     raffleAddress: raffleAddressLocalhost,
     coinFlipAddress: coinFlipAddressLocalhost,
@@ -80,21 +54,45 @@ export const contractConfig = {
   },
 };
 
-export const explorerApiEndpoints = {
+export const availableNetworks: Chain[] = [
+  chains[Moonbeam.chainId],
+  // chains[Moonriver.chainId],
+  chains[MoonbaseAlpha.chainId],
+];
+
+export const explorerApiEndpoints: { [key: number]: string } = {
   [MoonbaseAlpha.chainId]: 'https://api-moonbase.moonscan.io/api',
+  [Moonriver.chainId]: 'https://api-moonriver.moonscan.io/api',
   [Moonbeam.chainId]: 'https://api-moonbeam.moonscan.io/api',
 };
 
-export const currentNetwork = dappConfig[getCurrentNetworkChainId()] as Chain;
-export const currentRaffleAddress = contractConfig[getCurrentNetworkChainId()].raffleAddress;
-export const currentCoinFlipAddress = contractConfig[getCurrentNetworkChainId()].coinFlipAddress;
-export const currentExplorerApi = explorerApiEndpoints[getCurrentNetworkChainId()];
+export const getDefaultChainId = (): number => {
+  if (process.env.NEXT_PUBLIC_ENV === 'production') {
+    return Moonbeam.chainId;
+  }
+  if (process.env.NEXT_PUBLIC_ENV === 'development') {
+    return MoonbaseAlpha.chainId;
+  }
+  return LocalhostChain.chainId;
+};
 
-// To override the currentNetwork, set the NEXT_PUBLIC_ENV variable to "production" in .env
-export const currentDappConfig = dappConfig[getCurrentNetworkChainId()] as Config;
+// To override the currentDappConfig, set the NEXT_PUBLIC_ENV variable to "production" in .env
+export const currentDappConfig: Config = {
+  networks: [MoonbaseAlpha, Moonriver, Moonbeam],
+  readOnlyChainId: getDefaultChainId(),
+  readOnlyUrls: {
+    [MoonbaseAlpha.chainId]: MoonbaseAlpha.rpcUrl as string,
+    [Moonriver.chainId]: Moonriver.rpcUrl as string,
+    [Moonbeam.chainId]: Moonbeam.rpcUrl as string,
+  },
+};
+
+export const getDefaultChain = (): Chain => {
+  return chains[getDefaultChainId()];
+};
 
 // eslint-disable-next-line no-console
 console.log({
   NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
-  currentNetwork: currentNetwork.chainName,
+  currentNetwork: getDefaultChain().chainName,
 });

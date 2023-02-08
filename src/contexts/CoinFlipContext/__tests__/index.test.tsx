@@ -57,6 +57,14 @@ jest.mock('@/lib/helpers', () => ({
   wait: jest.fn(),
 }));
 
+jest.mock('@/contexts/CurrentNetwork', () => ({
+  useCurrentNetworkContext: jest.fn().mockReturnValue({
+    currentNetwork: {
+      coinFlipAddress: '',
+    },
+  }),
+}));
+
 describe('CoinFlipContext', () => {
   beforeEach(() => {
     jest.spyOn(console, 'error');
@@ -83,20 +91,6 @@ describe('CoinFlipContext', () => {
     });
 
     expect(toast.dark).toHaveBeenCalledWith('No coin face selected. Select either heads or tails', {
-      type: 'ERROR',
-    });
-    expect(console.error).not.toHaveBeenCalled();
-  });
-
-  it('should call toast.dark with correct parameters when connected to the wrong chain', async () => {
-    setUpUseEthers(1, 'abc123');
-    const context = setUpContextMock();
-
-    await act(async () => {
-      context.flip(betAmount, CoinFace.HEADS);
-    });
-
-    expect(toast.dark).toHaveBeenCalledWith(`Incorrect chain, connect to Moonbase Alpha to flip coin`, {
       type: 'ERROR',
     });
     expect(console.error).not.toHaveBeenCalled();

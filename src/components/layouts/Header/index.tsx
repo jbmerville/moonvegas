@@ -2,20 +2,17 @@
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { shortenAddress, useEthers } from '@usedapp/core';
-import { utils } from 'ethers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 import BetaBanner from '@/components/layouts/BetaBanner';
+import HeaderNetworkSelect from '@/components/layouts/Header/HeaderNetworkSelect';
 import { LinkType } from '@/components/layouts/Layout';
 
-import { currentNetwork, getCurrentNetworkChainId } from '@/config';
-
-import moonvegasLogo from '../../../public/images/moonvegas-logo.png';
+import moonvegasLogo from '../../../../public/images/moonvegas-logo.png';
 
 const REFERRAL = '1YCYB8B5';
 
@@ -28,40 +25,17 @@ interface HeaderProps {
 export default function Header(props: HeaderProps) {
   const { isMobileSideBarOpen, toggleMobileSideBar, links } = props;
 
-  const { account, deactivate, activateBrowserWallet, switchNetwork } = useEthers();
+  const { account, deactivate, activateBrowserWallet } = useEthers();
   const [isShowCopiedReferral, setIsShowCopiedReferral] = useState(false);
 
   const connectToNetwork = async () => {
     await activateBrowserWallet();
-    await changeNetwork();
   };
 
   const onReferralClicked = () => {
     setIsShowCopiedReferral(true);
     navigator.clipboard.writeText(REFERRAL);
     setTimeout(() => setIsShowCopiedReferral(false), 1000);
-  };
-
-  const changeNetwork = async () => {
-    if (window && window.ethereum && window.ethereum.networkVersion !== getCurrentNetworkChainId()) {
-      try {
-        await window.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [
-            {
-              chainName: currentNetwork.chainName,
-              chainId: utils.hexStripZeros(utils.hexlify(getCurrentNetworkChainId())),
-              nativeCurrency: currentNetwork.nativeCurrency,
-              rpcUrls: [currentNetwork.rpcUrl],
-            },
-          ],
-        });
-        toast.dark(`Connected to ${currentNetwork.chainName}`, { type: toast.TYPE.INFO });
-      } catch (error) {
-        console.error(`Error connecting to ${currentNetwork.chainName}`, error);
-        toast.dark(`Error connecting to ${currentNetwork.chainName}`, { type: toast.TYPE.ERROR });
-      }
-    }
   };
 
   return (
@@ -77,6 +51,7 @@ export default function Header(props: HeaderProps) {
             </Link>
           ))}
         </div>
+        <HeaderNetworkSelect className='mr-4 w-max'></HeaderNetworkSelect>
         {account ? (
           <>
             {/* <Button
