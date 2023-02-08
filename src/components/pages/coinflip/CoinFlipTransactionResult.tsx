@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import UnderlineLink from '@/components/links/UnderlineLink';
-import PopUp from '@/components/Popup';
+import PopUp from '@/components/PopUp';
 
 import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';

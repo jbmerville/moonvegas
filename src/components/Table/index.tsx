@@ -8,6 +8,7 @@ import TablePaginationButton from '@/components/Table/TablePaginationButton';
 import TableRow, { TableRowType } from '@/components/Table/TableRow';
 
 import { PAGINATION_BUTTON_COUNT, PAGINATION_BUTTON_COUNT_MOBILE } from '@/constants/env';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import { RaffleTicketType } from '@/types';
 
@@ -33,6 +34,7 @@ const Table = (props: TablePropsType<any>) => {
   const isMobile = useIsMobile();
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const pageNumberToRows = new Map<number, TableRowType<any>[]>();
+  const { colorAccent } = useCurrentNetworkContext();
 
   const putPageNumberToRows = (key: number, value: TableRowType<any>) => {
     if (pageNumberToRows.get(key) !== undefined) {
@@ -62,7 +64,7 @@ const Table = (props: TablePropsType<any>) => {
   return (
     <div className='layout my-6 flex flex-col items-start justify-between md:mt-10 md:mb-10'>
       <div className='mb-1 flex w-full items-center md:mb-3'>
-        <p className='text-center text-xl font-bold text-moonbeam-cyan md:text-3xl'>{title}</p>
+        <p className={`text-${colorAccent} text-center text-xl font-bold md:text-3xl`}>{title}</p>
       </div>
       <table className='h-full w-full	table-auto border-spacing-0 overflow-hidden	rounded-t-lg text-sm'>
         <thead className=' bg-[#0c0e11]'>

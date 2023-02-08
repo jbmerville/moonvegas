@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 
 import Loading from '@/components/icons/Loading';
 
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
+
 export interface InfoCardPropsType {
   title: ReactNode | string;
   subtitle: ReactNode | string;
@@ -12,12 +14,13 @@ export interface InfoCardPropsType {
 
 const InfoCard = (props: InfoCardPropsType) => {
   const { title, subtitle, className, onClick, isLoading } = props;
-
+  const { colorAccent } = useCurrentNetworkContext();
+  const onClickClassName = `hover:text-${colorAccent} hover:border-${colorAccent} cursor-pointer hover:bg-moonbeam-grey-dark`;
   return (
     <div
       onClick={onClick}
       className={`box-border flex min-h-[60px] grow flex-col items-center justify-around rounded-2xl border-2 border-transparent bg-moonbeam-grey-light py-2 text-white md:min-h-[120px] md:py-6 ${
-        onClick ? 'cursor-pointer hover:border-moonbeam-cyan hover:bg-moonbeam-grey-dark hover:text-moonbeam-cyan' : ''
+        onClick ? onClickClassName : ''
       } ${className}`}
     >
       {isLoading ? (

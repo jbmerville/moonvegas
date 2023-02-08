@@ -10,7 +10,7 @@ const PopUpBulletPoint = (props: PopUpBulletPointPropsType) => {
   return (
     <li className='!my-5 flex items-center md:!my-6'>
       <svg
-        className='mr-4 h-4 w-4 flex-shrink-0 text-moonbeam-cyan'
+        className='text-${colorAccent} mr-4 h-4 w-4 flex-shrink-0'
         fill='currentColor'
         viewBox='0 0 20 20'
         xmlns='http://www.w3.org/2000/svg'

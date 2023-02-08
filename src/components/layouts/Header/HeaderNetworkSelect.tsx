@@ -14,7 +14,7 @@ interface HeaderNetworkSelectPropsType {
 const HeaderNetworkSelect = (props: HeaderNetworkSelectPropsType) => {
   const { className } = props;
   const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const { currentNetwork, changeNetwork } = useCurrentNetworkContext();
+  const { currentNetwork, changeNetwork, colorAccent } = useCurrentNetworkContext();
 
   const handleChangeNetwork = async (network: Chain) => {
     changeNetwork(network.chainId);
@@ -55,7 +55,7 @@ const HeaderNetworkSelect = (props: HeaderNetworkSelectPropsType) => {
       </Button>
       {isSelectOpen && (
         <div
-          className='absolute z-10 mt-[40px]  box-border w-[190px] rounded-b border-2 border-t-0 border-moonbeam-cyan bg-moonbeam-grey-dark'
+          className={`absolute z-10 mt-[37px]  box-border w-[190px] rounded-b border-2 border-t-0 border-${colorAccent} bg-moonbeam-grey-dark`}
           onMouseEnter={() => setIsSelectOpen(true)}
           onMouseLeave={() => setIsSelectOpen(false)}
         >

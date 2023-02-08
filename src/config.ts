@@ -41,7 +41,7 @@ export const chains: { [key: number]: Chain } = {
   [Moonbeam.chainId]: Moonbeam,
 };
 
-export const contractAddresses = {
+export const contractAddresses: { [key: number]: { raffleAddress: string; coinFlipAddress: string } } = {
   [LocalhostChain.chainId]: {
     raffleAddress: raffleAddressLocalhost,
     coinFlipAddress: coinFlipAddressLocalhost,
@@ -54,6 +54,13 @@ export const contractAddresses = {
     raffleAddress: raffleAddressMoonbeam,
     coinFlipAddress: coinFlipAddressMoonbeam,
   },
+};
+
+// These values should be found in tailwind.config.js
+export const chainColorAccents: { [key: number]: string } = {
+  [LocalhostChain.chainId]: 'moonbase-alpha-accent',
+  [MoonbaseAlpha.chainId]: 'moonbase-alpha-accent',
+  [Moonbeam.chainId]: 'moonbeam-accent',
 };
 
 export const availableNetworks: Chain[] = [

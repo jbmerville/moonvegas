@@ -25,7 +25,7 @@ const RaffleSelectedTickets = (props: RaffleSelectedTicketsPropsType) => {
   const isMobile = useIsMobile();
   const maxRaffleTicketPerTx = getMaxRaffleTicketPerTransaction(isMobile);
   const nonDefaultRaffleSelectedTickets = getNonDefaultRaffleSelectedTickets(props.selectedRaffleTickets);
-  const { currentNetwork } = useCurrentNetworkContext();
+  const { currentNetwork, colorAccent } = useCurrentNetworkContext();
 
   const renderSelectedRaffleTicket = (ticket: RaffleTicketType, index: number): ReactNode => {
     // Render black shade ticket instead of the one selected by the player.
@@ -61,9 +61,9 @@ const RaffleSelectedTickets = (props: RaffleSelectedTicketsPropsType) => {
     <div className='layout mx-10 flex items-center justify-between md:mx-4'>
       <div className='flex w-full flex-col items-start justify-start '>
         <div className='flex w-full items-center '>
-          <p className='text-center text-lg font-bold text-moonbeam-cyan md:text-3xl'>Selected RaffleTickets</p>
+          <p className={`text-${colorAccent} text-center text-lg font-bold md:text-3xl`}>Selected RaffleTickets</p>
         </div>
-        <p className='text-ms text-center text-moonbeam-cyan opacity-80 md:text-lg'>
+        <p className={`text-ms text-${colorAccent} text-center opacity-80 md:text-lg`}>
           Select up to {maxRaffleTicketPerTx} tickets per transaction.
         </p>
         <div className='flex w-full flex-col items-center justify-start  p-2 md:py-2 '>

@@ -44,23 +44,23 @@ const RaffleInfoCards = () => {
   };
   const popUpBulletPoints: ReactNode[] = [
     <>
-      Each ticket has the <span className='text-moonbeam-cyan'> same chance </span>
+      Each ticket has the <span className='text-${colorAccent}'> same chance </span>
       of being selected.
     </>,
     <>
       Winner is picked when either all tickets are{' '}
-      <span className='text-moonbeam-cyan'>sold out or the timer ends</span>. Whichever comes first.
+      <span className='text-${colorAccent}'>sold out or the timer ends</span>. Whichever comes first.
     </>,
     <>
-      Winner receives <span className='text-moonbeam-cyan'>{100 - raffleState.royalty}%</span> of all the{' '}
+      Winner receives <span className='text-${colorAccent}'>{100 - raffleState.royalty}%</span> of all the{' '}
       {currentNetwork.network.nativeCurrency?.symbol} in the pool. The house keeps {raffleState.royalty}%.
     </>,
     <>
-      Raffle <span className='text-moonbeam-cyan'>restarts automatically</span> after the end of every raffle.
+      Raffle <span className='text-${colorAccent}'>restarts automatically</span> after the end of every raffle.
     </>,
     <>
       At the end of each round, the raffle is{' '}
-      <span className='text-moonbeam-cyan'>reset with one more ticket than the previous round</span>.
+      <span className='text-${colorAccent}'>reset with one more ticket than the previous round</span>.
     </>,
   ];
 

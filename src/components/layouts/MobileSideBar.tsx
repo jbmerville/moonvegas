@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React from 'react';
 
+import HeaderNetworkSelect from '@/components/layouts/Header/HeaderNetworkSelect';
 import { LinkType } from '@/components/layouts/Layout';
 
 interface MobileSideBarProps {
@@ -45,6 +46,9 @@ const MobileSideBar = (props: MobileSideBarProps) => {
                 </Link>
               </li>
             ))}
+            <li className='flex items-center justify-center p-4'>
+              <HeaderNetworkSelect className='mr-4 w-max' />
+            </li>
           </ul>
         </div>
       </div>

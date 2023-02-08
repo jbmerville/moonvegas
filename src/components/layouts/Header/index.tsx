@@ -6,11 +6,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
+import useIsMobile from '@/hooks/useIsMobile';
+
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 import BetaBanner from '@/components/layouts/BetaBanner';
 import HeaderNetworkSelect from '@/components/layouts/Header/HeaderNetworkSelect';
 import { LinkType } from '@/components/layouts/Layout';
+
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import moonvegasLogo from '../../../../public/images/moonvegas-logo.png';
 
@@ -27,6 +31,8 @@ export default function Header(props: HeaderProps) {
 
   const { account, deactivate, activateBrowserWallet } = useEthers();
   const [isShowCopiedReferral, setIsShowCopiedReferral] = useState(false);
+  const { colorAccent } = useCurrentNetworkContext();
+  const isMobile = useIsMobile();
 
   const connectToNetwork = async () => {
     await activateBrowserWallet();
@@ -47,11 +53,11 @@ export default function Header(props: HeaderProps) {
           </div>
           {links.map((link) => (
             <Link key={link.url} href={link.url}>
-              <a className='ml-6 hidden text-white hover:text-moonbeam-cyan md:block'>{link.name}</a>
+              <a className={`hover:text-${colorAccent} ml-6 hidden text-white md:block`}>{link.name}</a>
             </Link>
           ))}
         </div>
-        <HeaderNetworkSelect className='mr-4 w-max'></HeaderNetworkSelect>
+        {!isMobile && <HeaderNetworkSelect className='mr-4 w-max' />}
         {account ? (
           <>
             {/* <Button

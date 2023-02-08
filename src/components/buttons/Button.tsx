@@ -4,6 +4,8 @@ import clsxm from '@/lib/clsxm';
 
 import Loading from '@/components/icons/Loading';
 
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
+
 enum ButtonVariant {
   'primary',
   'outline',
@@ -24,6 +26,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const disabled = isLoading || buttonDisabled;
+    const { colorAccent } = useCurrentNetworkContext();
 
     return (
       <button
@@ -39,12 +42,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           //#region  //*=========== Variants ===========
           [
             variant === 'primary' && [
-              'bg-moonbeam-cyan text-black',
-              'hover:bg-moonbeam-cyan/80',
-              'active:bg-moonbeam-cyan/60',
+              `bg-${colorAccent} text-black`,
+              `hover:bg-${colorAccent}/80`,
+              `active:bg-${colorAccent}/60`,
               'disabled:bg-moonbeam-grey-light ',
             ],
-            variant === 'outline' && ['border-moonbeam-cyan bg-moonbeam-grey-dark text-moonbeam-cyan'],
+            variant === 'outline' && [`border-${colorAccent} bg-moonbeam-grey-dark text-${colorAccent}`],
             variant === 'ghost' && [
               'text-primary-500',
               'shadow-none',

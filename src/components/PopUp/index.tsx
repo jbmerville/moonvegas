@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react';
 
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
+
 interface PopUpProps {
   children: ReactNode;
   isVisible: boolean;
@@ -8,6 +10,8 @@ interface PopUpProps {
 
 const PopUp = (props: PopUpProps) => {
   const { children, isVisible, setIsVisible } = props;
+  const { colorAccent } = useCurrentNetworkContext();
+
   return (
     <div
       className={`animate fixed top-0 right-0 left-0 z-50 duration-500  ${
@@ -16,7 +20,7 @@ const PopUp = (props: PopUpProps) => {
     >
       <div className='relative flex h-fit w-fit max-w-md justify-center p-4 md:h-auto'>
         <div
-          className={`animate relative  h-fit w-fit list-inside list-disc space-y-1 rounded-lg border-2  border-moonbeam-cyan bg-moonbeam-blue-dark text-gray-500 text-white/80 shadow-md shadow-black/50 duration-150 ${
+          className={`animate border-${colorAccent}  relative h-fit w-fit list-inside list-disc space-y-1 rounded-lg  border-2 bg-moonbeam-blue-dark text-gray-500 text-white/80 shadow-md shadow-black/50 duration-150 ${
             isVisible ? ' mt-10 block opacity-100' : 'm-0 block opacity-0'
           }`}
         >

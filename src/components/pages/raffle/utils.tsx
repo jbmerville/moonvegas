@@ -94,7 +94,7 @@ export function renderMiniatureSelectedRaffleTicket(ticket: RaffleTicketType): R
       key={ticket.id}
       className='mx-2 ml-[-15px] flex h-[50px] w-[40px] flex-col items-center justify-center rounded border bg-moonbeam-grey-dark p-0 shadow-[0_0px_20px_-7px_rgb(0,0,0)]  transition-all'
     >
-      <div className='mb-[-10px] mt-[-5px] h-fit text-moonbeam-cyan'>{ticket.id}</div>
+      <div className='text-${colorAccent} mb-[-10px] mt-[-5px] h-fit'>{ticket.id}</div>
       <div className='h-[15px]'>
         <Image src={moonbeam} layout='fixed' height='15px' width='15px' alt='' />
       </div>

@@ -29,10 +29,12 @@
   --color-primary-900: rgb(var(--tw-color-primary-900)); /* #0c4a6e */
   /* #endregion  /**======== Primary Color =========== */
   --color-moonbeam-cyan: 239 54 252;
-  /* --color-moonbeam-cyan: 252 195 54; */
+  --bnb-accent: 252 195 54;
+  --color-moonbeam-accent: 239 54 252;
+  --color-moonbase-alpha-accent: 98 126 234;
   --color-moonbeam-blue-dark: 10 14 18;
   --color-moonbeam-blue: #0b0e11;
-  --color-moonbeam-pink: #e1117b;
+  --color-moonbeam-pink: rgb(17, 149, 225);
   --color-moonbeam-purple-light: #2e1646;
   --color-moonbeam-purple-dark: #0f0717;
   --color-moonbeam-grey-dark: #0b0e11;

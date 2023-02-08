@@ -1,6 +1,6 @@
 import { Chain } from '@usedapp/core';
 
-import { chains, contractAddresses, explorerApiEndpoints, getDefaultChainId } from '@/config';
+import { chainColorAccents, chains, contractAddresses, explorerApiEndpoints, getDefaultChainId } from '@/config';
 
 export const getCoinFlipAddress = (chainId?: number): string => {
   if (!chainId || !contractAddresses[chainId]) {
@@ -28,4 +28,11 @@ export const getExplorerApiEndpoint = (chainId?: number): string => {
     return explorerApiEndpoints[getDefaultChainId()];
   }
   return explorerApiEndpoints[chainId];
+};
+
+export const getColorAccent = (chainId?: number): string => {
+  if (!chainId || !chainColorAccents[chainId]) {
+    return chainColorAccents[getDefaultChainId()];
+  }
+  return chainColorAccents[chainId];
 };

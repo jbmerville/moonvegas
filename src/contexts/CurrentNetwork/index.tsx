@@ -5,6 +5,7 @@ import { createContext, ReactNode, useCallback, useContext, useState } from 'rea
 
 import {
   getCoinFlipAddress,
+  getColorAccent,
   getExplorerApiEndpoint,
   getNetwork,
   getRaffleAddress,
@@ -13,6 +14,7 @@ import {
 export interface CurrentNetworkContextType {
   currentNetwork: CurrentNetworkStateType;
   changeNetwork: (chainId: number) => Promise<void>;
+  colorAccent: string;
 }
 
 export interface CurrentNetworkStateType {
@@ -42,6 +44,8 @@ export const CurrentNetworkProvider = ({ children }: { children: ReactNode }) =>
     rpcUrl: getNetwork().rpcUrl || 'ERROR',
   });
 
+  const [colorAccent, setColorAccent] = useState(getColorAccent());
+
   const changeNetwork = useCallback(
     async (chainId: number) => {
       await switchNetwork(chainId);
@@ -53,12 +57,13 @@ export const CurrentNetworkProvider = ({ children }: { children: ReactNode }) =>
         currencySymbol: getNetwork(chainId).nativeCurrency?.symbol || 'ERROR',
         rpcUrl: getNetwork(chainId).rpcUrl || 'ERROR',
       });
+      setColorAccent(getColorAccent(chainId));
     },
     [switchNetwork]
   );
 
   return (
-    <CurrentNetworkContext.Provider value={{ currentNetwork: currentNetworkState, changeNetwork }}>
+    <CurrentNetworkContext.Provider value={{ currentNetwork: currentNetworkState, changeNetwork, colorAccent }}>
       {children}
     </CurrentNetworkContext.Provider>
   );

@@ -19,7 +19,7 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
   const { playerCoinFaceChoice } = props;
   const { isTransactionPending, flip, transactionStatus } = useCoinFlipContext();
   const [currentSelectedBetAmount, setCurrentSelectedBetAmount] = useState<BetAmount>({ name: 'One', value: 1 });
-  const { currentNetwork } = useCurrentNetworkContext();
+  const { currentNetwork, colorAccent } = useCurrentNetworkContext();
 
   const onFlipClick = () => {
     flip(currentSelectedBetAmount, playerCoinFaceChoice);
@@ -29,9 +29,9 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
     <div className='layout flex flex-col items-center justify-center'>
       <div className='flex w-full flex-col items-start justify-start '>
         <div className='flex w-full items-center'>
-          <p className='text-left text-lg font-bold text-moonbeam-cyan md:text-3xl'>Bet Amount</p>
+          <p className={`text-${colorAccent} text-left text-lg font-bold md:text-3xl`}>Bet Amount</p>
         </div>
-        <p className='text-left text-sm font-light text-moonbeam-cyan opacity-80 md:text-lg'>
+        <p className={`text-${colorAccent} text-left text-sm font-light opacity-80 md:text-lg`}>
           Select a bet amount. Max bet amount is capped based on smart contract balance.
         </p>
         <div className='flex w-full flex-col items-center justify-start '>

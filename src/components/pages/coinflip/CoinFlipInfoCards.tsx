@@ -43,23 +43,23 @@ const CoinFlipInfoCards = () => {
   };
   const popUpBulletPoints: ReactNode[] = [
     <>
-      Select either <span className='text-moonbeam-cyan'> HEADS</span> or{' '}
-      <span className='text-moonbeam-cyan'> TAILS</span>, then choose the amount of {currentNetwork.currencySymbol} to
+      Select either <span className='text-${colorAccent}'> HEADS</span> or{' '}
+      <span className='text-${colorAccent}'> TAILS</span>, then choose the amount of {currentNetwork.currencySymbol} to
       flip.
     </>,
     <>
-      Draws are set to a <span className='text-moonbeam-cyan'> 50/50</span> chance of picking HEADS or TAILS
+      Draws are set to a <span className='text-${colorAccent}'> 50/50</span> chance of picking HEADS or TAILS
     </>,
     <>
-      If you picked the <span className='text-moonbeam-cyan'>same face as the one fliped</span>, you win and you get
+      If you picked the <span className='text-${colorAccent}'>same face as the one fliped</span>, you win and you get
       back double your {currentNetwork.currencySymbol} in the same transaction.
     </>,
     <>
-      If you picked the <span className='text-moonbeam-cyan'>opposite face as the one fliped</span>, you lost and the
+      If you picked the <span className='text-${colorAccent}'>opposite face as the one fliped</span>, you lost and the
       smart contract keeps your {currentNetwork.currencySymbol}.
     </>,
     <>
-      <span className='text-moonbeam-cyan'>
+      <span className='text-${colorAccent}'>
         The bigger the smart contract balance, the bigger the allowed bet amount
       </span>
       . This is so the pool does not get emptied after a few lucky flips in a row.

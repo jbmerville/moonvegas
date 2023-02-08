@@ -26,6 +26,8 @@ module.exports = {
         },
         'moonbeam-blue': 'var(--color-moonbeam-blue)',
         'moonbeam-blue-dark': 'rgb(var(--color-moonbeam-blue-dark) / <alpha-value>)',
+        'moonbeam-accent': 'rgb(var(--color-moonbeam-accent) / <alpha-value>)',
+        'moonbase-alpha-accent': 'rgb(var(--color-moonbase-alpha-accent) / <alpha-value>)',
         'moonbeam-cyan': 'rgb(var(--color-moonbeam-cyan) / <alpha-value>)',
         'moonbeam-pink': 'var(--color-moonbeam-pink)',
         'moonbeam-purple-light': 'var(--color-moonbeam-purple-light)',
@@ -73,4 +75,18 @@ module.exports = {
     },
   },
   plugins: [require('@tailwindcss/forms'), require('flowbite/plugin')],
+  safelist: [
+    {
+      pattern: /bg-(moonbase-alpha-accent|moonbeam-accent)/,
+      variants: ['hover'],
+    },
+    {
+      pattern: /text-(moonbase-alpha-accent|moonbeam-accent)/,
+      variants: ['hover'],
+    },
+    {
+      pattern: /border-(moonbase-alpha-accent|moonbeam-accent)/,
+      variants: ['hover'],
+    },
+  ],
 };
