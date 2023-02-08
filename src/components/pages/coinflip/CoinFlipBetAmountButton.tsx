@@ -1,27 +1,27 @@
 import { useEtherBalance, useEthers } from '@usedapp/core';
 import { utils } from 'ethers/lib/ethers';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
-import Button from '@/components/buttons/Button';
-import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
+import { getNetworkLogo } from '@/lib/helpers';
 
-import CoinFlipContext from '@/contexts/CoinFlipContext';
+import Button from '@/components/buttons/Button';
+
+import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import { BetAmount } from '@/types';
 
-interface BetAmountButtonPropsType {
+interface CoinFlipBetAmountButtonPropsType {
   betAmount: BetAmount;
   setCurrentSelectedBetAmount: (betAmount: BetAmount) => void;
   isCurrentSelectedBetAmount: boolean;
 }
-const BetAmountButton = (props: BetAmountButtonPropsType) => {
+const CoinFlipBetAmountButton = (props: CoinFlipBetAmountButtonPropsType) => {
   const { betAmount, setCurrentSelectedBetAmount, isCurrentSelectedBetAmount } = props;
-  const { coinFlipState } = useContext(CoinFlipContext);
+  const { coinFlipState } = useCoinFlipContext();
   const { account } = useEthers();
   const { currentNetwork } = useCurrentNetworkContext();
-  const currencySymbol = currentNetwork.network.nativeCurrency?.symbol;
   const accountBalance = useEtherBalance(account);
   const doesPlayerHasInsufficiantBalanceForBet =
     accountBalance && parseFloat(utils.formatEther(accountBalance)) < betAmount.value;
@@ -31,11 +31,14 @@ const BetAmountButton = (props: BetAmountButtonPropsType) => {
 
   const onButtonClick = () => {
     if (doesSCHasInsufficiantBalanceForBet) {
-      toast.dark(`Insufficient ${currencySymbol} balance in the Coin Flip smart contract to support this bet amount`, {
-        type: toast.TYPE.ERROR,
-      });
+      toast.dark(
+        `Insufficient ${currentNetwork.currencySymbol} balance in the Coin Flip smart contract to support this bet amount`,
+        {
+          type: toast.TYPE.ERROR,
+        }
+      );
     } else if (doesPlayerHasInsufficiantBalanceForBet) {
-      toast.dark(`Insufficient ${currencySymbol} balance in your account`, {
+      toast.dark(`Insufficient ${currentNetwork.currencySymbol} balance in your account`, {
         type: toast.TYPE.ERROR,
       });
     } else {
@@ -61,15 +64,13 @@ const BetAmountButton = (props: BetAmountButtonPropsType) => {
       ) : doesPlayerHasInsufficiantBalanceForBet && isHover ? (
         'Insufficient balance'
       ) : (
-        <>
-          {betAmount.value} {currencySymbol}
-          <div className='ml-2 scale-[1.5]'>
-            <MoonbeamIcon />
-          </div>
-        </>
+        <div className='flex items-center justify-center'>
+          <div className='mr-3 scale-[1.2] md:scale-[1.5]'>{getNetworkLogo(currentNetwork.network.chainId)}</div>
+          {betAmount.value} {currentNetwork.currencySymbol}
+        </div>
       )}
     </Button>
   );
 };
 
-export default BetAmountButton;
+export default CoinFlipBetAmountButton;

@@ -1,16 +1,16 @@
 import { faBook, faClock, faReceipt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode } from 'react';
 import Countdown from 'react-countdown';
 
 import InfoCards from '@/components/InfoCards';
 import { InfoCardPropsType } from '@/components/InfoCards/InfoCard';
 
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
-import RaffleContext from '@/contexts/RaffleContext';
+import { useRaffleContext } from '@/contexts/RaffleContext';
 
 const RaffleInfoCards = () => {
-  const { raffleState, isRaffleStateFetching } = useContext(RaffleContext);
+  const { raffleState, isRaffleStateFetching } = useRaffleContext();
   const { currentNetwork } = useCurrentNetworkContext();
 
   const infoCard1: InfoCardPropsType = {

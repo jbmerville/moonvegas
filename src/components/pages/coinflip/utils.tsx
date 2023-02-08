@@ -15,6 +15,7 @@ export interface CoinFlipTransactionType {
 }
 
 export async function getCoinFlipTransactionHistory(
+  currentNetworkRpcUrl: string,
   explorerApiEndpoint: string,
   coinFlipAddress: string
 ): Promise<CoinFlipTransactionType[]> {
@@ -23,9 +24,15 @@ export async function getCoinFlipTransactionHistory(
 
   const transactions = json.result as ExplorerTransactionType[];
   if (typeof transactions === 'object' && transactions !== null) {
-    return (await Promise.all(json.result.filter(shouldTransactionBeFiltered).map(parseExplorerTransaction))).sort(
-      sortTransactions
-    );
+    return (
+      await Promise.all(
+        json.result
+          .filter(shouldTransactionBeFiltered)
+          .map((transaction: ExplorerTransactionType) =>
+            parseExplorerTransaction(currentNetworkRpcUrl, transaction, coinFlipAddress)
+          )
+      )
+    ).sort(sortTransactions);
   }
   return [];
 }

@@ -9,12 +9,12 @@ import TableRow, { TableRowType } from '@/components/Table/TableRow';
 
 import { PAGINATION_BUTTON_COUNT, PAGINATION_BUTTON_COUNT_MOBILE } from '@/constants/env';
 
-import { TicketType } from '@/types';
+import { RaffleTicketType } from '@/types';
 
 export interface TransactionType {
   address: string;
   date: Date;
-  ticketsBought: TicketType[];
+  ticketsBought: RaffleTicketType[];
   price: string;
   hash: string;
   block: string;

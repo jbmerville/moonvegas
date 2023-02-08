@@ -5,20 +5,20 @@ import { useContractFunction, useEthers } from '@usedapp/core';
 import { BigNumber, utils } from 'ethers';
 import raffleArtifacts from 'hardhat/artifacts/contracts/Raffle.sol/Raffle.json';
 import { Raffle } from 'hardhat/types';
-import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { getNonDefaultTicketsSelected } from '@/components/pages/raffle/utils';
+import { getNonDefaultRaffleSelectedTickets } from '@/components/pages/raffle/utils';
 
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 import { getRaffleState } from '@/contexts/RaffleContext/utils';
 
-import { RaffleStateType, TicketType } from '@/types';
+import { RaffleStateType, RaffleTicketType } from '@/types';
 
 export const raffleAbi = new utils.Interface(raffleArtifacts.abi);
 
 export interface RaffleContextType {
-  purchase: (tickets: TicketType[], resetTicketsSelected: () => void) => Promise<void>;
+  purchase: (tickets: RaffleTicketType[], resetTicketsSelected: () => void) => Promise<void>;
   isTransactionPending: boolean;
   transactionStatus: string;
   raffleState: RaffleStateType;
@@ -32,7 +32,7 @@ const RaffleContext = createContext<RaffleContextType>({} as RaffleContextType);
  * @param children - The react children components that consume the RaffleContext
  */
 export const RaffleProvider = ({ children }: { children: ReactNode }) => {
-  const { account, library, chainId } = useEthers();
+  const { account, library } = useEthers();
   const { currentNetwork } = useCurrentNetworkContext();
 
   const contract = useMemo(
@@ -96,8 +96,8 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
 
   const purchase = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async (tickets: TicketType[], resetTicketsSelected: () => void, options?: any) => {
-      const ticketIds = getNonDefaultTicketsSelected(tickets).map((ticket) => ticket.id);
+    async (tickets: RaffleTicketType[], resetTicketsSelected: () => void, options?: any) => {
+      const ticketIds = getNonDefaultRaffleSelectedTickets(tickets).map((ticket) => ticket.id);
       if (ticketIds.length === 0) {
         toast.dark('No ticket selected', { type: toast.TYPE.ERROR });
         return;
@@ -133,7 +133,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
     },
-    [chainId, account, raffleState.ticketPrice, send, refreshState]
+    [account, raffleState.ticketPrice, send, refreshState]
   );
 
   return (
@@ -144,5 +144,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
     </RaffleContext.Provider>
   );
 };
+
+export const useRaffleContext = () => useContext(RaffleContext);
 
 export default RaffleContext;

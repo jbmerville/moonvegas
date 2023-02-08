@@ -3,8 +3,8 @@ import * as React from 'react';
 import Footer from '@/components/layouts/Footer';
 import RaffleInfoCards from '@/components/pages/raffle/RaffleInfoCards';
 import RaffleLastSalesTable from '@/components/pages/raffle/RaffleLastSalesTable';
-import TicketSelectionSection from '@/components/pages/raffle/TicketSelectionSection';
-import WinnerHistoryTable from '@/components/pages/raffle/WinnerHistoryTable';
+import RaffleTicketSelection from '@/components/pages/raffle/RaffleTicketSelection';
+import RaffleWinnerHistoryTable from '@/components/pages/raffle/RaffleWinnerHistoryTable';
 import Seo from '@/components/Seo';
 
 import { RaffleProvider } from '@/contexts/RaffleContext';
@@ -31,9 +31,9 @@ export default function Raffle() {
 
           <RaffleProvider>
             <RaffleInfoCards />
-            <TicketSelectionSection />
+            <RaffleTicketSelection />
             <div className='mt-10 flex min-w-full grow flex-col justify-between rounded-t-3xl bg-moonbeam-grey text-white'>
-              <WinnerHistoryTable />
+              <RaffleWinnerHistoryTable />
               <RaffleLastSalesTable />
             </div>
           </RaffleProvider>

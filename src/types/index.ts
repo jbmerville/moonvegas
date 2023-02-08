@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 
-export interface TicketType {
+export interface RaffleTicketType {
   id: number;
   owner?: string;
   isSelected: boolean;
@@ -14,9 +14,9 @@ export interface RaffleHistoryType {
 }
 
 export interface RaffleStateType {
-  tickets: TicketType[];
-  ticketsLeft: TicketType[];
-  ticketsBought: TicketType[];
+  tickets: RaffleTicketType[];
+  ticketsLeft: RaffleTicketType[];
+  ticketsBought: RaffleTicketType[];
   draftTime: Date;
   ticketPrice: BigNumber;
   raffleHistory: RaffleHistoryType[];

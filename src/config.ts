@@ -6,6 +6,8 @@ import raffleAddresssMoonbaseAlpha from 'hardhat/sc-addresses/moonbase/Raffle.ad
 import coinFlipAddressMoonbeam from 'hardhat/sc-addresses/moonbeam/CoinFlip.address.js';
 import raffleAddressMoonbeam from 'hardhat/sc-addresses/moonbeam/Raffe.address';
 
+import { isDev, isProd } from '@/constants/env';
+
 export const LocalhostChain: Chain = {
   chainId: 1281,
   chainName: 'Moonbeam Localhost',
@@ -67,10 +69,10 @@ export const explorerApiEndpoints: { [key: number]: string } = {
 };
 
 export const getDefaultChainId = (): number => {
-  if (process.env.NEXT_PUBLIC_ENV === 'production') {
+  if (isProd) {
     return Moonbeam.chainId;
   }
-  if (process.env.NEXT_PUBLIC_ENV === 'development') {
+  if (isDev) {
     return MoonbaseAlpha.chainId;
   }
   return LocalhostChain.chainId;

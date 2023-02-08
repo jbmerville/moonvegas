@@ -1,12 +1,12 @@
 import Image from 'next/image';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import useIsMobile from '@/hooks/useIsMobile';
 
 import UnderlineLink from '@/components/links/UnderlineLink';
 import PopUp from '@/components/Popup';
 
-import CoinFlipContext from '@/contexts/CoinFlipContext';
+import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import coinHeads from '../../../../public/images/coin-heads.png';
@@ -16,9 +16,9 @@ import { CoinFace } from '@/types';
 
 const CoinFlipTransactionResult = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
-  const { lastCoinFlipResult } = useContext(CoinFlipContext);
-  const isMobile = useIsMobile();
+  const { lastCoinFlipResult } = useCoinFlipContext();
   const { currentNetwork } = useCurrentNetworkContext();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setIsPopUpOpen(true);

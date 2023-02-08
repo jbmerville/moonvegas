@@ -1,36 +1,38 @@
 import { BigNumber, utils } from 'ethers/lib/ethers';
+import Image from 'next/image';
+import { ReactNode } from 'react';
 
-import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
+import { getNetworkLogo } from '@/lib/helpers';
 
 import { MAX_RAFFLE_TICKET_PER_TX, MAX_RAFFLE_TICKET_PER_TX_MOBILE } from '@/constants/env';
 import { raffleAbi } from '@/contexts/RaffleContext';
 
-import { ExplorerTransactionType, TicketType } from '@/types';
+import moonbeam from '../../../../public/images/moonbeam-token.png';
+
+import { ExplorerTransactionType, RaffleTicketType } from '@/types';
 
 export interface RaffleTransactionType {
   address: string;
   date: Date;
   price: string;
-  ticketsBought: TicketType[];
+  ticketsBought: RaffleTicketType[];
   hash: string;
 }
 
-export const getNonDefaultTicketsSelected = (selectedTickets: TicketType[]): TicketType[] => {
-  return selectedTickets.filter((ticket) => ticket.id !== -1);
+export const getNonDefaultRaffleSelectedTickets = (selectedRaffleTickets: RaffleTicketType[]): RaffleTicketType[] => {
+  return selectedRaffleTickets.filter((ticket) => ticket.id !== -1);
 };
 
-export const renderTxPrice = (value: string) => {
+export const renderTransactionPrice = (value: string | number, chainId: number) => {
   return (
     <div className='flex items-center justify-center'>
-      <div className='scale-[0.9] rounded-full bg-dark p-1 md:scale-[1.5]'>
-        <MoonbeamIcon />
-      </div>
-      <p className='ml-1 md:ml-5'>{value}</p>
+      <div className='scale-[0.9] md:scale-[1.2]'>{getNetworkLogo(chainId)}</div>
+      <p className='ml-1 md:ml-2'>{value}</p>
     </div>
   );
 };
 
-export const getMaxTicketPerTx = (isMobile: boolean) => {
+export const getMaxRaffleTicketPerTransaction = (isMobile: boolean) => {
   return isMobile ? MAX_RAFFLE_TICKET_PER_TX_MOBILE : MAX_RAFFLE_TICKET_PER_TX;
 };
 
@@ -66,7 +68,7 @@ function sortTransactions(transaction1: RaffleTransactionType, transaction2: Raf
   return transaction1.date > transaction2.date ? -1 : 1;
 }
 
-function parseTransactionIput(transaction: ExplorerTransactionType): TicketType[] {
+function parseTransactionIput(transaction: ExplorerTransactionType): RaffleTicketType[] {
   const { input } = transaction;
   try {
     const inputBegining = input.slice(0, 10);
@@ -77,11 +79,25 @@ function parseTransactionIput(transaction: ExplorerTransactionType): TicketType[
         id: ticketId.toNumber(),
         owner: transaction.from,
         isSelected: false,
-      })) as TicketType[];
+      })) as RaffleTicketType[];
     }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(`Error while parsing transaction ${transaction.input}`, error);
   }
   return [];
+}
+
+export function renderMiniatureSelectedRaffleTicket(ticket: RaffleTicketType): ReactNode {
+  return (
+    <div
+      key={ticket.id}
+      className='mx-2 ml-[-15px] flex h-[50px] w-[40px] flex-col items-center justify-center rounded border bg-moonbeam-grey-dark p-0 shadow-[0_0px_20px_-7px_rgb(0,0,0)]  transition-all'
+    >
+      <div className='mb-[-10px] mt-[-5px] h-fit text-moonbeam-cyan'>{ticket.id}</div>
+      <div className='h-[15px]'>
+        <Image src={moonbeam} layout='fixed' height='15px' width='15px' alt='' />
+      </div>
+    </div>
+  );
 }

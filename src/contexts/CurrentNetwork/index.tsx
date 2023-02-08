@@ -20,6 +20,8 @@ export interface CurrentNetworkStateType {
   raffleAddress: string;
   coinFlipAddress: string;
   explorerApiEndpoint: string;
+  currencySymbol: string;
+  rpcUrl: string;
 }
 
 const CurrentNetworkContext = createContext<CurrentNetworkContextType>({} as CurrentNetworkContextType);
@@ -36,6 +38,8 @@ export const CurrentNetworkProvider = ({ children }: { children: ReactNode }) =>
     coinFlipAddress: getCoinFlipAddress(),
     network: getNetwork(),
     explorerApiEndpoint: getExplorerApiEndpoint(),
+    currencySymbol: getNetwork().nativeCurrency?.symbol || 'ERROR',
+    rpcUrl: getNetwork().rpcUrl || 'ERROR',
   });
 
   const changeNetwork = useCallback(
@@ -46,6 +50,8 @@ export const CurrentNetworkProvider = ({ children }: { children: ReactNode }) =>
         raffleAddress: getRaffleAddress(chainId),
         coinFlipAddress: getCoinFlipAddress(chainId),
         explorerApiEndpoint: getExplorerApiEndpoint(),
+        currencySymbol: getNetwork(chainId).nativeCurrency?.symbol || 'ERROR',
+        rpcUrl: getNetwork(chainId).rpcUrl || 'ERROR',
       });
     },
     [switchNetwork]

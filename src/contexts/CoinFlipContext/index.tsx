@@ -5,7 +5,7 @@ import { useContractFunction, useEthers } from '@usedapp/core';
 import { utils } from 'ethers';
 import coinFlipArtifacts from 'hardhat/artifacts/contracts/CoinFlip.sol/CoinFlip.json';
 import { CoinFlip } from 'hardhat/types';
-import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { wait } from '@/lib/helpers';
@@ -156,5 +156,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
     </CoinFlipContext.Provider>
   );
 };
+
+export const useCoinFlipContext = () => useContext(CoinFlipContext);
 
 export default CoinFlipContext;

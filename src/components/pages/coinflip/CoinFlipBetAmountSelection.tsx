@@ -1,40 +1,43 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+
+import { getNetworkLogo } from '@/lib/helpers';
 
 import Button from '@/components/buttons/Button';
 import DevTokenLink from '@/components/DevTokenLink';
-import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
-import BetAmountButton from '@/components/pages/coinflip/BetAmountButton';
+import CoinFlipBetAmountButton from '@/components/pages/coinflip/CoinFlipBetAmountButton';
 
-import CoinFlipContext from '@/contexts/CoinFlipContext';
+import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import { BetAmount, BetAmounts, CoinFace } from '@/types';
 
-interface BetAmountSelectionPropsType {
+interface CoinFlipBetAmountSelectionPropsType {
   playerCoinFaceChoice?: CoinFace;
 }
 
-const BetAmountSelection = (props: BetAmountSelectionPropsType) => {
+const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) => {
   const { playerCoinFaceChoice } = props;
-  const { isTransactionPending, flip, transactionStatus } = useContext(CoinFlipContext);
+  const { isTransactionPending, flip, transactionStatus } = useCoinFlipContext();
   const [currentSelectedBetAmount, setCurrentSelectedBetAmount] = useState<BetAmount>({ name: 'One', value: 1 });
+  const { currentNetwork } = useCurrentNetworkContext();
 
   const onFlipClick = () => {
     flip(currentSelectedBetAmount, playerCoinFaceChoice);
   };
 
   return (
-    <div className='layout mx-10 flex items-center justify-between md:mx-4'>
+    <div className='layout flex flex-col items-center justify-center'>
       <div className='flex w-full flex-col items-start justify-start '>
         <div className='flex w-full items-center'>
           <p className='text-left text-lg font-bold text-moonbeam-cyan md:text-3xl'>Bet Amount</p>
         </div>
         <p className='text-left text-sm font-light text-moonbeam-cyan opacity-80 md:text-lg'>
-          Select a bet amount. Max bet amount is capped based on pool balance.
+          Select a bet amount. Max bet amount is capped based on smart contract balance.
         </p>
         <div className='flex w-full flex-col items-center justify-start '>
           <div className='my-10 grid w-full grid-cols-2 grid-rows-4 gap-4 md:grid-cols-4 md:grid-rows-2'>
             {BetAmounts.map((betAmount, index) => (
-              <BetAmountButton
+              <CoinFlipBetAmountButton
                 betAmount={betAmount}
                 key={index}
                 setCurrentSelectedBetAmount={setCurrentSelectedBetAmount}
@@ -53,10 +56,8 @@ const BetAmountSelection = (props: BetAmountSelectionPropsType) => {
               </span>
             ) : (
               <span className='relative flex w-full items-center justify-center py-2.5 text-lg font-extrabold uppercase md:px-5'>
+                <div className='scale-[1.5] pr-2'>{getNetworkLogo(currentNetwork.network.chainId)}</div>
                 <p className=''>Double or Nothing</p>
-                <div className='scale-[1.5] pl-2'>
-                  <MoonbeamIcon />
-                </div>
               </span>
             )}
           </Button>
@@ -67,4 +68,4 @@ const BetAmountSelection = (props: BetAmountSelectionPropsType) => {
   );
 };
 
-export default BetAmountSelection;
+export default CoinFlipBetAmountSelection;

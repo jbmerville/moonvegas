@@ -23,6 +23,7 @@ const CoinFlipLastSalesTable = () => {
     const fetchHistory = async () => {
       setIsLoading(true);
       const transactionHistory = await getCoinFlipTransactionHistory(
+        currentNetwork.rpcUrl,
         currentNetwork.explorerApiEndpoint,
         currentNetwork.coinFlipAddress
       );
@@ -33,9 +34,9 @@ const CoinFlipLastSalesTable = () => {
     };
 
     fetchHistory();
-  }, []);
+  }, [currentNetwork]);
 
-  const renderRowsFromTx = (): TableRowType<any>[] => {
+  const renderRowsFromTransaction = (): TableRowType<any>[] => {
     return transactions.map((transaction) => ({
       inputs: [
         {
@@ -94,7 +95,7 @@ const CoinFlipLastSalesTable = () => {
       header={{
         inputs: [{ value: 'Date' }, { value: 'Address' }, { value: 'Result' }, { value: 'Choice' }],
       }}
-      rows={renderRowsFromTx()}
+      rows={renderRowsFromTransaction()}
       emptyRowMessage='No transactions for this coin flip yet.'
       isLoading={isLoading}
     ></Table>

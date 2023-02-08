@@ -6,33 +6,33 @@ import ticketBody from '../../../../public/images/ticket-body.png';
 import ticketHead from '../../../../public/images/ticket-head.png';
 import ticketHeadOwned from '../../../../public/images/ticket-head-owned.png';
 
-import { TicketType } from '@/types';
+import { RaffleTicketType } from '@/types';
 
-interface TicketPropsType {
-  ticket: TicketType;
-  toggleSelectedTickets: (ticket: TicketType) => void;
+interface RaffleTicketPropsType {
+  ticket: RaffleTicketType;
+  toggleSelectedRaffleTickets: (ticket: RaffleTicketType) => void;
   removeHead?: boolean;
   displayShimmer?: boolean;
 }
-const Ticket = (props: TicketPropsType) => {
-  const { ticket, toggleSelectedTickets, removeHead, displayShimmer } = props;
+const RaffleTicket = (props: RaffleTicketPropsType) => {
+  const { ticket, toggleSelectedRaffleTickets, removeHead, displayShimmer } = props;
   const { account } = useEthers();
 
-  const renderTicketHead = () => {
-    const isTicketOwnedByCurrentAccount = account && ticket.owner && addressEqual(ticket.owner, account);
+  const renderRaffleTicketHead = () => {
+    const isRaffleTicketOwnedByCurrentAccount = account && ticket.owner && addressEqual(ticket.owner, account);
 
     return (
       <div className='absolute flex h-[210px] min-w-[100px] drop-shadow-[0_9px_3px_rgba(255,255,255,0.10)] md:h-[350px] md:min-w-[170px]'>
-        {isTicketOwnedByCurrentAccount && (
-          <div className='absolute left-[14px] top-[23px] z-10 font-secondary text-sm font-bold text-white md:top-[30px] md:left-[40px] md:text-lg'>
+        {isRaffleTicketOwnedByCurrentAccount && (
+          <div className='absolute left-[14px] top-[23px] z-10 font-secondary text-sm font-bold text-white md:top-[35px] md:left-[40px] md:text-lg'>
             Your Ticket
           </div>
         )}
-        <div className='absolute left-[18px] top-[40px] z-10 font-secondary text-xs text-white md:top-[55px] md:left-[40px] md:text-base'>
+        <div className='absolute left-[18px] top-[40px] z-10 font-secondary text-xs text-white md:top-[60px] md:left-[40px] md:text-base'>
           No. :{String(ticket.id).padStart(6, '0')}
         </div>
         <Image
-          src={isTicketOwnedByCurrentAccount ? ticketHeadOwned : ticketHead}
+          src={isRaffleTicketOwnedByCurrentAccount ? ticketHeadOwned : ticketHead}
           layout='fill'
           objectFit='contain'
           alt=''
@@ -41,7 +41,7 @@ const Ticket = (props: TicketPropsType) => {
     );
   };
 
-  const renderTicketBody = () => {
+  const renderRaffleTicketBody = () => {
     return (
       <div
         className={`absolute flex h-[210px] min-w-[100px] transition-all duration-150 md:min-w-[170px] ${
@@ -60,20 +60,22 @@ const Ticket = (props: TicketPropsType) => {
 
   if (ticket.owner) {
     return (
-      <div className='relative flex h-[210px] min-w-[100px] md:h-[350px] md:min-w-[170px]'>{renderTicketHead()}</div>
+      <div className='relative flex h-[210px] min-w-[100px] md:h-[350px] md:min-w-[170px]'>
+        {renderRaffleTicketHead()}
+      </div>
     );
   }
 
-  // Ticket is not owned
+  // RaffleTicket is not owned
   return (
     <div
-      onClick={() => !displayShimmer && toggleSelectedTickets(ticket)}
+      onClick={() => !displayShimmer && toggleSelectedRaffleTickets(ticket)}
       className='relative flex h-[240px] min-w-[100px] md:h-[390px] md:min-w-[170px]'
     >
-      {!removeHead && renderTicketHead()}
-      {renderTicketBody()}
+      {!removeHead && renderRaffleTicketHead()}
+      {renderRaffleTicketBody()}
     </div>
   );
 };
 
-export default Ticket;
+export default RaffleTicket;

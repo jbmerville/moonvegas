@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 import Footer from '@/components/layouts/Footer';
-import BetAmountSelection from '@/components/pages/coinflip/BetAmountSelection';
-import CoinFaceSelection from '@/components/pages/coinflip/CoinFaceSelection';
+import CoinFlipBetAmountSelection from '@/components/pages/coinflip/CoinFlipBetAmountSelection';
+import CoinFlipFaceSelection from '@/components/pages/coinflip/CoinFlipFaceSelection';
 import CoinFlipInfoCards from '@/components/pages/coinflip/CoinFlipInfoCards';
 import CoinFlipLastSalesTable from '@/components/pages/coinflip/CoinFlipLastSalesTable';
 import CoinFlipTransactionResult from '@/components/pages/coinflip/CoinFlipTransactionResult';
@@ -23,13 +23,11 @@ export default function CoinFlip() {
           <CoinFlipProvider>
             <CoinFlipTransactionResult />
             <CoinFlipInfoCards />
-            <CoinFaceSelection
+            <CoinFlipFaceSelection
               playerCoinFaceChoice={playerCoinFaceChoice}
               setPlayerCoinFaceChoice={setPlayerCoinFaceChoice}
             />
-            <div className='layout flex flex-col items-center justify-center'>
-              <BetAmountSelection playerCoinFaceChoice={playerCoinFaceChoice} />
-            </div>
+            <CoinFlipBetAmountSelection playerCoinFaceChoice={playerCoinFaceChoice} />
             <div className='mt-10 flex min-w-full grow flex-col justify-between rounded-t-3xl bg-moonbeam-grey text-white'>
               <CoinFlipLastSalesTable />
             </div>

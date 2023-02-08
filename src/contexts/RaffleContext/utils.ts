@@ -1,7 +1,7 @@
 import { utils } from 'ethers/lib/ethers';
 import { Raffle } from 'hardhat/types';
 
-import { RaffleHistoryType, RaffleStateType, TicketType } from '@/types';
+import { RaffleHistoryType, RaffleStateType, RaffleTicketType } from '@/types';
 
 /*
  * Parse raffle history data received from smart-contract
@@ -24,15 +24,15 @@ function parseRaffleHistoryType(raffleHistory: Raffle.RaffleHistoryStructOutput[
  * @param ticketsBoughtData - The data object received from proxy call to smart-contract
  * @param maxTicketAmount - The maximum amount of tickets in the current raffle
  */
-function parseTicketsBoughtData(
+function parseRaffleTicketsBoughtData(
   ticketsBoughtData: Raffle.TicketBoughtStructOutput[],
   maxTicketAmount: number
-): { tickets: TicketType[]; ticketsBought: TicketType[]; ticketsLeft: TicketType[] } {
-  const tickets: TicketType[] = Array(maxTicketAmount)
+): { tickets: RaffleTicketType[]; ticketsBought: RaffleTicketType[]; ticketsLeft: RaffleTicketType[] } {
+  const tickets: RaffleTicketType[] = Array(maxTicketAmount)
     .fill({ id: -1, isSelected: false })
     .map((item, index) => ({ ...item, id: index + 1 }));
-  const ticketsLeft: TicketType[] = [];
-  const ticketsBought: TicketType[] = [];
+  const ticketsLeft: RaffleTicketType[] = [];
+  const ticketsBought: RaffleTicketType[] = [];
 
   const ticketsBoughtMap = new Map(ticketsBoughtData.map((ticket) => [ticket.ticketId.toNumber(), ticket.owner]));
 
@@ -66,7 +66,7 @@ export async function getRaffleState(raffleContract: Raffle): Promise<RaffleStat
 
   const maxTicketAmount = maxTicketAmountData.toNumber();
   const draftTime = new Date(draftTimeData.toNumber() * 1000);
-  const { tickets, ticketsBought, ticketsLeft } = parseTicketsBoughtData(ticketsBoughtData, maxTicketAmount);
+  const { tickets, ticketsBought, ticketsLeft } = parseRaffleTicketsBoughtData(ticketsBoughtData, maxTicketAmount);
   const raffleHistory = parseRaffleHistoryType(raffleHistoryData);
   const royalty = royaltyData / 10; // Ex: 50  -> 5% royalty
 

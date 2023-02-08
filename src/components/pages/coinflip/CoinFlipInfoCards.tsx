@@ -1,17 +1,16 @@
 import { faBook, faCoins, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode } from 'react';
 
 import InfoCards from '@/components/InfoCards';
 import { InfoCardPropsType } from '@/components/InfoCards/InfoCard';
 
-import CoinFlipContext from '@/contexts/CoinFlipContext';
+import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 const CoinFlipInfoCards = () => {
-  const { coinFlipState, isCoinFlipStateFetching } = useContext(CoinFlipContext);
+  const { coinFlipState, isCoinFlipStateFetching } = useCoinFlipContext();
   const { currentNetwork } = useCurrentNetworkContext();
-  const currencySymbol = currentNetwork.network.nativeCurrency?.symbol;
 
   const infoCard1: InfoCardPropsType = {
     title: `${coinFlipState.totalFlips} Flips`,
@@ -24,7 +23,7 @@ const CoinFlipInfoCards = () => {
     isLoading: isCoinFlipStateFetching,
   };
   const infoCard2: InfoCardPropsType = {
-    title: `${coinFlipState.totalVolume} ${currencySymbol}`,
+    title: `${coinFlipState.totalVolume} ${currentNetwork.currencySymbol}`,
     subtitle: (
       <>
         <FontAwesomeIcon icon={faDollarSign} size='xs' className='mr-2 w-[9px]' />
@@ -44,13 +43,26 @@ const CoinFlipInfoCards = () => {
   };
   const popUpBulletPoints: ReactNode[] = [
     <>
-      Select either <span className='text-moonbeam-cyan'> HEADS or TAILS</span>, then choose the amount of{' '}
-      {currencySymbol} to flip.
+      Select either <span className='text-moonbeam-cyan'> HEADS</span> or{' '}
+      <span className='text-moonbeam-cyan'> TAILS</span>, then choose the amount of {currentNetwork.currencySymbol} to
+      flip.
     </>,
     <>
-      The Smart Contract randomly flips a coin. If it is the one you picked, you win and you get back
-      <span className='text-moonbeam-cyan'> 2x</span> your {currencySymbol}. If it&apos;s not the one you picked, you
-      lose your {currencySymbol}. The house keeps 5% of all wins.
+      Draws are set to a <span className='text-moonbeam-cyan'> 50/50</span> chance of picking HEADS or TAILS
+    </>,
+    <>
+      If you picked the <span className='text-moonbeam-cyan'>same face as the one fliped</span>, you win and you get
+      back double your {currentNetwork.currencySymbol} in the same transaction.
+    </>,
+    <>
+      If you picked the <span className='text-moonbeam-cyan'>opposite face as the one fliped</span>, you lost and the
+      smart contract keeps your {currentNetwork.currencySymbol}.
+    </>,
+    <>
+      <span className='text-moonbeam-cyan'>
+        The bigger the smart contract balance, the bigger the allowed bet amount
+      </span>
+      . This is so the pool does not get emptied after a few lucky flips in a row.
     </>,
   ];
 

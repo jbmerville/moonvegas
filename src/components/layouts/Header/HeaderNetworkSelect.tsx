@@ -26,7 +26,7 @@ const HeaderNetworkSelect = (props: HeaderNetworkSelectPropsType) => {
       .map((network) => {
         return (
           <li key={network.chainId} onClick={() => handleChangeNetwork(network)}>
-            <div className='flex items-center justify-center rounded p-2 hover:bg-moonbeam-grey-dark'>
+            <div className='flex items-center justify-center rounded p-2 hover:bg-moonbeam-grey'>
               {renderNetwork(network)}
             </div>
           </li>
@@ -46,7 +46,7 @@ const HeaderNetworkSelect = (props: HeaderNetworkSelectPropsType) => {
   return (
     <div className={`flex w-max ${className}`}>
       <Button
-        variant='dark'
+        variant='outline'
         className='flex w-[190px] items-center justify-center'
         onMouseEnter={() => setIsSelectOpen(true)}
         onMouseLeave={() => setIsSelectOpen(false)}
@@ -55,7 +55,7 @@ const HeaderNetworkSelect = (props: HeaderNetworkSelectPropsType) => {
       </Button>
       {isSelectOpen && (
         <div
-          className='absolute z-10 mt-[42px]  w-[190px] rounded bg-moonbeam-grey shadow'
+          className='absolute z-10 mt-[40px]  box-border w-[190px] rounded-b border-2 border-t-0 border-moonbeam-cyan bg-moonbeam-grey-dark'
           onMouseEnter={() => setIsSelectOpen(true)}
           onMouseLeave={() => setIsSelectOpen(false)}
         >
