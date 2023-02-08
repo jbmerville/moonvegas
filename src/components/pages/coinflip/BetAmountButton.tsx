@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import Button from '@/components/buttons/Button';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 
-import { currentNetwork } from '@/config';
 import CoinFlipContext from '@/contexts/CoinFlipContext';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import { BetAmount } from '@/types';
 
@@ -20,7 +20,8 @@ const BetAmountButton = (props: BetAmountButtonPropsType) => {
   const { betAmount, setCurrentSelectedBetAmount, isCurrentSelectedBetAmount } = props;
   const { coinFlipState } = useContext(CoinFlipContext);
   const { account } = useEthers();
-  const currencySymbol = currentNetwork.nativeCurrency?.symbol || 'ERROR';
+  const { currentNetwork } = useCurrentNetworkContext();
+  const currencySymbol = currentNetwork.network.nativeCurrency?.symbol;
   const accountBalance = useEtherBalance(account);
   const doesPlayerHasInsufficiantBalanceForBet =
     accountBalance && parseFloat(utils.formatEther(accountBalance)) < betAmount.value;

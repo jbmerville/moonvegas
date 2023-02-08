@@ -10,8 +10,8 @@ import { toast } from 'react-toastify';
 
 import { wait } from '@/lib/helpers';
 
-import { currentCoinFlipAddress, currentNetwork, getCurrentNetworkChainId } from '@/config';
 import { convertLogToFlipEvent, FlipEventType, getCoinFlipState } from '@/contexts/CoinFlipContext/utils';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import { BetAmount, CoinFace, CoinFlipStateType } from '@/types';
 
@@ -35,8 +35,12 @@ const CoinFlipContext = createContext<CoinFlipContextType>({} as CoinFlipContext
  */
 export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   const { account, library, chainId } = useEthers();
+  const { currentNetwork } = useCurrentNetworkContext();
 
-  const contract = useMemo(() => new Contract(currentCoinFlipAddress, coinFlipAbi, library) as CoinFlip, [library]);
+  const contract = useMemo(
+    () => new Contract(currentNetwork.coinFlipAddress, coinFlipAbi, library) as CoinFlip,
+    [library, currentNetwork.coinFlipAddress]
+  );
 
   const { send, state } = useContractFunction(contract, 'flip');
   const transactionStatus = state.status;
@@ -97,13 +101,6 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
     async (betAmount: BetAmount, choice?: CoinFace) => {
       if (choice === undefined) {
         toast.dark('No coin face selected. Select either heads or tails', { type: toast.TYPE.ERROR });
-        return;
-      }
-
-      if (chainId !== getCurrentNetworkChainId()) {
-        toast.dark(`Incorrect chain, connect to ${currentNetwork.chainName} to flip coin`, {
-          type: toast.TYPE.ERROR,
-        });
         return;
       }
 

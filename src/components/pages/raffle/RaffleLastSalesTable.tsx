@@ -7,7 +7,7 @@ import { getRaffleTransactionHistory, RaffleTransactionType, renderTxPrice } fro
 import Table from '@/components/Table';
 import { TableRowType } from '@/components/Table/TableRow';
 
-import { currentNetwork } from '@/config';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 import RaffleContext from '@/contexts/RaffleContext';
 
 import moonbeam from '../../../../public/images/moonbeam-token.png';
@@ -17,21 +17,25 @@ import { TicketType } from '@/types';
 const RaffleLastSalesTable = () => {
   const [transactions, setTransactions] = useState<RaffleTransactionType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { currentNetwork } = useCurrentNetworkContext();
 
   const { raffleState } = useContext(RaffleContext);
 
   useEffect(() => {
     const fetchHistory = async () => {
       setIsLoading(true);
-      const raffleTransactionHistory = await getRaffleTransactionHistory();
-      if (raffleTransactionHistory.length > transactions.length) {
+      const raffleTransactionHistory = await getRaffleTransactionHistory(
+        currentNetwork.explorerApiEndpoint,
+        currentNetwork.raffleAddress
+      );
+      if (raffleTransactionHistory.length !== 0) {
         setTransactions(raffleTransactionHistory);
       }
       setIsLoading(false);
     };
 
     fetchHistory();
-  }, [raffleState.ticketsBought.length]); // Refresh when tickets updates (some tickets have been bought)
+  }, [raffleState.ticketsBought.length, currentNetwork]); // Refresh when some tickets have been bought
 
   const renderRowsFromTx = (): TableRowType<any>[] => {
     return transactions.map((transaction: RaffleTransactionType) => ({
@@ -56,7 +60,7 @@ const RaffleLastSalesTable = () => {
           transformation: renderTxPrice,
         },
       ],
-      url: currentNetwork.getExplorerTransactionLink(transaction.hash),
+      url: currentNetwork.network.getExplorerTransactionLink(transaction.hash),
     }));
   };
 

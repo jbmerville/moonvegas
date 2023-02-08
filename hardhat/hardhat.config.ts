@@ -63,13 +63,14 @@ const config = {
 };
 
 task('deploy', 'Deploy the smart contracts to a network')
-  .addParam('networkname', 'The network name, used to store the smartcontract addresses under the /sc-address dir')
   .addParam('deployraffle', 'Whether to deploy the raffle smartcontract or not', 'false')
-  .addParam('deploycoinflip', 'Whether to deploy the coin flip smartcontract or not')
+  .addParam('deploycoinflip', 'Whether to deploy the coin flip smartcontract or not', 'false')
   .addParam('raffleticketprice', 'The price of each raffle tickets')
   .addParam('coinflippoolamount', 'The amount of tokens to add to the coin flip pool')
-  .setAction(async ({ networkname, deployraffle, deploycoinflip, raffleticketprice, coinflippoolamount }, hre) => {
-    console.log({ networkname, deployraffle, deploycoinflip, raffleticketprice, coinflippoolamount });
+  .setAction(async ({ deployraffle, deploycoinflip, raffleticketprice, coinflippoolamount }, hre) => {
+    console.log({ deployraffle, deploycoinflip, raffleticketprice, coinflippoolamount });
+    const networkName = hre.network.name;
+
     if (deployraffle === 'true') {
       const currentTimestampInSeconds = Math.round(Date.now() / 1000);
       const ONE_DAY_IN_SECS = 24 * 60 * 60;
@@ -85,7 +86,7 @@ task('deploy', 'Deploy the smart contracts to a network')
 
       // await raffle.purchase([1, 3], { value: hre.ethers.utils.parseEther(ticketPrice).mul(2) });
 
-      writeContractAddress(networkname, 'Raffle', raffle.address);
+      writeContractAddress(networkName, 'Raffle', raffle.address);
     }
     if (deploycoinflip === 'true') {
       const CoinFlip = await hre.ethers.getContractFactory('CoinFlip');
@@ -95,8 +96,20 @@ task('deploy', 'Deploy the smart contracts to a network')
 
       await coinFlip.loadFunds({ value: hre.ethers.utils.parseEther(coinflippoolamount) });
 
-      writeContractAddress(networkname, 'CoinFlip', coinFlip.address);
+      writeContractAddress(networkName, 'CoinFlip', coinFlip.address);
     }
+  });
+
+task('loadFunds', 'Transfer funds to the coin flip smart contract')
+  .addParam('coinflippoolamount', 'The amount of tokens to add to the coin flip pool')
+  .setAction(async ({ coinflippoolamount }, hre) => {
+    const network = hre.network;
+    const CoinFlip = await hre.ethers.getContractFactory('CoinFlip');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const contractAddress = require(`./sc-addresses/${network.name}/CoinFlip.address.js`);
+    const coinFlip = CoinFlip.attach(contractAddress);
+    await coinFlip.loadFunds({ value: hre.ethers.utils.parseEther(coinflippoolamount) });
+    console.log(`Loaded ${coinflippoolamount} to ${contractAddress} on ${network.name}`);
   });
 
 function writeContractAddress(networkName: string, contractName: string, contractAddress: string) {

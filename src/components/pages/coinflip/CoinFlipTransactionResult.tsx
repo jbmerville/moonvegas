@@ -6,8 +6,8 @@ import useIsMobile from '@/hooks/useIsMobile';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import PopUp from '@/components/Popup';
 
-import { currentNetwork } from '@/config';
 import CoinFlipContext from '@/contexts/CoinFlipContext';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import coinHeads from '../../../../public/images/coin-heads.png';
 import coinTails from '../../../../public/images/coin-tails.png';
@@ -18,6 +18,7 @@ const CoinFlipTransactionResult = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const { lastCoinFlipResult } = useContext(CoinFlipContext);
   const isMobile = useIsMobile();
+  const { currentNetwork } = useCurrentNetworkContext();
 
   useEffect(() => {
     setIsPopUpOpen(true);
@@ -56,7 +57,7 @@ const CoinFlipTransactionResult = () => {
           </div>
         </div>
         <UnderlineLink
-          href={currentNetwork.getExplorerTransactionLink(lastCoinFlipResult.transactionHash)}
+          href={currentNetwork.network.getExplorerTransactionLink(lastCoinFlipResult.transactionHash)}
           className='pt-8 text-xs text-white/50'
         >
           View Transaction In Explorer

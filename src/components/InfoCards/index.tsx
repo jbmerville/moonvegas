@@ -5,7 +5,7 @@ import PopUpBulletPoint from '@/components/InfoCards/PopUpBulletPoint';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import PopUp from '@/components/Popup';
 
-import { currentNetwork } from '@/config';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 interface InfoCardsPropsType {
   gameName: string;
@@ -20,6 +20,7 @@ interface InfoCardsPropsType {
 const InfoCards = (props: InfoCardsPropsType) => {
   const { infoCard1, infoCard2, infoCard3, popUpBulletPoints, gameName, description, smartContractAddress } = props;
   const [isReadRulesPopUpOpen, setIsReadRulesPopUpOpen] = useState(false);
+  const { currentNetwork } = useCurrentNetworkContext();
 
   const onReadRulesClick = () => {
     setIsReadRulesPopUpOpen((isReadRulesPopUpOpen) => !isReadRulesPopUpOpen);
@@ -53,7 +54,7 @@ const InfoCards = (props: InfoCardsPropsType) => {
           </ul>
           <p className='mt-8 text-center text-xs text-white/50'>
             View {gameName} Smart Contract in explorer:{' '}
-            <UnderlineLink href={currentNetwork.getExplorerAddressLink(smartContractAddress)}>
+            <UnderlineLink href={currentNetwork.network.getExplorerAddressLink(smartContractAddress)}>
               {smartContractAddress}
             </UnderlineLink>
           </p>

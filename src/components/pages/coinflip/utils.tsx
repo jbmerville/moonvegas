@@ -1,6 +1,5 @@
 import { BigNumber, providers, utils } from 'ethers/lib/ethers';
 
-import { currentCoinFlipAddress, currentExplorerApi, currentNetwork } from '@/config';
 import { coinFlipAbi } from '@/contexts/CoinFlipContext';
 import { convertLogToFlipEvent } from '@/contexts/CoinFlipContext/utils';
 
@@ -15,8 +14,11 @@ export interface CoinFlipTransactionType {
   hash: string;
 }
 
-export async function getCoinFlipTransactionHistory(): Promise<CoinFlipTransactionType[]> {
-  const result = await fetch(`${currentExplorerApi}?module=account&action=txlist&address=${currentCoinFlipAddress}`);
+export async function getCoinFlipTransactionHistory(
+  explorerApiEndpoint: string,
+  coinFlipAddress: string
+): Promise<CoinFlipTransactionType[]> {
+  const result = await fetch(`${explorerApiEndpoint}?module=account&action=txlist&address=${coinFlipAddress}`);
   const json = await result.json();
 
   const transactions = json.result as ExplorerTransactionType[];
@@ -28,22 +30,30 @@ export async function getCoinFlipTransactionHistory(): Promise<CoinFlipTransacti
   return [];
 }
 
-async function parseExplorerTransaction(transaction: ExplorerTransactionType): Promise<CoinFlipTransactionType> {
+async function parseExplorerTransaction(
+  currentNetworkRpcUrl: string,
+  transaction: ExplorerTransactionType,
+  coinFlipAddress: string
+): Promise<CoinFlipTransactionType> {
   return {
     address: transaction.from,
     date: new Date(parseInt(transaction.timeStamp) * 1000),
     choice: parseTransactionInput(transaction),
     price: utils.formatEther(BigNumber.from(transaction.value)),
-    isWin: await getTransactionOutcome(transaction),
+    isWin: await getTransactionOutcome(currentNetworkRpcUrl, transaction, coinFlipAddress),
     hash: transaction.hash,
   };
 }
 
-async function getTransactionOutcome(transaction: ExplorerTransactionType) {
-  const provider = new providers.JsonRpcProvider(currentNetwork.rpcUrl);
+async function getTransactionOutcome(
+  currentNetworkRpcUrl: string,
+  transaction: ExplorerTransactionType,
+  coinFlipAddress: string
+) {
+  const provider = new providers.JsonRpcProvider(currentNetworkRpcUrl);
 
   const logs = await provider.getLogs({
-    address: currentCoinFlipAddress,
+    address: coinFlipAddress,
     blockHash: transaction.blockHash,
     topics: ['0x3419036def9952f45dbfaa88ccbb2008b3c97cf9fe09f9b8e13e9df7b14b84ae'],
   });
@@ -72,7 +82,7 @@ function parseTransactionInput(transaction: ExplorerTransactionType): CoinFace |
     }
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error(error);
+    console.error(`Error while parsing transaction ${transaction.input}`, error);
   }
 }
 

@@ -6,11 +6,13 @@ import Countdown from 'react-countdown';
 import InfoCards from '@/components/InfoCards';
 import { InfoCardPropsType } from '@/components/InfoCards/InfoCard';
 
-import { currentNetwork, currentRaffleAddress } from '@/config';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 import RaffleContext from '@/contexts/RaffleContext';
 
 const RaffleInfoCards = () => {
   const { raffleState, isRaffleStateFetching } = useContext(RaffleContext);
+  const { currentNetwork } = useCurrentNetworkContext();
+
   const infoCard1: InfoCardPropsType = {
     title: `${raffleState.ticketsLeft.length}/${raffleState.maxTicketAmount}`,
     subtitle: (
@@ -51,7 +53,7 @@ const RaffleInfoCards = () => {
     </>,
     <>
       Winner receives <span className='text-moonbeam-cyan'>{100 - raffleState.royalty}%</span> of all the{' '}
-      {currentNetwork.nativeCurrency?.symbol} in the pool. The house keeps {raffleState.royalty}%.
+      {currentNetwork.network.nativeCurrency?.symbol} in the pool. The house keeps {raffleState.royalty}%.
     </>,
     <>
       Raffle <span className='text-moonbeam-cyan'>restarts automatically</span> after the end of every raffle.
@@ -70,7 +72,7 @@ const RaffleInfoCards = () => {
       infoCard2={infoCard2}
       infoCard3={infoCard3}
       popUpBulletPoints={popUpBulletPoints}
-      smartContractAddress={currentRaffleAddress}
+      smartContractAddress={currentNetwork.raffleAddress}
     />
   );
 };

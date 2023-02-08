@@ -7,7 +7,7 @@ import { CoinFlipTransactionType, getCoinFlipTransactionHistory } from '@/compon
 import Table from '@/components/Table';
 import { TableRowType } from '@/components/Table/TableRow';
 
-import { currentNetwork } from '@/config';
+import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import coinHeads from '../../../../public/images/coin-heads.png';
 import coinTails from '../../../../public/images/coin-tails.png';
@@ -17,11 +17,15 @@ import { CoinFace } from '@/types';
 const CoinFlipLastSalesTable = () => {
   const [transactions, setTransactions] = useState<CoinFlipTransactionType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { currentNetwork } = useCurrentNetworkContext();
 
   useEffect(() => {
     const fetchHistory = async () => {
       setIsLoading(true);
-      const transactionHistory = await getCoinFlipTransactionHistory();
+      const transactionHistory = await getCoinFlipTransactionHistory(
+        currentNetwork.explorerApiEndpoint,
+        currentNetwork.coinFlipAddress
+      );
       if (transactionHistory.length > transactions.length) {
         setTransactions(transactionHistory);
       }
@@ -45,7 +49,7 @@ const CoinFlipLastSalesTable = () => {
           transformation: (value: CoinFlipTransactionType) => {
             return (
               <div>
-                Flipped {value.price} {currentNetwork.nativeCurrency?.symbol} and{' '}
+                Flipped {value.price} {currentNetwork.network.nativeCurrency?.symbol} and{' '}
                 {value.isWin ? (
                   <span className=' text-green-400'>doubled</span>
                 ) : (
@@ -80,7 +84,7 @@ const CoinFlipLastSalesTable = () => {
           },
         },
       ],
-      url: currentNetwork.getExplorerTransactionLink(transaction.hash),
+      url: currentNetwork.network.getExplorerTransactionLink(transaction.hash),
     }));
   };
 

@@ -6,8 +6,9 @@
   "scripts": {
     "compile": "npx hardhat compile && npx hardhat test",
     "compile:force": "rm -rf ./types && npx hardhat compile --force",
-    "deploy:moonbeam": "npx hardhat deploy --network moonbeam --networkname moonbeam --deployraffle true --deploycoinflip true",
-    "deploy:moonbase": "npx hardhat deploy --network moonbase --networkname moonbase-alpha --deployraffle true --deploycoinflip true",
+    "deploy:moonbeam": "npx hardhat deploy --network moonbeam --deployraffle true --deploycoinflip true",
+    "deploy:moonbase": "npx hardhat deploy --network moonbase --deployraffle true --deploycoinflip true",
+    "deploy:moonriver": "npx hardhat deploy --network moonriver --deployraffle true --deploycoinflip true",
     "deploy:localhost": "npx hardhat deploy --network localhost --networkname localhost --deployraffle true --deploycoinflip true",
     "format:check": "prettier --check 'contracts/**/*.sol'",
     "format": "prettier --write 'contracts/**/*.sol'",
