@@ -34,7 +34,7 @@ const CoinFlipContext = createContext<CoinFlipContextType>({} as CoinFlipContext
  * @param children - The react children components that consume the CoinFlipContext
  */
 export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
-  const { account, library, chainId } = useEthers();
+  const { account, library } = useEthers();
   const { currentNetwork } = useCurrentNetworkContext();
 
   const contract = useMemo(

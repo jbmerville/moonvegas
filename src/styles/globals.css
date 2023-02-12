@@ -134,10 +134,18 @@
   .animated-coin-shine {
     animation: shine 5s infinite;
   }
+  .animated-coin-flash {
+    animation: flash 7s infinite;
+  }
+  .animated-coin-heads {
+    animation: flip-head 0.8s linear 0s infinite alternate;
+  }
+  .animated-coin-tails {
+    animation: flip-tail 0.8s linear 0s infinite alternate;
+  }
 }
 
 /* Self created styles */
-
 .logo {
   font-family: 'Pacifico', cursive;
 }
@@ -175,6 +183,7 @@
   grid-template-rows: auto 1fr auto;
 }
 
+/* Coin animations */
 @keyframes bounce {
   20% {
     animation-timing-function: ease-out;
@@ -204,6 +213,44 @@
 
   100% {
     transform: rotate(25deg) translateY(400px);
+  }
+}
+
+@keyframes flash {
+  0% {
+    transform: rotate(0deg) scale(0);
+  }
+  8% {
+    transform: rotate(0deg) scale(0);
+  }
+  10% {
+    transform: rotate(150deg) scale(1.8);
+  }
+  15% {
+    transform: rotate(45deg) scale(0);
+  }
+  100% {
+    transform: rotate(45deg) scale(0);
+  }
+}
+
+@keyframes flip-head {
+  0%,
+  100% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(180deg);
+  }
+}
+
+@keyframes flip-tail {
+  0%,
+  100% {
+    transform: rotateX(180deg);
+  }
+  50% {
+    transform: rotateX(0deg);
   }
 }
 

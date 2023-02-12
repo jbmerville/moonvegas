@@ -1,5 +1,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { fontFamily } = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
+
+const backfaceVisibility = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.backface-visible': {
+      'backface-visibility': 'visible',
+    },
+    '.backface-hidden': {
+      'backface-visibility': 'hidden',
+    },
+  });
+});
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -75,7 +87,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('flowbite/plugin')],
+  plugins: [require('@tailwindcss/forms'), require('flowbite/plugin'), backfaceVisibility],
   safelist: [
     {
       pattern: /bg-(moonbase-alpha-accent|moonbeam-accent|moonriver-accent)/,

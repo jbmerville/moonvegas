@@ -19,13 +19,13 @@ export interface LinkType {
 const links = [
   {
     url: '/',
-    name: 'Raffle',
-    description: ' One winning ticket wins all the funds',
-  },
-  {
-    url: '/coinflip',
     name: 'Coin Flip',
     description: '50% chance of doubling your bet',
+  },
+  {
+    url: '/raffle',
+    name: 'Raffle',
+    description: ' One winning ticket wins all the funds',
   },
 ];
 

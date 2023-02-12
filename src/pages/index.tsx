@@ -1,3 +1,3 @@
-import Raffle from '@/pages/raffle';
+import CoinFlip from '@/pages/coinflip';
 
-export default Raffle;
+export default CoinFlip;
