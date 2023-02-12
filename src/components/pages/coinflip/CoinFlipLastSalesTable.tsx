@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { shortenAddress } from '@usedapp/core';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
+import CoinImage from '@/components/pages/coinflip/CoinFlipFaceSelection/CoinImage';
 import { CoinFlipTransactionType, getCoinFlipTransactionHistory } from '@/components/pages/coinflip/utils';
 import Table from '@/components/Table';
 import { TableRowType } from '@/components/Table/TableRow';
 
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
-
-import coinHeads from '../../../../public/images/coin-heads.png';
-import coinTails from '../../../../public/images/coin-tails.png';
 
 import { CoinFace } from '@/types';
 
@@ -68,18 +65,10 @@ const CoinFlipLastSalesTable = () => {
         {
           value: transaction.choice,
           transformation: (value: CoinFace) => {
-            return value === CoinFace.HEADS ? (
-              <Image src={coinHeads} layout='fixed' height='40px' width='40px' alt='' />
-            ) : (
-              <Image src={coinTails} layout='fixed' height='40px' width='40px' alt='' />
-            );
+            return <CoinImage coinFace={value} height={40} width={40} />;
           },
           transformationMobile: (value: CoinFace) => {
-            return value === CoinFace.HEADS ? (
-              <Image src={coinHeads} layout='fixed' height='25px' width='25px' alt='' />
-            ) : (
-              <Image src={coinTails} layout='fixed' height='25px' width='25px' alt='' />
-            );
+            return <CoinImage coinFace={value} height={25} width={25} />;
           },
         },
       ],

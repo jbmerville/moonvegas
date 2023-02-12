@@ -30,11 +30,11 @@ const CoinFlipBetAmountButton = (props: CoinFlipBetAmountButtonPropsType) => {
   const onButtonClick = () => {
     if (doesSCHasInsufficiantBalanceForBet) {
       toast.dark(`Insufficient smart contract balance to allow this bet amount`, {
-        type: toast.TYPE.ERROR,
+        type: toast.TYPE.WARNING,
       });
     } else if (doesPlayerHasInsufficiantBalanceForBet) {
       toast.dark(`Insufficient ${currentNetwork.currencySymbol} balance in your account`, {
-        type: toast.TYPE.ERROR,
+        type: toast.TYPE.WARNING,
       });
     } else {
       setCurrentSelectedBetAmount(betAmount);

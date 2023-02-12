@@ -46,18 +46,18 @@ const CoinFlipInfoCards = () => {
       Draws are set to a <span className='text-${colorAccent}'> 50/50</span> chance of HEADS or TAILS winning.
     </>,
     <>
-      If you picked the <span className='text-${colorAccent}'>same face as the one fliped</span>, you win and you get
-      back double your {currentNetwork.currencySymbol} in the same transaction.
+      Pick the <span className='text-${colorAccent}'>same face as the one the smart contract flips</span>, and you win
+      the coin flip. If you win, the smart contract sends you back double your bet amount during the same transaction.
     </>,
     <>
-      If you picked the <span className='text-${colorAccent}'>opposite face as the one fliped</span>, you lost and the
-      smart contract keeps your {currentNetwork.currencySymbol}.
+      Pick the <span className='text-${colorAccent}'>opposite face as the one the smart contract flips</span>, and you
+      lose the coin flip. If you lose, the smart contract keeps your bet.
     </>,
     <>
       <span className='text-${colorAccent}'>
         The bigger the smart contract balance, the bigger the allowed bet amount
       </span>
-      . This is so the pool does not get emptied after a few lucky flips in a row.
+      . This is so the smart contract balance does not get emptied after a few lucky flips in a row.
     </>,
   ];
 

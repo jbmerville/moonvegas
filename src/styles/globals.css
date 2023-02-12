@@ -131,6 +131,9 @@
   .animated-coin-shadow {
     animation: scaling 2.6s infinite ease-in-out;
   }
+  .animated-coin-flip {
+    animation: scaling-flip 2.6s infinite ease-in-out;
+  }
   .animated-coin-shine {
     animation: shine 5s infinite;
   }
@@ -272,6 +275,15 @@
     50% {
       animation-timing-function: ease-out;
       transform: translateY(-80px);
+    }
+  }
+  @keyframes scaling-flip {
+    20% {
+      transform: translateY(-80px);
+    }
+
+    50% {
+      transform: translateY(-140px) scale(0.9);
     }
   }
 }
