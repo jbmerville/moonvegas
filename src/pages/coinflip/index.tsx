@@ -13,7 +13,7 @@ import { CoinFlipProvider } from '@/contexts/CoinFlipContext';
 import { CoinFace } from '@/types';
 
 export default function CoinFlip() {
-  const [playerCoinFaceChoice, setPlayerCoinFaceChoice] = useState<CoinFace | undefined>();
+  const [playerCoinFaceChoice, setPlayerCoinFaceChoice] = useState<CoinFace>(CoinFace.HEADS);
 
   return (
     <>

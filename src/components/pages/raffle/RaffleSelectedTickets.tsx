@@ -61,7 +61,7 @@ const RaffleSelectedTickets = (props: RaffleSelectedTicketsPropsType) => {
     <div className='layout mx-10 flex items-center justify-between md:mx-4'>
       <div className='flex w-full flex-col items-start justify-start '>
         <div className='flex w-full items-center '>
-          <p className={`text-${colorAccent} text-center text-lg font-bold md:text-3xl`}>Selected RaffleTickets</p>
+          <p className={`text-${colorAccent} text-center text-lg font-bold md:text-3xl`}>Selected Tickets</p>
         </div>
         <p className={`text-ms text-${colorAccent} text-center opacity-80 md:text-lg`}>
           Select up to {maxRaffleTicketPerTx} tickets per transaction.

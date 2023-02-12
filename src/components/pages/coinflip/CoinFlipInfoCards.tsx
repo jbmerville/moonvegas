@@ -43,12 +43,7 @@ const CoinFlipInfoCards = () => {
   };
   const popUpBulletPoints: ReactNode[] = [
     <>
-      Select either <span className='text-${colorAccent}'> HEADS</span> or{' '}
-      <span className='text-${colorAccent}'> TAILS</span>, then choose the amount of {currentNetwork.currencySymbol} to
-      flip.
-    </>,
-    <>
-      Draws are set to a <span className='text-${colorAccent}'> 50/50</span> chance of picking HEADS or TAILS
+      Draws are set to a <span className='text-${colorAccent}'> 50/50</span> chance of HEADS or TAILS winning.
     </>,
     <>
       If you picked the <span className='text-${colorAccent}'>same face as the one fliped</span>, you win and you get
