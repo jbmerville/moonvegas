@@ -21,11 +21,15 @@ export async function wait(milliseconds: number): Promise<void> {
  * Function that gets the logo of supported network, if network logo doesn't exist, default to Moonbeam logo.
  * @param chainId - The network chainId
  */
-export function getNetworkLogo(chainId: number): ReactNode {
-  if (availableNetworks.filter((network) => network.chainId === chainId).length === 0) {
-    return <MoonbeamIcon />;
-  }
+export function getNetworkLogo(chainId: number, circle?: boolean): ReactNode {
   if (chainId === Moonriver.chainId) {
+    if (circle) {
+      return (
+        <div className='flex h-6 w-6 items-center justify-center rounded-full bg-black/30'>
+          <MoonriverIcon />
+        </div>
+      );
+    }
     return <MoonriverIcon />;
   }
 
@@ -33,6 +37,14 @@ export function getNetworkLogo(chainId: number): ReactNode {
     return <EthereumIcon />;
   }
 
+  // Default value
+  if (circle) {
+    return (
+      <div className='flex h-6 w-6 items-center justify-center rounded-full bg-black/30'>
+        <MoonbeamIcon />
+      </div>
+    );
+  }
   return <MoonbeamIcon />;
 }
 

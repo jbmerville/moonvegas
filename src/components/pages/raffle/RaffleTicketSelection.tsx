@@ -64,10 +64,16 @@ const RaffleTicketSelection = () => {
     <>
       <div className='mb-4 mt-8 flex w-full items-center justify-center md:mt-10 md:mb-4'>
         {!isRaffleStateFetching ? (
-          <div className=' flex w-full items-start justify-start overflow-x-scroll 	'>
-            {raffleState.tickets.map((ticket: RaffleTicketType) => (
-              <RaffleTicket toggleSelectedRaffleTickets={toggleSelectedRaffleTickets} ticket={ticket} key={ticket.id} />
-            ))}
+          <div className='flex w-full items-center justify-center overflow-x-scroll'>
+            <div className='flex w-fit items-start justify-start'>
+              {raffleState.tickets.map((ticket: RaffleTicketType) => (
+                <RaffleTicket
+                  toggleSelectedRaffleTickets={toggleSelectedRaffleTickets}
+                  ticket={ticket}
+                  key={ticket.id}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           <div className='scale-125 md:scale-150'>

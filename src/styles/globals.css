@@ -307,3 +307,7 @@
     @apply h-full w-full overflow-hidden bg-moonbeam-grey-dark;
   }
 }
+
+div[class^='confetti-explosion-screen'] {
+  z-index: 15;
+}

@@ -1,58 +1,68 @@
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import ConfettiExplosion from 'react-confetti-explosion';
 
-import useIsMobile from '@/hooks/useIsMobile';
+import { wait } from '@/lib/helpers';
 
 import UnderlineLink from '@/components/links/UnderlineLink';
+import CoinImage from '@/components/pages/coinflip/CoinFlipFaceSelection/CoinImage';
 import PopUp from '@/components/PopUp';
 
 import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
-import coinHeads from '../../../../public/images/coin-heads.png';
-import coinTails from '../../../../public/images/coin-tails.png';
-
-import { CoinFace } from '@/types';
-
 const CoinFlipTransactionResult = () => {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+
   const { lastCoinFlipResult } = useCoinFlipContext();
   const { currentNetwork } = useCurrentNetworkContext();
-  const isMobile = useIsMobile();
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     setIsPopUpOpen(true);
   }, [lastCoinFlipResult?.transactionHash]);
 
+  useEffect(() => {
+    const showConfettiDelay = async () => {
+      await setShowConfetti(true);
+      await wait(1000);
+      setShowConfetti(false);
+    };
+    if (lastCoinFlipResult && lastCoinFlipResult.draw == lastCoinFlipResult.playerChoice) {
+      showConfettiDelay();
+    }
+  }, [lastCoinFlipResult]);
+
   if (!lastCoinFlipResult) {
     return <></>;
   }
-
-  const coinFaceSize = isMobile ? '80px' : '150px';
 
   const isWin = lastCoinFlipResult.draw === lastCoinFlipResult.playerChoice;
 
   return (
     <PopUp isVisible={isPopUpOpen} setIsVisible={setIsPopUpOpen}>
       <div className='m-3 flex flex-col items-center justify-center md:m-5 '>
+        {showConfetti && (
+          <div className='absolute top-32'>
+            <ConfettiExplosion
+              {...{
+                force: 0.6,
+                duration: 2500,
+                particleCount: 80,
+                width: 1000,
+              }}
+            />
+          </div>
+        )}
         <div className={`flex w-full justify-center text-xl md:text-3xl ${isWin ? 'text-green-400' : 'text-red-500'}`}>
           {isWin ? 'You Doubled' : 'You Got Rugged'}
         </div>
         <div className='mt-8 flex items-center justify-around md:w-[400px]'>
           <div className='flex flex-col items-center justify-center'>
-            {lastCoinFlipResult.playerChoice === CoinFace.HEADS ? (
-              <Image src={coinHeads} layout='fixed' height={coinFaceSize} width={coinFaceSize} alt='' />
-            ) : (
-              <Image src={coinTails} layout='fixed' height={coinFaceSize} width={coinFaceSize} alt='' />
-            )}
+            <CoinImage coinFace={lastCoinFlipResult.playerChoice} />
             <div className='mt-4'>Your Choice</div>
           </div>
           <div className='flex flex-col items-center justify-center pl-8 md:pl-0'>
-            {lastCoinFlipResult.draw === CoinFace.HEADS ? (
-              <Image src={coinHeads} layout='fixed' height={coinFaceSize} width={coinFaceSize} alt='' />
-            ) : (
-              <Image src={coinTails} layout='fixed' height={coinFaceSize} width={coinFaceSize} alt='' />
-            )}
+            <CoinImage coinFace={lastCoinFlipResult.draw} />
             <div className='mt-4'>Flip Result</div>
           </div>
         </div>

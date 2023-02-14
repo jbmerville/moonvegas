@@ -79,6 +79,13 @@ export const chainColorAccents: { [key: number]: string } = {
   [Moonriver.chainId]: 'moonriver-accent',
 };
 
+export const chainColorAccentsText: { [key: number]: string } = {
+  [LocalhostChain.chainId]: 'white',
+  [MoonbaseAlpha.chainId]: 'white',
+  [Moonbeam.chainId]: 'black',
+  [Moonriver.chainId]: 'black',
+};
+
 export const availableNetworks: Chain[] = [
   chains[Moonbeam.chainId],
   chains[Moonriver.chainId],

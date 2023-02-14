@@ -18,7 +18,7 @@ interface CoinFlipBetAmountSelectionPropsType {
 const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) => {
   const { playerCoinFaceChoice } = props;
   const { isTransactionPending, flip, transactionStatus } = useCoinFlipContext();
-  const { currentNetwork, colorAccent } = useCurrentNetworkContext();
+  const { currentNetwork, colorAccent, colorAccentText } = useCurrentNetworkContext();
   const [currentSelectedBetAmount, setCurrentSelectedBetAmount] = useState(currentNetwork.betAmounts[0]);
 
   const onFlipClick = () => {
@@ -51,7 +51,7 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
           </div>
           <Button
             isLoading={isTransactionPending}
-            className='relative  inline-flex w-full items-center justify-center overflow-hidden rounded-md p-0.5 text-sm font-medium text-white md:text-lg '
+            className={`relative  inline-flex w-full items-center justify-center overflow-hidden rounded-md p-0.5 text-sm font-medium text-${colorAccentText} md:text-lg `}
             onClick={onFlipClick}
           >
             {isTransactionPending ? (
@@ -60,7 +60,7 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
               </span>
             ) : (
               <span className='relative flex w-full items-center justify-center py-2.5 font-extrabold uppercase md:px-5'>
-                <div className='scale-[1.5] pr-2'>{getNetworkLogo(currentNetwork.network.chainId)}</div>
+                <div className='scale-[1.5] pr-3'>{getNetworkLogo(currentNetwork.network.chainId, true)}</div>
                 <p className=''>Double or Nothing</p>
               </span>
             )}

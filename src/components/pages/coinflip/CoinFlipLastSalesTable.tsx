@@ -45,12 +45,12 @@ const CoinFlipLastSalesTable = () => {
           transformation: (value: CoinFlipTransactionType) => {
             return (
               <div>
-                Flipped {value.price} {currentNetwork.network.nativeCurrency?.symbol} and{' '}
                 {value.isWin ? (
-                  <span className=' text-green-400'>doubled</span>
+                  <span className='uppercase text-green-400'>Doubled</span>
                 ) : (
-                  <span className='text-red-500'>got rugged</span>
-                )}
+                  <span className='uppercase text-red-500'>Got rugged</span>
+                )}{' '}
+                {value.price} {currentNetwork.currencySymbol}
               </div>
             );
           },

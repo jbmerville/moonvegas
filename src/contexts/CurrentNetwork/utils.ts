@@ -3,6 +3,7 @@ import { Chain } from '@usedapp/core';
 import {
   chainBetAmounts,
   chainColorAccents,
+  chainColorAccentsText,
   chains,
   contractAddresses,
   explorerApiEndpoints,
@@ -52,6 +53,13 @@ export const getColorAccent = (chainId?: number): string => {
     return chainColorAccents[getDefaultChainId()];
   }
   return chainColorAccents[chainId];
+};
+
+export const getColorAccentText = (chainId?: number): string => {
+  if (!chainId || !chainColorAccentsText[chainId]) {
+    return chainColorAccentsText[getDefaultChainId()];
+  }
+  return chainColorAccentsText[chainId];
 };
 
 export const getBetAmounts = (chainId?: number): number[] => {

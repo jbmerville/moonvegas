@@ -25,7 +25,7 @@ const RaffleSelectedTickets = (props: RaffleSelectedTicketsPropsType) => {
   const isMobile = useIsMobile();
   const maxRaffleTicketPerTx = getMaxRaffleTicketPerTransaction(isMobile);
   const nonDefaultRaffleSelectedTickets = getNonDefaultRaffleSelectedTickets(props.selectedRaffleTickets);
-  const { currentNetwork, colorAccent } = useCurrentNetworkContext();
+  const { currentNetwork, colorAccent, colorAccentText } = useCurrentNetworkContext();
 
   const renderSelectedRaffleTicket = (ticket: RaffleTicketType, index: number): ReactNode => {
     // Render black shade ticket instead of the one selected by the player.
@@ -72,7 +72,7 @@ const RaffleSelectedTickets = (props: RaffleSelectedTicketsPropsType) => {
           </div>
           <Button
             isLoading={isTransactionPending}
-            className='relative mt-8 inline-flex w-full items-center justify-center overflow-hidden rounded-md p-0.5 text-sm font-medium text-white md:text-lg '
+            className={`relative mt-8 inline-flex w-full items-center justify-center overflow-hidden rounded-md p-0.5 text-sm font-medium text-${colorAccentText} md:text-lg `}
             onClick={onPurchasePressed}
           >
             {isTransactionPending ? (
@@ -81,6 +81,8 @@ const RaffleSelectedTickets = (props: RaffleSelectedTicketsPropsType) => {
               </span>
             ) : (
               <span className='relative flex w-full items-center justify-center py-2.5 font-extrabold uppercase md:px-5'>
+                <div className='scale-[1.5] pr-2'>{getNetworkLogo(currentNetwork.network.chainId)}</div>
+
                 {nonDefaultRaffleSelectedTickets.length === 0 ? (
                   <p>
                     Ticket price: {utils.formatEther(raffleState.ticketPrice)}{' '}
@@ -93,7 +95,6 @@ const RaffleSelectedTickets = (props: RaffleSelectedTicketsPropsType) => {
                     {utils.formatEther(raffleState.ticketPrice.mul(nonDefaultRaffleSelectedTickets.length))}{' '}
                   </p>
                 )}
-                <div className='scale-[1.5] pl-2'>{getNetworkLogo(currentNetwork.network.chainId)}</div>
               </span>
             )}
           </Button>

@@ -16,7 +16,7 @@ export interface LinkType {
   description?: string;
 }
 
-const links = [
+const links: LinkType[] = [
   {
     url: '/',
     name: 'Coin Flip',
@@ -26,6 +26,11 @@ const links = [
     url: '/raffle',
     name: 'Raffle',
     description: ' One winning ticket wins all the funds',
+  },
+  {
+    url: '/',
+    name: 'Coming Soon',
+    description: 'More Games coming soon to MoonVegas',
   },
 ];
 

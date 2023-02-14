@@ -33,6 +33,7 @@
     "flowbite-react": "^0.1.11",
     "next": "^12.2.5",
     "react": "^18.2.0",
+    "react-confetti-explosion": "^2.0.2",
     "react-countdown": "^2.3.5",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
