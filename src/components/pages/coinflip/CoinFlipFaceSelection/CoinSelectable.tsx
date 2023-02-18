@@ -32,8 +32,8 @@ const Coin = (props: CoinPropsType) => {
     <div className='flex flex-col items-center justify-center '>
       <div className='animated-coin relative flex h-[80px] w-[80px] cursor-pointer flex-col items-center justify-center rounded-full transition duration-500 md:h-[150px] md:w-[150px]'>
         <div className='relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[100%]'>
-          <CoinImage coinFace={coinFace} />
-          <div className='animated-coin-shine absolute top-0 left-0 h-[10px] w-[200px] rotate-[25deg] bg-white/25  md:h-[30px] md:w-[200px]' />
+          <CoinImage coinFace={coinFace} shimmer />
+          {/* <div className='animated-coin-shine absolute top-0 left-0 h-[10px] w-[200px] rotate-[25deg] bg-white/25  md:h-[30px] md:w-[200px]' /> */}
         </div>
         <div className='animated-coin-flash absolute right-[10px] top-[20px] h-[5px] w-[5px] bg-white md:h-[10px] md:w-[10px]' />
       </div>
@@ -42,7 +42,7 @@ const Coin = (props: CoinPropsType) => {
   );
 
   return (
-    <div className='relative mx-8 mb-10 flex h-[200px] flex-col items-center justify-center md:mx-20'>
+    <div className='relative mx-8 flex h-[140px] flex-col items-center justify-center md:mx-20 md:mb-10 md:h-[200px]'>
       {isCoinFaceSelectedByPlayer ? selectedFace : nonSelectedFace}
     </div>
   );

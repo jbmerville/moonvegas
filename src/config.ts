@@ -47,7 +47,7 @@ export const chains: { [key: number]: Chain } = {
 
 export const chainBetAmounts: { [key: number]: number[] } = {
   [LocalhostChain.chainId]: defaultBetAmounts,
-  [MoonbaseAlpha.chainId]: defaultBetAmounts,
+  [MoonbaseAlpha.chainId]: [0.1, 0.5, 1, 2, 5, 10, 15, 20],
   [Moonriver.chainId]: [0.1, 0.5, 1, 2, 5, 10, 15, 20],
   [Moonbeam.chainId]: defaultBetAmounts,
 };

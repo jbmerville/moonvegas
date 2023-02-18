@@ -3,16 +3,22 @@ import { shortenAddress } from '@usedapp/core';
 import React, { useEffect, useState } from 'react';
 
 import CoinImage from '@/components/pages/coinflip/CoinFlipFaceSelection/CoinImage';
-import { CoinFlipTransactionType, getCoinFlipTransactionHistory } from '@/components/pages/coinflip/utils';
+import {
+  CoinFlipTransactionType,
+  getCoinFlipTransactionHistory,
+  getOutcomeCoinFace,
+  getTransactionsWithOutcome,
+} from '@/components/pages/coinflip/utils';
 import Table from '@/components/Table';
 import { TableRowType } from '@/components/Table/TableRow';
 
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
-import { CoinFace } from '@/types';
+import { CoinFace, ExplorerTransactionType } from '@/types';
 
 const CoinFlipLastSalesTable = () => {
-  const [transactions, setTransactions] = useState<CoinFlipTransactionType[]>([]);
+  // const [transactions, setTransactions] = useState<CoinFlipTransactionType[]>([]);
+  const [transactions, setTransactions] = useState<ExplorerTransactionType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { currentNetwork } = useCurrentNetworkContext();
 
@@ -20,7 +26,6 @@ const CoinFlipLastSalesTable = () => {
     const fetchHistory = async () => {
       setIsLoading(true);
       const transactionHistory = await getCoinFlipTransactionHistory(
-        currentNetwork.rpcUrl,
         currentNetwork.explorerApiEndpoint,
         currentNetwork.coinFlipAddress
       );
@@ -31,8 +36,14 @@ const CoinFlipLastSalesTable = () => {
     fetchHistory();
   }, [currentNetwork]);
 
-  const renderRowsFromTransaction = (): TableRowType<any>[] => {
-    return transactions.map((transaction) => ({
+  const renderRowsFromTransaction = async (transactions: ExplorerTransactionType[]): Promise<TableRowType<any>[]> => {
+    const transactionsWithOutcome = await getTransactionsWithOutcome(
+      transactions,
+      currentNetwork.rpcUrl,
+      currentNetwork.coinFlipAddress
+    );
+
+    return transactionsWithOutcome.map((transaction) => ({
       inputs: [
         {
           value: transaction.date,
@@ -48,7 +59,7 @@ const CoinFlipLastSalesTable = () => {
                 {value.isWin ? (
                   <span className='uppercase text-green-400'>Doubled</span>
                 ) : (
-                  <span className='uppercase text-red-500'>Got rugged</span>
+                  <span className='uppercase text-red-500'>Lost</span>
                 )}{' '}
                 {value.price} {currentNetwork.currencySymbol}
               </div>
@@ -56,9 +67,9 @@ const CoinFlipLastSalesTable = () => {
           },
           transformationMobile: (value: CoinFlipTransactionType) => {
             return value.isWin ? (
-              <span className=' text-green-400'>doubled</span>
+              <span className='uppercase text-green-400'>Doubled</span>
             ) : (
-              <span className=' text-red-500'>got rugged</span>
+              <span className='uppercase text-red-500'>Doubled</span>
             );
           },
         },
@@ -71,6 +82,15 @@ const CoinFlipLastSalesTable = () => {
             return <CoinImage coinFace={value} height={25} width={25} />;
           },
         },
+        {
+          value: transaction,
+          transformation: (value: CoinFlipTransactionType) => {
+            return <CoinImage coinFace={getOutcomeCoinFace(value)} height={40} width={40} />;
+          },
+          transformationMobile: (value: CoinFlipTransactionType) => {
+            return <CoinImage coinFace={getOutcomeCoinFace(value)} height={25} width={25} />;
+          },
+        },
       ],
       url: currentNetwork.network.getExplorerTransactionLink(transaction.hash),
     }));
@@ -80,9 +100,16 @@ const CoinFlipLastSalesTable = () => {
     <Table
       title='Last Coin Flips'
       header={{
-        inputs: [{ value: 'Date' }, { value: 'Address' }, { value: 'Result' }, { value: 'Choice' }],
+        inputs: [
+          { value: 'Date' },
+          { value: 'Address' },
+          { value: 'Result' },
+          { value: 'Choice' },
+          { value: 'Outcome' },
+        ],
       }}
-      rows={renderRowsFromTransaction()}
+      transactions={transactions}
+      renderRowsFromTransaction={renderRowsFromTransaction}
       emptyRowMessage='No transactions for this coin flip yet.'
       isLoading={isLoading}
     ></Table>

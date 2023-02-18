@@ -43,7 +43,8 @@ const CoinFlipInfoCards = () => {
   };
   const popUpBulletPoints: ReactNode[] = [
     <>
-      Draws are set to a <span className='text-${colorAccent}'> 50/50</span> chance of HEADS or TAILS winning.
+      Draws are guaranteed to have a <span className='text-${colorAccent}'> 50/50</span> chance of HEADS or TAILS
+      winning.
     </>,
     <>
       Pick the <span className='text-${colorAccent}'>same face as the one the smart contract flips</span>, and you win

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CoinFlipping from '@/components/pages/coinflip/CoinFlipFaceSelection/CoinFlipping';
-import Coin from '@/components/pages/coinflip/CoinFlipFaceSelection/CoinSelectable';
+import CoinSelectable from '@/components/pages/coinflip/CoinFlipFaceSelection/CoinSelectable';
 
 import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 
@@ -22,12 +22,12 @@ const CoinFlipFaceSelection = (props: CoinFlipFaceSelectionPropsType) => {
           <CoinFlipping />
         ) : (
           <>
-            <Coin
+            <CoinSelectable
               playerCoinFaceChoice={playerCoinFaceChoice}
               setPlayerCoinFaceChoice={setPlayerCoinFaceChoice}
               coinFace={CoinFace.HEADS}
             />
-            <Coin
+            <CoinSelectable
               playerCoinFaceChoice={playerCoinFaceChoice}
               setPlayerCoinFaceChoice={setPlayerCoinFaceChoice}
               coinFace={CoinFace.TAILS}

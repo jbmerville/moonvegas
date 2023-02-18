@@ -146,6 +146,10 @@
   .animated-coin-tails {
     animation: flip-tail 0.8s linear 0s infinite alternate;
   }
+  .animated-shake {
+    animation: tilt-shaking 0.15s linear;
+    animation-iteration-count: 5;
+  }
 }
 
 /* Self created styles */
@@ -254,6 +258,24 @@
   }
   50% {
     transform: rotateX(0deg);
+  }
+}
+
+@keyframes tilt-shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0eg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }
 

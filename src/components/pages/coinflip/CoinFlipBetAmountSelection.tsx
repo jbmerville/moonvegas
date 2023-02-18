@@ -39,7 +39,7 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
           Select a bet amount. Max bet amount is capped based on smart contract balance.
         </p>
         <div className='flex w-full flex-col items-center justify-start '>
-          <div className='my-10 grid w-full grid-cols-2 grid-rows-4 gap-4 md:grid-cols-4 md:grid-rows-2'>
+          <div className='my-6 grid w-full grid-cols-2 grid-rows-4 gap-4 md:grid-cols-4 md:grid-rows-2'>
             {currentNetwork.betAmounts.map((betAmount, index) => (
               <CoinFlipBetAmountButton
                 betAmount={betAmount}
