@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Contract } from '@ethersproject/contracts';
-import { useContractFunction, useEthers } from '@usedapp/core';
+import { TransactionState, useContractFunction, useEthers } from '@usedapp/core';
 import { BigNumber, utils } from 'ethers';
 import raffleArtifacts from 'hardhat/artifacts/contracts/Raffle.sol/Raffle.json';
 import { Raffle } from 'hardhat/types';
@@ -20,7 +20,7 @@ export const raffleAbi = new utils.Interface(raffleArtifacts.abi);
 export interface RaffleContextType {
   purchase: (tickets: RaffleTicketType[], resetTicketsSelected: () => void) => Promise<void>;
   isTransactionPending: boolean;
-  transactionStatus: string;
+  transactionStatus: TransactionState;
   raffleState: RaffleStateType;
   isRaffleStateFetching: boolean;
 }

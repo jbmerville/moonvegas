@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { getNetworkLogo } from '@/lib/helpers';
 
 import Button from '@/components/buttons/Button';
-import DevTokenLink from '@/components/DevTokenLink';
 import CoinFlipBetAmountButton from '@/components/pages/coinflip/CoinFlipBetAmountButton';
+import { parseTransactionStatus } from '@/components/pages/coinflip/utils';
+import TransactionWarningMessage from '@/components/TransactionWarningMessage';
 
 import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
@@ -56,7 +57,7 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
           >
             {isTransactionPending ? (
               <span className='py-2.5 pl-2 font-extrabold uppercase text-white'>
-                {transactionStatus === 'PendingSignature' ? 'Pending Signature' : transactionStatus}...
+                {parseTransactionStatus(transactionStatus)}...
               </span>
             ) : (
               <span className='relative flex w-full items-center justify-center py-2.5 font-extrabold uppercase md:px-5'>
@@ -65,7 +66,8 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
               </span>
             )}
           </Button>
-          <DevTokenLink />
+
+          <TransactionWarningMessage className='mt-3' transactionStatus={transactionStatus} />
         </div>
       </div>
     </div>

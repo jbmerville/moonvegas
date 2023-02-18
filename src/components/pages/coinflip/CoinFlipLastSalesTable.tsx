@@ -65,13 +65,6 @@ const CoinFlipLastSalesTable = () => {
               </div>
             );
           },
-          transformationMobile: (value: CoinFlipTransactionType) => {
-            return value.isWin ? (
-              <span className='uppercase text-green-400'>Doubled</span>
-            ) : (
-              <span className='uppercase text-red-500'>Doubled</span>
-            );
-          },
         },
         {
           value: transaction.choice,
@@ -112,7 +105,7 @@ const CoinFlipLastSalesTable = () => {
       renderRowsFromTransaction={renderRowsFromTransaction}
       emptyRowMessage='No transactions for this coin flip yet.'
       isLoading={isLoading}
-    ></Table>
+    />
   );
 };
 

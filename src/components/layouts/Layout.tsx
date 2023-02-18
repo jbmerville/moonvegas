@@ -30,7 +30,7 @@ const links: LinkType[] = [
   {
     url: '/',
     name: 'Coming Soon',
-    description: 'More Games coming soon to MoonVegas',
+    description: 'New games coming soon',
   },
 ];
 

@@ -39,7 +39,7 @@ const CoinFlipTransactionResult = () => {
   const isWin = lastCoinFlipResult.draw === lastCoinFlipResult.playerChoice;
 
   return (
-    <PopUp isVisible={isPopUpOpen} setIsVisible={setIsPopUpOpen} shake={true}>
+    <PopUp isVisible={isPopUpOpen} setIsVisible={setIsPopUpOpen} shake={!isWin}>
       <div className='m-3 flex flex-col items-center justify-center md:m-5 '>
         {showConfetti && (
           <div className='absolute top-32'>

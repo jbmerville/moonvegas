@@ -1,3 +1,4 @@
+import { TransactionState } from '@usedapp/core';
 import { BigNumber, providers, utils } from 'ethers/lib/ethers';
 
 import { coinFlipAbi } from '@/contexts/CoinFlipContext';
@@ -96,8 +97,10 @@ function parseTransactionInput(transaction: ExplorerTransactionType): CoinFace |
   }
 }
 
-function sortTransactions(transaction1: CoinFlipTransactionType, transaction2: CoinFlipTransactionType) {
-  return transaction1.date > transaction2.date ? -1 : 1;
+function sortTransactions(transaction1: ExplorerTransactionType, transaction2: ExplorerTransactionType) {
+  const date1 = new Date(parseInt(transaction1.timeStamp) * 1000);
+  const date2 = new Date(parseInt(transaction2.timeStamp) * 1000);
+  return date1.getTime() > date2.getTime() ? -1 : 1;
 }
 
 export function getOutcomeCoinFace(transaction: CoinFlipTransactionType): CoinFace {
@@ -105,4 +108,14 @@ export function getOutcomeCoinFace(transaction: CoinFlipTransactionType): CoinFa
     return transaction.choice || CoinFace.HEADS;
   }
   return transaction.choice === CoinFace.HEADS ? CoinFace.TAILS : CoinFace.HEADS;
+}
+
+export function parseTransactionStatus(transactionStatus: TransactionState) {
+  if (transactionStatus === 'None') {
+    return 'Loading';
+  }
+  if (transactionStatus === 'PendingSignature') {
+    return 'Pending Signature';
+  }
+  return transactionStatus;
 }

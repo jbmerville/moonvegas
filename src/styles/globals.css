@@ -199,7 +199,7 @@
 
   50% {
     animation-timing-function: ease-out;
-    transform: translateY(-50px);
+    transform: translateY(-60px);
   }
 }
 
@@ -276,6 +276,16 @@
   }
   100% {
     transform: rotate(0deg);
+  }
+}
+
+@keyframes scaling-flip {
+  20% {
+    transform: translateY(-30px);
+  }
+
+  50% {
+    transform: translateY(-75px) scale(0.9);
   }
 }
 

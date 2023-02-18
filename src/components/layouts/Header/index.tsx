@@ -48,7 +48,7 @@ export default function Header(props: HeaderProps) {
     <header className='fixed top-0 z-50 w-full bg-moonbeam-grey md:sticky'>
       <div className='layout z-50 flex items-center justify-start py-1 md:py-1'>
         <div className='flex w-full items-center justify-start'>
-          <div className='relative my-2 h-[50px] w-[70px] items-center justify-center transition duration-75	md:h-[50px] md:w-[120px]'>
+          <div className='relative my-2 h-[50px] w-[70px] items-center justify-center duration-75	md:h-[50px] md:w-[120px]'>
             <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
           </div>
           {links.map((link) => (

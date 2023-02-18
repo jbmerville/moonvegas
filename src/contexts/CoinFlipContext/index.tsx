@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 
 import { Contract } from '@ethersproject/contracts';
-import { useContractFunction, useEthers } from '@usedapp/core';
-import { utils } from 'ethers';
+import { TransactionState, useContractFunction, useEthers } from '@usedapp/core';
+import { ethers, utils } from 'ethers';
 import coinFlipArtifacts from 'hardhat/artifacts/contracts/CoinFlip.sol/CoinFlip.json';
 import { CoinFlip } from 'hardhat/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -21,7 +21,7 @@ export interface CoinFlipContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   flip: (betAmount: number, choice?: CoinFace, options?: any) => Promise<void>;
   isTransactionPending: boolean;
-  transactionStatus: string;
+  transactionStatus: TransactionState;
   coinFlipState: CoinFlipStateType;
   isCoinFlipStateFetching: boolean;
   lastCoinFlipResult?: FlipEventType;
@@ -109,7 +109,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      const price = utils.parseEther('1').mul(betAmount);
+      const price = ethers.utils.parseEther(betAmount.toString());
       const playerChoice = choice === CoinFace.HEADS;
 
       try {

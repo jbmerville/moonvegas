@@ -38,7 +38,7 @@ const MobileSideBar = (props: MobileSideBarProps) => {
                 <Link key={link.url} href={link.url}>
                   <a
                     onClick={toggleMobileSideBar}
-                    className='flex items-center justify-start rounded-lg p-4 text-lg text-white hover:bg-gray-700'
+                    className='flex items-center justify-start rounded-lg p-4 text-base text-white hover:bg-gray-700'
                   >
                     {link.name}{' '}
                     {link.description && <div className='pl-2 text-xs text-white/50'> - {link.description}</div>}
