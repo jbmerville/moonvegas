@@ -21,6 +21,7 @@ const PopUp = (props: PopUpProps) => {
     >
       <div className='relative z-20 flex h-fit w-fit max-w-md justify-center p-4 md:h-auto'>
         <div
+          data-cy='pop-up'
           className={`animate border-${colorAccent} ${
             isVisible && shake && 'animated-shake'
           } relative h-fit w-fit list-inside list-disc space-y-1 rounded-lg  border-2 bg-moonbeam-blue-dark text-gray-500 text-white/80 shadow-md shadow-black/50 duration-150 ${

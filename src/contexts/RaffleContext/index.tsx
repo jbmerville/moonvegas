@@ -8,6 +8,8 @@ import { Raffle } from 'hardhat/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { toastOnStatusChange } from '@/lib/helpers';
+
 import { getNonDefaultRaffleSelectedTickets } from '@/components/pages/raffle/utils';
 
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
@@ -77,21 +79,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
   }, [refreshState, currentNetwork.raffleAddress]);
 
   useEffect(() => {
-    if (state.status === 'Mining') {
-      toast.dark('Transaction sent', { type: toast.TYPE.INFO });
-    } else if (state.status === 'PendingSignature') {
-      toast.dark('Please confirm transaction on Metamask', { type: toast.TYPE.INFO });
-    } else if (state.status === 'Success') {
-      toast.dark('Successfully purchased tickets', { type: toast.TYPE.SUCCESS });
-    } else if (state.status === 'Fail') {
-      toast.dark(`Transaction failed with error: ${state.errorMessage}`, {
-        type: toast.TYPE.ERROR,
-      });
-    } else if (state.status === 'Exception') {
-      toast.dark(`Transaction failed with exception: ${state.errorMessage}`, {
-        type: toast.TYPE.ERROR,
-      });
-    }
+    toastOnStatusChange(state);
   }, [state.status, state.errorMessage]);
 
   const purchase = useCallback(

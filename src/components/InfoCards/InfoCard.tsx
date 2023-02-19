@@ -18,6 +18,7 @@ const InfoCard = (props: InfoCardPropsType) => {
   const onClickClassName = `hover:text-${colorAccent} hover:border-${colorAccent} cursor-pointer hover:bg-moonbeam-grey-dark`;
   return (
     <div
+      data-cy='info-card'
       onClick={onClick}
       className={`box-border flex min-h-[60px] grow flex-col items-center justify-around rounded-2xl border-2 border-transparent bg-moonbeam-grey-light py-2 text-white md:min-h-[120px] md:py-6 ${
         onClick ? onClickClassName : ''

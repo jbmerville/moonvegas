@@ -78,7 +78,7 @@ const Table = (props: TablePropsType<any>) => {
         <thead className=' bg-[#0c0e11]'>
           <TableRow row={header} />
         </thead>
-        <tbody className='text-lg'>
+        <tbody className='text-lg' data-cy='table-body'>
           {!isEmptyRow && !isAnythingLoading && currentPageRows.map((row, i) => <TableRow key={i} row={row} />)}
         </tbody>
       </table>

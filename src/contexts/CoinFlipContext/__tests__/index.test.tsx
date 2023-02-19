@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { act, cleanup, render } from '@testing-library/react';
 import * as core from '@usedapp/core';
 import { toast } from 'react-toastify';
@@ -54,6 +55,7 @@ jest.mock('../utils', () => ({
 }));
 
 jest.mock('@/lib/helpers', () => ({
+  ...jest.requireActual('@/lib/helpers'),
   wait: jest.fn(),
 }));
 
@@ -123,7 +125,7 @@ describe('CoinFlipContext', () => {
       context.flip(betAmount, CoinFace.HEADS);
     });
 
-    expect(toast.dark).toHaveBeenCalledWith(`Successfully flipped coin`, { type: toast.TYPE.SUCCESS });
+    expect(toast.dark).toHaveBeenCalledWith(`Transaction successful`, { type: toast.TYPE.INFO });
     expect(console.error).not.toHaveBeenCalled();
   });
 

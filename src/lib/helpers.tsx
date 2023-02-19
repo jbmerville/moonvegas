@@ -1,4 +1,4 @@
-import { Chain, MoonbaseAlpha, Moonriver } from '@usedapp/core';
+import { Chain, MoonbaseAlpha, Moonriver, TransactionStatus } from '@usedapp/core';
 import { utils } from 'ethers/lib/ethers';
 import { ReactNode } from 'react';
 import { toast } from 'react-toastify';
@@ -81,4 +81,22 @@ export function getNetworkFromChainId(chaindId?: number): Chain {
     return chains[MoonbaseAlpha.chainId];
   }
   return networks[0];
+}
+
+export function toastOnStatusChange(state: TransactionStatus) {
+  if (state.status === 'Mining') {
+    toast.dark('Transaction sent', { type: toast.TYPE.INFO });
+  } else if (state.status === 'PendingSignature') {
+    toast.dark('Please confirm transaction on Metamask', { type: toast.TYPE.INFO });
+  } else if (state.status === 'Success') {
+    toast.dark('Transaction successful', { type: toast.TYPE.INFO });
+  } else if (state.status === 'Fail') {
+    toast.dark(`Transaction failed with error: ${state.errorMessage}`, {
+      type: toast.TYPE.ERROR,
+    });
+  } else if (state.status === 'Exception') {
+    toast.dark(`Transaction resulted in exception: ${state.errorMessage}`, {
+      type: toast.TYPE.ERROR,
+    });
+  }
 }

@@ -99,11 +99,8 @@ export const explorerApiEndpoints: { [key: number]: string } = {
 };
 
 export const getDefaultChainId = (): number => {
-  if (isProd) {
+  if (isProd || isDev) {
     return Moonbeam.chainId;
-  }
-  if (isDev) {
-    return MoonbaseAlpha.chainId;
   }
   return LocalhostChain.chainId;
 };
@@ -125,6 +122,6 @@ export const getDefaultChain = (): Chain => {
 
 // eslint-disable-next-line no-console
 console.log({
-  NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
+  NODE_ENV: process.env.NODE_ENV,
   currentNetwork: getDefaultChain().chainName,
 });

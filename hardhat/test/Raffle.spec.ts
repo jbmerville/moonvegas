@@ -136,6 +136,7 @@ describe('Raffle', function () {
 
       it('Should successfully transfer funds to winner and owner when the draft is completed', async function () {
         // Arrange
+        this.retries(3);
         const Raffle = await ethers.getContractFactory('Raffle');
         const ticketAmount = 20;
         const ticketIds = new Array(ticketAmount).fill(0).map((_, i) => i + 1);

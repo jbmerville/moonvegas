@@ -12,17 +12,17 @@ import '@openzeppelin/hardhat-upgrades';
 const localhostChainId = 1281;
 
 export const getCurrentNetworkChainId = () => {
-  if (process.env.NEXT_PUBLIC_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     return Moonbeam.chainId;
   }
-  if (process.env.NEXT_PUBLIC_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     return MoonbaseAlpha.chainId;
   }
   return localhostChainId;
 };
 
 const accounts = [];
-console.log({ NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV });
+console.log({ NODE_ENV: process.env.NODE_ENV });
 
 if (getCurrentNetworkChainId() !== localhostChainId) {
   // TODO: add test account private key to .env to deploy contract in moonbase alpha during deployment
