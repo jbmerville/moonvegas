@@ -36,7 +36,7 @@ export const LocalhostConfig: Config = {
   },
 };
 
-const defaultBetAmounts = [1, 2, 5, 10, 15, 20, 30, 100];
+const defaultBetAmounts = [1, 2, 5, 10, 15, 20, 30, 100, 150];
 
 export const chains: { [key: number]: Chain } = {
   [LocalhostChain.chainId]: LocalhostChain,
@@ -47,8 +47,8 @@ export const chains: { [key: number]: Chain } = {
 
 export const chainBetAmounts: { [key: number]: number[] } = {
   [LocalhostChain.chainId]: defaultBetAmounts,
-  [MoonbaseAlpha.chainId]: [0.1, 0.5, 1, 2, 5, 10, 15, 20],
-  [Moonriver.chainId]: [0.1, 0.5, 1, 2, 5, 10, 15, 20],
+  [MoonbaseAlpha.chainId]: [0.1, 0.5, 1, 2, 5, 10, 15, 20, 50],
+  [Moonriver.chainId]: [0.1, 0.5, 1, 2, 5, 10, 15, 20, 50],
   [Moonbeam.chainId]: defaultBetAmounts,
 };
 

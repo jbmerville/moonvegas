@@ -1,8 +1,8 @@
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
 import React from 'react';
 
+import HeaderLink from '@/components/layouts/Header/HeaderLink';
 import HeaderNetworkSelect from '@/components/layouts/Header/HeaderNetworkSelect';
 import { LinkType } from '@/components/layouts/Layout';
 
@@ -35,15 +35,7 @@ const MobileSideBar = (props: MobileSideBarProps) => {
           <ul className='mt-12 space-y-2'>
             {links.map((link) => (
               <li key={link.url}>
-                <Link key={link.url} href={link.url}>
-                  <a
-                    onClick={toggleMobileSideBar}
-                    className='flex items-center justify-start rounded-lg p-4 text-base text-white hover:bg-gray-700'
-                  >
-                    {link.name}{' '}
-                    {link.description && <div className='pl-2 text-xs text-white/50'> - {link.description}</div>}
-                  </a>
-                </Link>
+                <HeaderLink link={link} />
               </li>
             ))}
             <li className='flex items-center justify-center p-4'>

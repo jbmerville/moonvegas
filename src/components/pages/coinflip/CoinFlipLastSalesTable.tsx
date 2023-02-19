@@ -17,10 +17,9 @@ import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 import { CoinFace, ExplorerTransactionType } from '@/types';
 
 const CoinFlipLastSalesTable = () => {
-  // const [transactions, setTransactions] = useState<CoinFlipTransactionType[]>([]);
   const [transactions, setTransactions] = useState<ExplorerTransactionType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { currentNetwork } = useCurrentNetworkContext();
+  const { currentNetwork, colorAccent } = useCurrentNetworkContext();
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -61,7 +60,7 @@ const CoinFlipLastSalesTable = () => {
                 ) : (
                   <span className='uppercase text-red-500'>Lost</span>
                 )}{' '}
-                {value.price} {currentNetwork.currencySymbol}
+                {value.price} <span className={`uppercase text-${colorAccent}`}>{currentNetwork.currencySymbol}</span>
               </div>
             );
           },

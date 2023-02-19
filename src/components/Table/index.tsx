@@ -70,7 +70,7 @@ const Table = (props: TablePropsType<any>) => {
   }, [currentPageNumber]);
 
   return (
-    <div className='layout my-6 flex flex-col items-start justify-between md:mt-10 md:mb-16'>
+    <div className='layout my-6 mb-12 flex flex-col items-start justify-between md:mt-10 md:mb-16'>
       <div className='mb-2 flex w-full items-center md:mb-3'>
         <p className='text-center text-xl font-bold text-white md:text-3xl'>{title}</p>
       </div>

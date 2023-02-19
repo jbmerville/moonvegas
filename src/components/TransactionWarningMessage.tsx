@@ -39,10 +39,10 @@ const TransactionWarningMessage = (props: TransactionWarningMessagePropsType) =>
   }
 
   return (
-    <p className={`flex text-sm text-amber-400 ${className} `}>
+    <div className={`flex text-sm text-amber-400 ${className} `}>
       <FontAwesomeIcon icon={faWarning} size='xs' className='mr-2 w-[13px]' />
       {getWarningMessage()}
-    </p>
+    </div>
   );
 };
 

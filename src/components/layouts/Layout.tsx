@@ -14,6 +14,7 @@ export interface LinkType {
   url: string;
   name: string;
   description?: string;
+  isBeta?: boolean;
 }
 
 const links: LinkType[] = [
@@ -25,12 +26,8 @@ const links: LinkType[] = [
   {
     url: '/raffle',
     name: 'Raffle',
-    description: ' One winning ticket wins all the funds',
-  },
-  {
-    url: '/',
-    name: 'Coming Soon',
-    description: 'New games coming soon',
+    description: '1 winning ticket wins all the funds',
+    isBeta: true,
   },
 ];
 

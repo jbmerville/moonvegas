@@ -3,7 +3,7 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { shortenAddress, useEthers } from '@usedapp/core';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import useIsMobile from '@/hooks/useIsMobile';
@@ -11,10 +11,9 @@ import useIsMobile from '@/hooks/useIsMobile';
 import Button from '@/components/buttons/Button';
 import MetaMaskIcon from '@/components/icons/MetaMaskIcon';
 import BetaBanner from '@/components/layouts/BetaBanner';
+import HeaderLink from '@/components/layouts/Header/HeaderLink';
 import HeaderNetworkSelect from '@/components/layouts/Header/HeaderNetworkSelect';
 import { LinkType } from '@/components/layouts/Layout';
-
-import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 import moonvegasLogo from '../../../../public/images/moonvegas-logo.png';
 
@@ -30,8 +29,8 @@ export default function Header(props: HeaderProps) {
   const { isMobileSideBarOpen, toggleMobileSideBar, links } = props;
 
   const { account, deactivate, activateBrowserWallet } = useEthers();
+  const { asPath } = useRouter();
   const [isShowCopiedReferral, setIsShowCopiedReferral] = useState(false);
-  const { colorAccent } = useCurrentNetworkContext();
   const isMobile = useIsMobile();
 
   const connectToNetwork = async () => {
@@ -51,11 +50,7 @@ export default function Header(props: HeaderProps) {
           <div className='relative my-2 h-[50px] w-[70px] items-center justify-center duration-75	md:h-[50px] md:w-[120px]'>
             <Image src={moonvegasLogo} layout='fill' objectFit='contain' alt='' />
           </div>
-          {links.map((link) => (
-            <Link key={link.url} href={link.url}>
-              <a className={`hover:text-${colorAccent} ml-6 hidden text-white md:block`}>{link.name}</a>
-            </Link>
-          ))}
+          {!isMobile && links.map((link) => <HeaderLink key={link.url} link={link} />)}
         </div>
         {!isMobile && <HeaderNetworkSelect className='mr-4 w-max' />}
         {account ? (

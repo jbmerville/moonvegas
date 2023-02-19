@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { getNetworkLogo } from '@/lib/helpers';
+import useIsMobile from '@/hooks/useIsMobile';
 
 import Button from '@/components/buttons/Button';
 import CoinFlipBetAmountButton from '@/components/pages/coinflip/CoinFlipBetAmountButton';
@@ -21,6 +22,7 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
   const { isTransactionPending, flip, transactionStatus } = useCoinFlipContext();
   const { currentNetwork, colorAccent, colorAccentText } = useCurrentNetworkContext();
   const [currentSelectedBetAmount, setCurrentSelectedBetAmount] = useState(currentNetwork.betAmounts[0]);
+  const isMobile = useIsMobile();
 
   const onFlipClick = () => {
     flip(currentSelectedBetAmount, playerCoinFaceChoice);
@@ -29,6 +31,10 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
   useEffect(() => {
     setCurrentSelectedBetAmount(currentNetwork.betAmounts[0]);
   }, [currentNetwork.betAmounts]);
+
+  const getBetAmounts = () => {
+    return isMobile ? currentNetwork.betAmounts : currentNetwork.betAmounts.slice(0, 8);
+  };
 
   return (
     <div className='layout flex flex-col items-center justify-center'>
@@ -39,9 +45,9 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
         <p className={`text-${colorAccent} text-left text-sm font-light opacity-80 md:text-lg`}>
           Select a bet amount. Max bet amount is capped based on smart contract balance.
         </p>
-        <div className='flex w-full flex-col items-center justify-start '>
-          <div className='my-6 grid w-full grid-cols-2 grid-rows-4 gap-4 md:grid-cols-4 md:grid-rows-2'>
-            {currentNetwork.betAmounts.map((betAmount, index) => (
+        <div className='flex w-full flex-col items-center justify-start md:mt-4'>
+          <div className='my-2 grid w-full grid-cols-3 grid-rows-3 gap-4 md:grid-cols-4 md:grid-rows-2'>
+            {getBetAmounts().map((betAmount, index) => (
               <CoinFlipBetAmountButton
                 betAmount={betAmount}
                 key={index}
@@ -52,7 +58,7 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
           </div>
           <Button
             isLoading={isTransactionPending}
-            className={`relative  inline-flex w-full items-center justify-center overflow-hidden rounded-md p-0.5 text-sm font-medium text-${colorAccentText} md:text-lg `}
+            className={`relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-md p-0.5 text-sm font-medium text-${colorAccentText} md:text-lg `}
             onClick={onFlipClick}
           >
             {isTransactionPending ? (
