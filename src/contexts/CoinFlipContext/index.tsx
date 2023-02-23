@@ -25,6 +25,7 @@ export interface CoinFlipContextType {
   coinFlipState: CoinFlipStateType;
   isCoinFlipStateFetching: boolean;
   lastCoinFlipResult?: FlipEventType;
+  emptyPool: (value: number) => Promise<void>;
 }
 
 const CoinFlipContext = createContext<CoinFlipContextType>({} as CoinFlipContextType);
@@ -127,6 +128,10 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
     [account, send, refreshState]
   );
 
+  const emptyPool = useCallback(async (value: number) => {
+    return;
+  }, []);
+
   return (
     <CoinFlipContext.Provider
       value={{
@@ -136,6 +141,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         transactionStatus,
         isCoinFlipStateFetching,
         lastCoinFlipResult,
+        emptyPool,
       }}
     >
       {children}

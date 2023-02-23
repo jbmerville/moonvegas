@@ -1,8 +1,10 @@
+import { useEthers } from '@usedapp/core';
 import * as React from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
+import { isAccountAdmin } from '@/lib/helpers';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import Header from '@/components/layouts/Header';
@@ -17,7 +19,7 @@ export interface LinkType {
   isBeta?: boolean;
 }
 
-const links: LinkType[] = [
+const linksWithoutAdmin: LinkType[] = [
   {
     url: '/',
     name: 'Coin Flip',
@@ -31,10 +33,24 @@ const links: LinkType[] = [
   },
 ];
 
+const linkWithAdmin: LinkType[] = [
+  ...linksWithoutAdmin,
+  { url: '/admin', name: 'Admin', description: 'Manage smart contracts' },
+];
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isMobileSideBarOpen, setIsMobileSideBarOpen] = React.useState(false);
   const toggleMobileSideBar = () => setIsMobileSideBarOpen(!isMobileSideBarOpen);
   const isMobile = useIsMobile();
+  const { account } = useEthers();
+
+  const links = isAccountAdmin(account) ? linkWithAdmin : linksWithoutAdmin;
+
+  const toggleMobileSideBarOutsideSideBar = () => {
+    if (isMobileSideBarOpen) {
+      toggleMobileSideBar();
+    }
+  };
 
   return (
     <CurrentNetworkProvider>
@@ -47,7 +63,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             links={links}
           />
         )}
-        <div className='h-full w-full overflow-y-scroll'>{children}</div>
+        <div className='h-full w-full overflow-y-scroll' onClick={toggleMobileSideBarOutsideSideBar}>
+          {children}
+        </div>
         <ToastContainer
           position='bottom-right'
           autoClose={4000}

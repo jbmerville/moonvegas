@@ -28,7 +28,9 @@ const Coin = (props: CoinPropsType) => {
             <div className='relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[100%]'>
               <CoinImage coinFace={coinFace} shimmer={isCoinFaceSelectedByPlayer} />
             </div>
-            <div className='animated-coin-flash absolute right-[10px] top-[20px] h-[5px] w-[5px] bg-white md:h-[10px] md:w-[10px]' />
+            {isCoinFaceSelectedByPlayer && (
+              <div className='animated-coin-flash absolute right-[10px] top-[20px] h-[5px] w-[5px] bg-white md:h-[10px] md:w-[10px]' />
+            )}
           </div>
         </div>
         <div

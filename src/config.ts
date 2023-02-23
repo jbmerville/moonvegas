@@ -10,6 +10,8 @@ import raffleAddressMoonriver from 'hardhat/sc-addresses/moonriver/Raffle.addres
 
 import { isDev, isProd } from '@/constants/env';
 
+export const smartCountractOwnerAddress = '0x2C1a07a4cCEeeDBbb2f8134867cbDe7cC812652D';
+
 export const LocalhostChain: Chain = {
   chainId: 1281,
   chainName: 'Moonbeam Localhost',

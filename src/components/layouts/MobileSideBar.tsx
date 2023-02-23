@@ -28,8 +28,8 @@ const MobileSideBar = (props: MobileSideBarProps) => {
           >
             <FontAwesomeIcon
               icon={faEllipsis}
-              size='xs'
-              className={`w-8 text-sm text-gray-500 ${isMobileSideBarOpen ? 'rotate-0' : 'rotate-90'} transition`}
+              size='xl'
+              className={`h-10 w-6 text-sm text-gray-500 ${isMobileSideBarOpen ? 'rotate-0' : 'rotate-90'} transition`}
             />
           </div>
           <ul className='mt-12 space-y-2'>
@@ -39,7 +39,7 @@ const MobileSideBar = (props: MobileSideBarProps) => {
               </li>
             ))}
             <li className='flex items-center justify-center p-4'>
-              <HeaderNetworkSelect className='mr-4 w-max' />
+              <HeaderNetworkSelect className='mr-4 w-full' />
             </li>
           </ul>
         </div>

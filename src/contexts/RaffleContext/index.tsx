@@ -25,6 +25,7 @@ export interface RaffleContextType {
   transactionStatus: TransactionState;
   raffleState: RaffleStateType;
   isRaffleStateFetching: boolean;
+  endRaffle: () => Promise<void>;
 }
 
 const RaffleContext = createContext<RaffleContextType>({} as RaffleContextType);
@@ -124,9 +125,13 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
     [account, raffleState.ticketPrice, send, refreshState]
   );
 
+  const endRaffle = useCallback(async () => {
+    return;
+  }, []);
+
   return (
     <RaffleContext.Provider
-      value={{ purchase, isTransactionPending, raffleState, transactionStatus, isRaffleStateFetching }}
+      value={{ purchase, isTransactionPending, raffleState, transactionStatus, isRaffleStateFetching, endRaffle }}
     >
       {children}
     </RaffleContext.Provider>

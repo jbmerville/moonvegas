@@ -85,8 +85,7 @@ const RaffleSelectedTickets = (props: RaffleSelectedTicketsPropsType) => {
 
                 {nonDefaultRaffleSelectedTickets.length === 0 ? (
                   <p>
-                    Ticket price: {utils.formatEther(raffleState.ticketPrice)}{' '}
-                    {currentNetwork.network.nativeCurrency?.symbol}
+                    Ticket price: {utils.formatEther(raffleState.ticketPrice)} {currentNetwork.currencySymbol}
                   </p>
                 ) : (
                   <p>

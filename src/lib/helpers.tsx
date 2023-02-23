@@ -7,7 +7,7 @@ import EthereumIcon from '@/components/icons/EthereumIcon';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import MoonriverIcon from '@/components/icons/MoonriverIcon';
 
-import { availableNetworks, chains } from '@/config';
+import { availableNetworks, chains, smartCountractOwnerAddress } from '@/config';
 
 /**
  * Function that pauses execution
@@ -99,4 +99,8 @@ export function toastOnStatusChange(state: TransactionStatus) {
       type: toast.TYPE.ERROR,
     });
   }
+}
+
+export function isAccountAdmin(account?: string) {
+  return account === smartCountractOwnerAddress;
 }

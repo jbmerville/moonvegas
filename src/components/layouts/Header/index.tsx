@@ -91,8 +91,8 @@ export default function Header(props: HeaderProps) {
         >
           <FontAwesomeIcon
             icon={faEllipsis}
-            size='xs'
-            className={`mx-2 w-6 text-xs text-gray-500 md:mx-1 md:w-6 ${
+            size='xl'
+            className={`mx-2 h-10 w-6 text-xs text-gray-500 md:mx-1 md:w-6 ${
               isMobileSideBarOpen ? 'rotate-0' : 'rotate-90'
             } transition`}
           />

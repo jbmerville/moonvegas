@@ -53,7 +53,7 @@ const RaffleInfoCards = () => {
     </>,
     <>
       The winner receives <span className='text-${colorAccent}'>{100 - raffleState.royalty}%</span> of all the{' '}
-      {currentNetwork.network.nativeCurrency?.symbol} in the pool. The house keeps {raffleState.royalty}%.
+      {currentNetwork.currencySymbol} in the pool. The house keeps {raffleState.royalty}%.
     </>,
     <>
       At the end of each round, the raffle is{' '}
