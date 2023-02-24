@@ -100,9 +100,37 @@ describe('Raffle', function () {
     });
   });
 
+  describe('Owner', function () {
+    it('Should be in a valid state after valid transactions', async function () {
+      // Arrange 1
+      const { raffle, owner, maxTicketAmount } = await loadFixture(deployRaffleFixture);
+      const ticketIds = [1];
+
+      // Act 1
+      await raffle.connect(owner).purchase(ticketIds, { value: PRICE });
+      await raffle.connect(owner).endRaffleOwner();
+
+      // Assert 1
+      const actual = await raffle.maxTicketAmount();
+      expect(actual).to.equal(maxTicketAmount + 1);
+    });
+
+    it('Should be not change if no tickets have been bought', async function () {
+      // Arrange 1
+      const { raffle, owner, maxTicketAmount } = await loadFixture(deployRaffleFixture);
+
+      // Act 1
+      await raffle.connect(owner).endRaffleOwner();
+      const actual = await raffle.maxTicketAmount();
+
+      // Assert 1
+      expect(actual).to.equal(maxTicketAmount);
+    });
+  });
+
   describe('Purchases', function () {
     describe('Validations', function () {
-      it('Should be in a valid state after valid transactions', async function () {
+      it('Should be in a valid state after valid round', async function () {
         // Arrange 1
         const { raffle } = await loadFixture(deployRaffleFixture);
         const ticketIds1 = [1];

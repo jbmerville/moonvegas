@@ -39,11 +39,7 @@ contract Raffle is Ownable {
   event RaffleEnd(address winner, uint256 winningTicket, uint256 ticketAmount);
 
   // ========== Constructor ==========
-  constructor(
-    uint256 _draftTime,
-    uint256 _maxTicketAmount,
-    uint256 _ticketPrice
-  ) payable {
+  constructor(uint256 _draftTime, uint256 _maxTicketAmount, uint256 _ticketPrice) payable {
     require(block.timestamp < _draftTime, 'Draft end time should be in the future');
 
     draftTime = _draftTime;
@@ -56,6 +52,7 @@ contract Raffle is Ownable {
     ticketPrice = _ticketPrice;
     nextRaffleTicketPrice = _ticketPrice;
     royalty = 50; // 5%
+    console.log('Deployed raffle with owner %s with %d tickets', msg.sender, _maxTicketAmount);
   }
 
   // ========== Owner Functions =====
@@ -117,6 +114,7 @@ contract Raffle is Ownable {
       currTicketAmount++;
       ticketsBought.push(TicketBought({owner: msg.sender, ticketId: _ticketIds[i]})); // TODO add test to verify that this is populated properly
       ticketsBoughtByPlayer[msg.sender].push(_ticketIds[i]);
+      console.log('Purchasing ticket #%s with owner %s', _ticketIds[i], ticketsOwner[_ticketIds[i]]);
     }
 
     currentPlayers.push(msg.sender);
@@ -127,11 +125,24 @@ contract Raffle is Ownable {
     }
   }
 
+  function endRaffleOwner() external onlyOwner {
+    if (currTicketAmount > 0) {
+      endRaffle();
+    }
+  }
+
   // ========== Private Functions ====
   function endRaffle() private {
     raffleEnd = true;
-    uint256 winningTicketId = getRandomTicketId();
-    address payable winner = payable(ticketsBought[winningTicketId].owner);
+    uint256 index = getRandomTicketsBought();
+    if (index >= ticketsBought.length) {
+      console.log('Reverting transaction because ticket picked %s >= %s tickets bought', ticketsBought.length, index);
+      revert();
+    }
+
+    TicketBought memory winningTicket = ticketsBought[getRandomTicketsBought()];
+    console.log('Winning ticket is #%s with owner %s', winningTicket.ticketId, winningTicket.owner);
+    address payable winner = payable(winningTicket.owner);
     uint256 balance = address(this).balance;
 
     // Fees
@@ -141,8 +152,8 @@ contract Raffle is Ownable {
     uint256 winnerCut = balance - feesAmount;
     winner.transfer(winnerCut);
 
-    resetRaffle(RaffleHistory(winner, winningTicketId, maxTicketAmount, ticketPrice));
-    emit RaffleEnd(winner, winningTicketId, maxTicketAmount);
+    resetRaffle(RaffleHistory(winner, winningTicket.ticketId, maxTicketAmount, ticketPrice));
+    emit RaffleEnd(winner, winningTicket.ticketId, maxTicketAmount);
   }
 
   function payOwner() private returns (uint256) {
@@ -172,15 +183,15 @@ contract Raffle is Ownable {
     delete currentPlayers;
   }
 
-  // ========== View =================
-  function getRandomTicketId() private view returns (uint256) {
-    return
-      ((
-        uint256(
-          keccak256(abi.encodePacked(msg.sender, block.coinbase, block.difficulty, block.gaslimit, block.timestamp))
-        )
-      ) % ticketsBought.length) + 1;
+  function getRandomTicketsBought() private returns (uint256) {
+    return ((
+      uint256(
+        keccak256(abi.encodePacked(msg.sender, block.coinbase, block.difficulty, block.gaslimit, block.timestamp))
+      )
+    ) % ticketsBought.length);
   }
+
+  // ========== View =================
 
   function getTicketsBought() public view returns (TicketBought[] memory) {
     return ticketsBought;

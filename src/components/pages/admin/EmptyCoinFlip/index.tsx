@@ -11,7 +11,7 @@ import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
 const EmptyCoinFlip = () => {
-  const { coinFlipState, isCoinFlipStateFetching, emptyPool } = useCoinFlipContext();
+  const { coinFlipState, isCoinFlipStateFetching } = useCoinFlipContext();
   const { colorAccent, currentNetwork } = useCurrentNetworkContext();
   const isMobile = useIsMobile();
   const [value, setValue] = useState(0);
@@ -42,7 +42,7 @@ const EmptyCoinFlip = () => {
   return (
     <div className='flex w-full flex-col items-center md:grid  md:grid-cols-3 md:grid-rows-1 md:gap-5'>
       <InfoCard {...coinFlipBalanceCard} className='mb-4 w-full md:mb-0' />
-      <EmptyCoinFlipForm setValue={setValue} />
+      <EmptyCoinFlipForm setValue={setValue} value={value} />
       <div className='mt-3 flex h-full flex-col justify-around  text-sm text-white md:mt-0'>
         <div>
           {isMobile ? <>&uarr;</> : <>&larr;</>} Add or remove {currentNetwork.currencySymbol} from the{' '}

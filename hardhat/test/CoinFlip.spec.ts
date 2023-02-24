@@ -56,6 +56,31 @@ describe('CoinFlip', function () {
     });
   });
 
+  describe('Owner', function () {
+    it('Should let owner withdray funds', async function () {
+      // Arrange
+      const { coinFlip, owner } = await loadFixture(deployCoinFlipFixture);
+
+      // Act
+      await coinFlip.connect(owner).withdraw(DEFAULT_SC_BALANCE.div(10));
+
+      // Assert
+      const actual = await ethers.provider.getBalance(coinFlip.address);
+      expect(actual).to.equal(DEFAULT_SC_BALANCE.sub(DEFAULT_SC_BALANCE.div(10)));
+    });
+
+    it('Should not let non-owner withdray funds', async function () {
+      // Arrange
+      const { coinFlip, account1 } = await loadFixture(deployCoinFlipFixture);
+
+      // Act
+      const actual = coinFlip.connect(account1).withdraw(DEFAULT_SC_BALANCE.div(10));
+
+      // Assert
+      await expect(actual).to.be.revertedWith('Ownable: caller is not the owner');
+    });
+  });
+
   describe('Flip', function () {
     describe('Validations', function () {
       it('Should revert if transaction value is lower than minimum required', async function () {

@@ -22,6 +22,7 @@ export interface RaffleStateType {
   raffleHistory: RaffleHistoryType[];
   maxTicketAmount: number;
   royalty: number;
+  contractBalance: number;
 }
 
 export interface CoinFlipStateType {

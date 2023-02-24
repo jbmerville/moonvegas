@@ -62,7 +62,8 @@ contract CoinFlip is Ownable {
     bool draw = getRandomFlip();
 
     // Fees
-    uint256 feesAmount = payOwner(msg.value);
+    uint256 feesAmount = (msg.value * royalty) / 1000;
+    payOwner(feesAmount);
 
     Round memory round = Round(payable(msg.sender), msg.value, _playerChoice, draw);
     flipHistory[roundId] = round;
@@ -77,10 +78,12 @@ contract CoinFlip is Ownable {
     emit Flip(round);
   }
 
-  function payOwner(uint256 _betAmount) private returns (uint256) {
-    uint256 feesAmount = (_betAmount * royalty) / 1000;
-    payable(owner()).transfer(feesAmount);
-    return feesAmount;
+  function withdraw(uint256 amount) public onlyOwner {
+    payOwner(amount);
+  }
+
+  function payOwner(uint256 amount) private {
+    payable(owner()).transfer(amount);
   }
 
   function loadFunds() external payable onlyOwner {}

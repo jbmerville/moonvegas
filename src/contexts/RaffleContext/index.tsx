@@ -43,8 +43,10 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
     [library, currentNetwork.raffleAddress]
   );
 
-  const { send, state } = useContractFunction(contract, 'purchase');
-  const transactionStatus = state.status;
+  const { send: sendPurchase, state: purchaseState } = useContractFunction(contract, 'purchase');
+  const { send: sendEndRaffle, state: endRafflesState } = useContractFunction(contract, 'endRaffleOwner');
+
+  const transactionStatus = purchaseState.status;
   const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
   const [isRaffleStateFetching, setIsRaffleStateFetching] = useState<boolean>(false);
 
@@ -57,6 +59,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
     raffleHistory: [],
     maxTicketAmount: 0,
     royalty: 0,
+    contractBalance: 0,
   });
 
   const refreshState = useCallback(async () => {
@@ -65,23 +68,28 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
         console.error('Raffle contract undefined');
         return;
       }
+      if (!library) {
+        console.error('library undefined');
+        return;
+      }
       setIsRaffleStateFetching(true);
-      const raffleState = await getRaffleState(contract);
+      const raffleState = await getRaffleState(contract, library);
       setRaffleState(raffleState);
     } catch (error) {
       console.error('Something went wrong while fetching raffle state', error);
     } finally {
       setIsRaffleStateFetching(false);
     }
-  }, [contract]);
+  }, [contract, library]);
 
   useEffect(() => {
     refreshState();
   }, [refreshState, currentNetwork.raffleAddress]);
 
   useEffect(() => {
-    toastOnStatusChange(state);
-  }, [state.status, state.errorMessage]);
+    toastOnStatusChange(purchaseState);
+    toastOnStatusChange(endRafflesState);
+  }, [purchaseState.status, purchaseState.errorMessage, endRafflesState.status, endRafflesState.errorMessage]);
 
   const purchase = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,7 +111,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
       try {
         setIsTransactionPending(true);
 
-        const result = await send(ticketIds, { value: price, ...options });
+        const result = await sendPurchase(ticketIds, { value: price, ...options });
 
         if (result === undefined) {
           return;
@@ -113,21 +121,30 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
           await new Promise((resolve) => setTimeout(resolve, 1000));
           await refreshState();
           resetTicketsSelected();
-          setIsTransactionPending(false);
         }
       } catch (error) {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
         console.error('Something went wrong', error);
+      } finally {
         setIsTransactionPending(false);
-        return;
       }
     },
-    [account, raffleState.ticketPrice, send, refreshState]
+    [account, raffleState.ticketPrice, sendPurchase, refreshState]
   );
 
   const endRaffle = useCallback(async () => {
-    return;
-  }, []);
+    try {
+      setIsTransactionPending(true);
+
+      await sendEndRaffle();
+      await refreshState();
+    } catch (error) {
+      toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
+      console.error('Something went wrong', error);
+    } finally {
+      setIsTransactionPending(false);
+    }
+  }, [sendEndRaffle, refreshState]);
 
   return (
     <RaffleContext.Provider

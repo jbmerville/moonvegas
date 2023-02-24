@@ -25,7 +25,8 @@ export interface CoinFlipContextType {
   coinFlipState: CoinFlipStateType;
   isCoinFlipStateFetching: boolean;
   lastCoinFlipResult?: FlipEventType;
-  emptyPool: (value: number) => Promise<void>;
+  withdraw: (value: number) => Promise<void>;
+  loadFunds: (value: number) => Promise<void>;
 }
 
 const CoinFlipContext = createContext<CoinFlipContextType>({} as CoinFlipContextType);
@@ -43,8 +44,11 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
     [library, currentNetwork.coinFlipAddress]
   );
 
-  const { send, state } = useContractFunction(contract, 'flip');
-  const transactionStatus = state.status;
+  const { send: sendFlip, state: flipState } = useContractFunction(contract, 'flip');
+  const { send: sendWithdraw, state: withdrawState } = useContractFunction(contract, 'withdraw');
+  const { send: sendLoadFunds, state: loadFundsState } = useContractFunction(contract, 'loadFunds');
+
+  const transactionStatus = flipState.status || withdrawState;
   const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
   const [isCoinFlipStateFetching, setIsCoinFlipStateFetching] = useState<boolean>(false);
   const [lastCoinFlipResult, setLastCoinFlipResult] = useState<FlipEventType | undefined>();
@@ -70,9 +74,10 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
       setIsCoinFlipStateFetching(true);
       const coinFlipState = await getCoinFlipState(contract, library);
       setCoinFlipState(coinFlipState);
-      setIsCoinFlipStateFetching(false);
     } catch (error) {
-      console.error('Something went wrong', error);
+      console.error('Something went wrong while fetching coinflip state', error);
+    } finally {
+      setIsCoinFlipStateFetching(false);
     }
   }, [contract, library]);
 
@@ -81,8 +86,9 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   }, [refreshState]);
 
   useEffect(() => {
-    toastOnStatusChange(state);
-  }, [state.status, state.errorMessage]);
+    toastOnStatusChange(flipState);
+    toastOnStatusChange(withdrawState);
+  }, [flipState.status, flipState.errorMessage, withdrawState.status, withdrawState.errorMessage]);
 
   const flip = useCallback(
     async (betAmount: number, choice?: CoinFace) => {
@@ -102,7 +108,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
       try {
         setIsTransactionPending(true);
 
-        const result = await send(playerChoice, { value: price });
+        const result = await sendFlip(playerChoice, { value: price });
         if (result === undefined) {
           return;
         }
@@ -125,12 +131,42 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         setIsTransactionPending(false);
       }
     },
-    [account, send, refreshState]
+    [account, sendFlip, refreshState]
   );
 
-  const emptyPool = useCallback(async (value: number) => {
-    return;
-  }, []);
+  const withdraw = useCallback(
+    async (value: number) => {
+      try {
+        setIsTransactionPending(true);
+
+        await sendWithdraw(ethers.utils.parseEther(value.toString()));
+        await refreshState();
+      } catch (error) {
+        toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
+        console.error('Something went wrong', error);
+      } finally {
+        setIsTransactionPending(false);
+      }
+    },
+    [sendWithdraw, refreshState]
+  );
+
+  const loadFunds = useCallback(
+    async (value: number) => {
+      try {
+        setIsTransactionPending(true);
+
+        await sendLoadFunds({ value: ethers.utils.parseEther(value.toString()) });
+        await refreshState();
+      } catch (error) {
+        toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
+        console.error('Something went wrong', error);
+      } finally {
+        setIsTransactionPending(false);
+      }
+    },
+    [sendLoadFunds, refreshState]
+  );
 
   return (
     <CoinFlipContext.Provider
@@ -141,7 +177,8 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         transactionStatus,
         isCoinFlipStateFetching,
         lastCoinFlipResult,
-        emptyPool,
+        withdraw,
+        loadFunds,
       }}
     >
       {children}
