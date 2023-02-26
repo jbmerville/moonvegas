@@ -12,13 +12,14 @@ import { parseTransactionStatus } from '@/components/pages/coinflip/utils';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 import { useRaffleContext } from '@/contexts/RaffleContext';
 
-const EndRaffleSection = () => {
+const EndRaffle = () => {
   const { raffleState, isRaffleStateFetching, endRaffle, isTransactionPending, transactionStatus } = useRaffleContext();
   const isRaffleOver = raffleState.draftTime.getTime() < Date.now();
   const { colorAccent, currentNetwork, colorAccentText } = useCurrentNetworkContext();
   const isMobile = useIsMobile();
   const winnerCut = ((100 - raffleState.royalty) / 100) * raffleState.contractBalance;
   const ownerCut = (raffleState.royalty / 100) * raffleState.contractBalance;
+  const hasNoTicketsBeenSold = raffleState.ticketsBought.length === 0;
 
   const raffleEndTimerInfCard: InfoCardPropsType = {
     title: isRaffleOver ? (
@@ -36,14 +37,14 @@ const EndRaffleSection = () => {
   };
 
   const onEndRaffleClicked = () => {
-    if (!isTransactionPending) {
+    if (!isTransactionPending && !hasNoTicketsBeenSold) {
       endRaffle();
     }
   };
 
   const endRaffleButtonInfoCard: InfoCardPropsType = {
     title: (
-      <div onClick={onEndRaffleClicked} className='mt-[7px] uppercase text-inherit md:text-xl'>
+      <div className='mt-[7px] uppercase text-inherit md:text-xl'>
         {isTransactionPending ? (
           <div className='flex items-center justify-center'>
             <div className='mr-2'>
@@ -66,8 +67,8 @@ const EndRaffleSection = () => {
       <InfoCard {...raffleEndTimerInfCard} />
       <InfoCard
         {...endRaffleButtonInfoCard}
-        onClick={endRaffle}
-        className={`mt-1 bg-${colorAccent} text-${colorAccentText}`}
+        onClick={onEndRaffleClicked}
+        className={hasNoTicketsBeenSold ? '' : `mt-1 bg-${colorAccent} text-${colorAccentText}`}
       />
       <div className='flex h-full flex-col justify-around  text-sm text-white'>
         <div>
@@ -75,9 +76,8 @@ const EndRaffleSection = () => {
           <span className={`text-${colorAccent}`}>{currentNetwork.network.chainName}</span> raffle
         </div>
         <p className='mt-6 text-white/50 md:mt-0'>
-          {raffleState.ticketsBought.length === 0 ? (
+          {hasNoTicketsBeenSold ? (
             <>
-              {' '}
               <FontAwesomeIcon icon={faWarning} size='sm' className='mr-2 inline w-[13px] text-amber-400' />
               No tickets have been purchased. This transaction only works if at least one ticket has been purchased
             </>
@@ -96,7 +96,7 @@ const EndRaffleSection = () => {
               <span className='text-${colorAccent}'>
                 {ownerCut.toFixed(2)} {currentNetwork.currencySymbol}
               </span>{' '}
-              to the owner, and restarts the raffle.
+              to the owner, and restarts the raffle. {raffleState.owner}
             </>
           )}
         </p>
@@ -105,4 +105,4 @@ const EndRaffleSection = () => {
   );
 };
 
-export default EndRaffleSection;
+export default EndRaffle;

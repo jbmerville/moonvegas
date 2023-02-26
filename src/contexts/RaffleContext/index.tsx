@@ -8,7 +8,7 @@ import { Raffle } from 'hardhat/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { toastOnStatusChange } from '@/lib/helpers';
+import { isPercentageValid, toastOnStatusChange } from '@/lib/helpers';
 
 import { getNonDefaultRaffleSelectedTickets } from '@/components/pages/raffle/utils';
 
@@ -26,6 +26,7 @@ export interface RaffleContextType {
   raffleState: RaffleStateType;
   isRaffleStateFetching: boolean;
   endRaffle: () => Promise<void>;
+  setRoyalty: (value: number) => Promise<void>;
 }
 
 const RaffleContext = createContext<RaffleContextType>({} as RaffleContextType);
@@ -44,7 +45,8 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const { send: sendPurchase, state: purchaseState } = useContractFunction(contract, 'purchase');
-  const { send: sendEndRaffle, state: endRafflesState } = useContractFunction(contract, 'endRaffleOwner');
+  const { send: sendEndRaffle, state: endRafflesState } = useContractFunction(contract, 'endRaffleAdmin');
+  const { send: sendSetRoyalty, state: setRoyaltyState } = useContractFunction(contract, 'setRoyalty');
 
   const transactionStatus = purchaseState.status;
   const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
@@ -60,6 +62,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
     maxTicketAmount: 0,
     royalty: 0,
     contractBalance: 0,
+    owner: 'ERROR',
   });
 
   const refreshState = useCallback(async () => {
@@ -89,11 +92,12 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     toastOnStatusChange(purchaseState);
     toastOnStatusChange(endRafflesState);
-  }, [purchaseState.status, purchaseState.errorMessage, endRafflesState.status, endRafflesState.errorMessage]);
+    toastOnStatusChange(setRoyaltyState);
+  }, [endRafflesState, purchaseState, setRoyaltyState]);
 
   const purchase = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async (tickets: RaffleTicketType[], resetTicketsSelected: () => void, options?: any) => {
+    async (tickets: RaffleTicketType[], resetTicketsSelected: () => void) => {
       const ticketIds = getNonDefaultRaffleSelectedTickets(tickets).map((ticket) => ticket.id);
       if (ticketIds.length === 0) {
         toast.dark('No ticket selected', { type: toast.TYPE.ERROR });
@@ -111,7 +115,7 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
       try {
         setIsTransactionPending(true);
 
-        const result = await sendPurchase(ticketIds, { value: price, ...options });
+        const result = await sendPurchase(ticketIds, { value: price, gasLimit: 500000 });
 
         if (result === undefined) {
           return;
@@ -146,9 +150,36 @@ export const RaffleProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [sendEndRaffle, refreshState]);
 
+  const setRoyalty = useCallback(
+    async (value: number) => {
+      try {
+        setIsTransactionPending(true);
+
+        if (isPercentageValid(value)) {
+          await sendSetRoyalty(value * 10);
+          await refreshState();
+        }
+      } catch (error) {
+        toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
+        console.error('Something went wrong', error);
+      } finally {
+        setIsTransactionPending(false);
+      }
+    },
+    [sendSetRoyalty, refreshState]
+  );
+
   return (
     <RaffleContext.Provider
-      value={{ purchase, isTransactionPending, raffleState, transactionStatus, isRaffleStateFetching, endRaffle }}
+      value={{
+        setRoyalty,
+        purchase,
+        isTransactionPending,
+        raffleState,
+        transactionStatus,
+        isRaffleStateFetching,
+        endRaffle,
+      }}
     >
       {children}
     </RaffleContext.Provider>

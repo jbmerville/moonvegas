@@ -26,6 +26,16 @@ const EmptyCoinFlipForm = (props: EmptyCoinFlipFormPropsType) => {
   const isWithdrawDisabled = value == 0 || computeNewMaxBetAmount(value, false) <= 0;
   const isAddDisabled = value <= 0;
 
+  const onAddFundsClicked = async () => {
+    await loadFunds(value);
+    await setValue(0);
+  };
+
+  const onWithdrawFundsClicked = async () => {
+    await withdraw(value);
+    await setValue(0);
+  };
+
   return (
     <div className='flex h-full w-full flex-col'>
       <div className='h-full w-full'>
@@ -51,12 +61,12 @@ const EmptyCoinFlipForm = (props: EmptyCoinFlipFormPropsType) => {
         </Button>
       ) : (
         <div className='mt-4 flex w-full'>
-          <Button disabled={isAddDisabled} onClick={() => loadFunds(value)} className='flex w-full justify-center'>
+          <Button disabled={isAddDisabled} onClick={onAddFundsClicked} className='flex w-full justify-center'>
             <div className={`uppercase md:text-xl text-${colorAccentText}`}>Add</div>
           </Button>
           <Button
             disabled={isWithdrawDisabled}
-            onClick={() => withdraw(value)}
+            onClick={onWithdrawFundsClicked}
             className='ml-4 flex w-full justify-center'
           >
             <div className={`uppercase md:text-xl text-${colorAccentText}`}>Remove</div>

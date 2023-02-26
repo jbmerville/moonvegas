@@ -62,6 +62,7 @@ export async function getRaffleState(raffleContract: Raffle, library: any): Prom
     raffleHistoryData,
     royaltyData,
     contractBalanceData,
+    owner,
   ] = await Promise.all([
     raffleContract.maxTicketAmount(),
     raffleContract.ticketPrice(),
@@ -70,6 +71,7 @@ export async function getRaffleState(raffleContract: Raffle, library: any): Prom
     raffleContract.getRaffleHistory(),
     raffleContract.royalty(),
     library.getBalance(raffleContract.address),
+    raffleContract.owner(),
   ]);
 
   const maxTicketAmount = maxTicketAmountData.toNumber();
@@ -89,5 +91,6 @@ export async function getRaffleState(raffleContract: Raffle, library: any): Prom
     raffleHistory,
     royalty,
     contractBalance,
+    owner,
   };
 }

@@ -15,16 +15,19 @@ describe('Raffle', function () {
   // We use loadFixture to run this setup once, snapshot that state,
   // and reset Hardhat Network to that snapshot in every test.
   async function deployRaffleFixture() {
-    const ONE_GWEI = 1_000_000_000;
-
     const draftTime = (await time.latest()) + ONE_YEAR_IN_SECS;
     const maxTicketAmount = 100;
     // Contracts are deployed using the first signer/account by default
-    const [owner, otherAccount] = await ethers.getSigners();
-
+    const [creator, owner, admin, user] = await ethers.getSigners();
     const Raffle = await ethers.getContractFactory('Raffle');
-    const raffle = await Raffle.deploy(draftTime, maxTicketAmount, PRICE);
-    return { raffle, draftTime, owner, otherAccount, maxTicketAmount };
+    const raffle = await Raffle.deploy(
+      [owner.address, admin.address, owner.address, owner.address],
+      draftTime,
+      maxTicketAmount,
+      PRICE
+    );
+
+    return { raffle, draftTime, owner, creator, user, admin, maxTicketAmount };
   }
 
   describe('Deployment', function () {
@@ -90,9 +93,9 @@ describe('Raffle', function () {
         // Arrange
         const latestTime = await time.latest();
         const raffle = await ethers.getContractFactory('Raffle');
-
+        const { owner, admin } = await loadFixture(deployRaffleFixture);
         // Act
-        const actual = raffle.deploy(latestTime, 1000, PRICE);
+        const actual = raffle.deploy([owner.address, admin.address], latestTime, 1000, PRICE);
 
         // Assert
         await expect(actual).to.be.revertedWith('Draft end time should be in the future');
@@ -108,7 +111,7 @@ describe('Raffle', function () {
 
       // Act 1
       await raffle.connect(owner).purchase(ticketIds, { value: PRICE });
-      await raffle.connect(owner).endRaffleOwner();
+      await raffle.connect(owner).endRaffleAdmin();
 
       // Assert 1
       const actual = await raffle.maxTicketAmount();
@@ -120,7 +123,7 @@ describe('Raffle', function () {
       const { raffle, owner, maxTicketAmount } = await loadFixture(deployRaffleFixture);
 
       // Act 1
-      await raffle.connect(owner).endRaffleOwner();
+      await raffle.connect(owner).endRaffleAdmin();
       const actual = await raffle.maxTicketAmount();
 
       // Assert 1
@@ -175,6 +178,7 @@ describe('Raffle', function () {
         const account2 = (await ethers.getSigners())[2];
         const account3 = (await ethers.getSigners())[3];
         const raffle = await Raffle.connect(account1).deploy(
+          [account1.address, account1.address],
           (await time.latest()) + ONE_YEAR_IN_SECS,
           ticketAmount,
           PRICE
@@ -273,11 +277,11 @@ describe('Raffle', function () {
       describe('Validations', function () {
         it('Should set the right royalty', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
           const newRoyalty = 100;
 
           // Act
-          raffle.setRoyalty(newRoyalty);
+          await raffle.connect(admin).setRoyalty(newRoyalty);
 
           // Assert
           const actual = await raffle.royalty();
@@ -287,20 +291,20 @@ describe('Raffle', function () {
       describe('Invalid inputs', function () {
         it('Should revert when royalty is above 100%', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
 
           // Act
-          const actual = raffle.setRoyalty(1001);
+          const actual = raffle.connect(admin).setRoyalty(1001);
 
           // Assert
-          expect(actual).to.be.revertedWith('Royalty should be less than or equal to 1000');
+          await expect(actual).to.be.revertedWith('Royalty should be less than or equal to 1000');
         });
         it('Should revert when royalty is under 0%', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
 
           // Act
-          const actual = raffle.setRoyalty(-1);
+          const actual = raffle.connect(admin).setRoyalty(-1);
 
           // Assert
           expect(actual).to.be.revertedWithPanic();
@@ -312,11 +316,11 @@ describe('Raffle', function () {
       describe('Validations', function () {
         it('Should set the right nextRaffleTicketPrice', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
           const newNextRaffleTicketPrice = 1234;
 
           // Act
-          raffle.setNextRaffleTicketPrice(newNextRaffleTicketPrice);
+          await raffle.connect(admin).setNextRaffleTicketPrice(newNextRaffleTicketPrice);
 
           // Assert
           const actual = await raffle.nextRaffleTicketPrice();
@@ -326,10 +330,10 @@ describe('Raffle', function () {
       describe('Invalid inputs', function () {
         it('Should revert when nextRaffleTicketPrice is under 0', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
 
           // Act
-          const actual = raffle.setNextRaffleTicketPrice(-1);
+          const actual = raffle.connect(admin).setNextRaffleTicketPrice(-1);
 
           // Assert
           expect(actual).to.be.revertedWithPanic();
@@ -341,11 +345,11 @@ describe('Raffle', function () {
       describe('Validations', function () {
         it('Should set the right nextRaffleMaxTicketAmount', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
           const newNextRaffleMaxTicketAmount = 1234;
 
           // Act
-          raffle.setNextRaffleMaxTicketAmount(newNextRaffleMaxTicketAmount);
+          await raffle.connect(admin).setNextRaffleMaxTicketAmount(newNextRaffleMaxTicketAmount);
 
           // Assert
           const actual = await raffle.nextRaffleMaxTicketAmount();
@@ -370,11 +374,11 @@ describe('Raffle', function () {
       describe('Validations', function () {
         it('Should set the right nextDraftDuration', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
           const newNextDraftDuration = 1234;
 
           // Act
-          raffle.setNextDraftDuration(newNextDraftDuration);
+          await raffle.connect(admin).setNextDraftDuration(newNextDraftDuration);
 
           // Assert
           const actual = await raffle.nextDraftDuration();
@@ -384,10 +388,10 @@ describe('Raffle', function () {
       describe('Invalid inputs', function () {
         it('Should revert when nextDraftDuration is under 0', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
 
           // Act
-          const actual = raffle.setNextDraftDuration(-1);
+          const actual = raffle.connect(admin).setNextDraftDuration(-1);
 
           // Assert
           expect(actual).to.be.revertedWithPanic();
@@ -399,11 +403,11 @@ describe('Raffle', function () {
       describe('Validations', function () {
         it('Should set the right draftTime', async function () {
           // Arrange
-          const { raffle } = await loadFixture(deployRaffleFixture);
+          const { raffle, admin } = await loadFixture(deployRaffleFixture);
           const currentDraftDurationFromNow = 1000;
 
           // Act
-          raffle.resetCurrentDraftDurationFromNow(currentDraftDurationFromNow);
+          await raffle.connect(admin).resetCurrentDraftDurationFromNow(currentDraftDurationFromNow);
 
           // Assert
           const actual = await raffle.draftTime();

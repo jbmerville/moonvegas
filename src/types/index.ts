@@ -23,6 +23,7 @@ export interface RaffleStateType {
   maxTicketAmount: number;
   royalty: number;
   contractBalance: number;
+  owner: string;
 }
 
 export interface CoinFlipStateType {
@@ -31,6 +32,8 @@ export interface CoinFlipStateType {
   contractBalance: number;
   royalty: number;
   maxPoolBetAmount: number;
+  owner: string;
+  maxPoolBetRatio: number;
 }
 
 export enum CoinFace {

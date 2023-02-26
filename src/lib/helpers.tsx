@@ -7,7 +7,7 @@ import EthereumIcon from '@/components/icons/EthereumIcon';
 import MoonbeamIcon from '@/components/icons/MoonbeamIcon';
 import MoonriverIcon from '@/components/icons/MoonriverIcon';
 
-import { availableNetworks, chains, smartCountractOwnerAddress } from '@/config';
+import { availableNetworks, chains, smartCountractAdminAddresses } from '@/config';
 
 /**
  * Function that pauses execution
@@ -101,6 +101,20 @@ export function toastOnStatusChange(state: TransactionStatus) {
   }
 }
 
-export function isAccountAdmin(account?: string) {
-  return account === smartCountractOwnerAddress;
+export function isAccountAdmin(account?: string): boolean {
+  if (account) {
+    return smartCountractAdminAddresses.includes(account);
+  }
+  return false;
+}
+
+export function isPercentageValid(percentage: number): boolean {
+  if (percentage <= 0) {
+    toast.dark('Percentage should be > 0', { type: toast.TYPE.ERROR });
+    return false;
+  } else if (percentage >= 100) {
+    toast.dark('Percentage should be < 100', { type: toast.TYPE.ERROR });
+    return false;
+  }
+  return true;
 }

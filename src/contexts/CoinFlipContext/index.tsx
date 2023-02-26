@@ -8,7 +8,7 @@ import { CoinFlip } from 'hardhat/types';
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { toastOnStatusChange, wait } from '@/lib/helpers';
+import { isPercentageValid, toastOnStatusChange, wait } from '@/lib/helpers';
 
 import { convertLogToFlipEvent, FlipEventType, getCoinFlipState } from '@/contexts/CoinFlipContext/utils';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
@@ -27,6 +27,8 @@ export interface CoinFlipContextType {
   lastCoinFlipResult?: FlipEventType;
   withdraw: (value: number) => Promise<void>;
   loadFunds: (value: number) => Promise<void>;
+  setRoyalty: (value: number) => Promise<void>;
+  setMaxPoolBetRatio: (value: number) => Promise<void>;
 }
 
 const CoinFlipContext = createContext<CoinFlipContextType>({} as CoinFlipContextType);
@@ -47,6 +49,11 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   const { send: sendFlip, state: flipState } = useContractFunction(contract, 'flip');
   const { send: sendWithdraw, state: withdrawState } = useContractFunction(contract, 'withdraw');
   const { send: sendLoadFunds, state: loadFundsState } = useContractFunction(contract, 'loadFunds');
+  const { send: sendSetRoyalty, state: setRoyaltyState } = useContractFunction(contract, 'setRoyalty');
+  const { send: sendSetMaxPoolBetRatio, state: setMaxPoolBetRatioState } = useContractFunction(
+    contract,
+    'setMaxPoolBetRatio'
+  );
 
   const transactionStatus = flipState.status || withdrawState;
   const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
@@ -58,7 +65,9 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
     totalVolume: 0,
     contractBalance: 0,
     royalty: 0,
+    maxPoolBetRatio: 0,
     maxPoolBetAmount: 0,
+    owner: 'ERROR',
   });
 
   const refreshState = useCallback(async () => {
@@ -88,7 +97,10 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     toastOnStatusChange(flipState);
     toastOnStatusChange(withdrawState);
-  }, [flipState.status, flipState.errorMessage, withdrawState.status, withdrawState.errorMessage]);
+    toastOnStatusChange(loadFundsState);
+    toastOnStatusChange(setRoyaltyState);
+    toastOnStatusChange(setMaxPoolBetRatioState);
+  }, [flipState, withdrawState, loadFundsState, setRoyaltyState, setMaxPoolBetRatioState]);
 
   const flip = useCallback(
     async (betAmount: number, choice?: CoinFace) => {
@@ -108,7 +120,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
       try {
         setIsTransactionPending(true);
 
-        const result = await sendFlip(playerChoice, { value: price });
+        const result = await sendFlip(playerChoice, { value: price, gasLimit: 10000000 });
         if (result === undefined) {
           return;
         }
@@ -139,7 +151,23 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
       try {
         setIsTransactionPending(true);
 
-        await sendWithdraw(ethers.utils.parseEther(value.toString()));
+        await sendWithdraw(ethers.utils.parseEther(value.toString()), {
+          gasLimit: 500000,
+          accessList: [
+            {
+              address: '0x397c2c9c2841bcc396ecaedbc00cd2cfd07de917', // admin gnosis safe proxy address
+              storageKeys: ['0x0000000000000000000000000000000000000000000000000000000000000000'],
+            },
+            {
+              address: '0xaF5c3455A72ecdfc316Bf00e356182B58585B40E', // proceedsRecipient gnosis safe proxy address
+              storageKeys: ['0x0000000000000000000000000000000000000000000000000000000000000000'],
+            },
+            {
+              address: '0xA5C072fC2D17b4a7D532ee531dccbc25D2FD4Eb5', // admin gnosis safe proxy address
+              storageKeys: [],
+            },
+          ],
+        });
         await refreshState();
       } catch (error) {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
@@ -168,6 +196,44 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
     [sendLoadFunds, refreshState]
   );
 
+  const setRoyalty = useCallback(
+    async (value: number) => {
+      try {
+        setIsTransactionPending(true);
+
+        if (isPercentageValid(value)) {
+          await sendSetRoyalty(value * 10);
+          await refreshState();
+        }
+      } catch (error) {
+        toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
+        console.error('Something went wrong', error);
+      } finally {
+        setIsTransactionPending(false);
+      }
+    },
+    [sendSetRoyalty, refreshState]
+  );
+
+  const setMaxPoolBetRatio = useCallback(
+    async (value: number) => {
+      try {
+        setIsTransactionPending(true);
+
+        if (isPercentageValid(value)) {
+          await sendSetMaxPoolBetRatio(value * 10);
+          await refreshState();
+        }
+      } catch (error) {
+        toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
+        console.error('Something went wrong', error);
+      } finally {
+        setIsTransactionPending(false);
+      }
+    },
+    [sendSetMaxPoolBetRatio, refreshState]
+  );
+
   return (
     <CoinFlipContext.Provider
       value={{
@@ -179,6 +245,8 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         lastCoinFlipResult,
         withdraw,
         loadFunds,
+        setRoyalty,
+        setMaxPoolBetRatio,
       }}
     >
       {children}
