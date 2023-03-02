@@ -32,14 +32,14 @@ const Admin = () => {
                   Interact with smart contracts
                 </p>
               </div>
-              <p className='my-3 mt-5 text-2xl font-bold text-white  md:text-3xl'>Raffle</p>
-              <RaffleProvider>
-                <AdminRaffle />
-              </RaffleProvider>
-              <p className='my-3 mt-10 text-2xl font-bold text-white md:mt-12 md:text-3xl'>Coin Flip</p>
+              <p className='my-3 mt-5 text-2xl font-bold text-white md:mt-12 md:text-3xl'>Coin Flip</p>
               <CoinFlipProvider>
                 <AdminCoinFlip />
               </CoinFlipProvider>
+              <p className='my-3 mt-10 text-2xl font-bold text-white  md:text-3xl'>Raffle</p>
+              <RaffleProvider>
+                <AdminRaffle />
+              </RaffleProvider>
             </div>
           </div>
         </section>

@@ -18,7 +18,7 @@ const CoinFlipFaceSelection = (props: CoinFlipFaceSelectionPropsType) => {
   return (
     <div className='layout flex flex-col items-center justify-center'>
       <div className='mb-3 mt-20 flex flex-row items-center justify-between md:mt-36'>
-        {isTransactionPending ? (
+        {isTransactionPending.flip ? (
           <CoinFlipping />
         ) : (
           <>

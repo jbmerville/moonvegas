@@ -20,9 +20,7 @@ const SetMaxPoolBetRatio = () => {
     isLoading: isCoinFlipStateFetching,
   };
 
-  const isDisabled = () => {
-    return value <= 0 || value >= 0;
-  };
+  const isDisabled = value <= 0 || value >= 100;
 
   const computeNewMaxBetAmount = () => {
     return coinFlipState.contractBalance * value * 0.01;
@@ -33,12 +31,13 @@ const SetMaxPoolBetRatio = () => {
       <InfoCard {...coinFlipBalanceCard} className='mb-4 w-full md:mb-0' />
       <InputForm
         setValue={setValue}
-        isDisabled={isDisabled()}
+        isDisabled={isDisabled}
         value={value}
         actionText='Set Max Pool Bet Ratio'
-        isTransactionPending={isTransactionPending}
+        isTransactionPending={isTransactionPending.setMaxPoolBetRatio}
         transactionStatus={transactionStatus}
-        onClick={setMaxPoolBetRatio}
+        onClick={() => setMaxPoolBetRatio(value)}
+        placeholder='0%'
       />
       <SideText
         topMessage={

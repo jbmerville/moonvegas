@@ -4,20 +4,20 @@ import InfoCard, { InfoCardPropsType } from '@/components/InfoCards/InfoCard';
 import InputForm from '@/components/pages/admin/InputForm';
 import SideText from '@/components/pages/admin/SideText';
 
+import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
-import { useRaffleContext } from '@/contexts/RaffleContext';
 
-const SetRoyaltyRaffle = () => {
-  const { raffleState, setRoyalty, isRaffleStateFetching, isTransactionPending, transactionStatus } =
-    useRaffleContext();
+const SetRoyaltyCoinFlip = () => {
+  const { coinFlipState, setRoyalty, isCoinFlipStateFetching, isTransactionPending, transactionStatus } =
+    useCoinFlipContext();
   const { colorAccent, currentNetwork } = useCurrentNetworkContext();
   const [value, setValue] = useState(0);
 
   const coinFlipBalanceCard: InfoCardPropsType = {
-    title: <div>{raffleState.royalty.toFixed(2)} %</div>,
+    title: <div>{coinFlipState.royalty.toFixed(2)} %</div>,
 
     subtitle: <>Royalties</>,
-    isLoading: isRaffleStateFetching,
+    isLoading: isCoinFlipStateFetching,
   };
 
   const isDisabled = value <= 0 || value >= 100;
@@ -30,7 +30,7 @@ const SetRoyaltyRaffle = () => {
         isDisabled={isDisabled}
         value={value}
         actionText='Set Royalty'
-        isTransactionPending={isTransactionPending}
+        isTransactionPending={isTransactionPending.setRoyalty}
         transactionStatus={transactionStatus}
         onClick={() => setRoyalty(value)}
         placeholder='0%'
@@ -39,16 +39,21 @@ const SetRoyaltyRaffle = () => {
         topMessage={
           <>
             Change royalty for the <span className={`text-${colorAccent}`}>{currentNetwork.network.chainName}</span>{' '}
-            raffle
+            coin flip
           </>
         }
         bottomMessage={{
           level: 'INFO',
-          message: <>Royalties are sent to the owner account at the end of every raffle.</>,
+          message: (
+            <>
+              This will impact the how fast the pool is filled up. Royalties are sent every winning transactions to the
+              owner account.
+            </>
+          ),
         }}
       />
     </div>
   );
 };
 
-export default SetRoyaltyRaffle;
+export default SetRoyaltyCoinFlip;

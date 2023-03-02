@@ -4,57 +4,55 @@ import InfoCard, { InfoCardPropsType } from '@/components/InfoCards/InfoCard';
 import InputForm from '@/components/pages/admin/InputForm';
 import SideText from '@/components/pages/admin/SideText';
 
-import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
+import { useRaffleContext } from '@/contexts/RaffleContext';
 
-const SetRoyaltyCoinFlip = () => {
-  const { coinFlipState, setRoyalty, isCoinFlipStateFetching, isTransactionPending, transactionStatus } =
-    useCoinFlipContext();
+const NextTicketAmount = () => {
+  const { raffleState, setRoyalty, isRaffleStateFetching, isTransactionPending, transactionStatus } =
+    useRaffleContext();
   const { colorAccent, currentNetwork } = useCurrentNetworkContext();
   const [value, setValue] = useState(0);
 
   const coinFlipBalanceCard: InfoCardPropsType = {
-    title: <div>{coinFlipState.royalty.toFixed(2)} %</div>,
+    title: (
+      <div>
+        {raffleState.tickets.length} / {raffleState.tickets.length}
+      </div>
+    ),
 
-    subtitle: <>Royalties</>,
-    isLoading: isCoinFlipStateFetching,
+    subtitle: <>Current # Of Ticket / Next # Of Tickets</>,
+    isLoading: isRaffleStateFetching,
   };
 
-  const isDisabled = () => {
-    return value <= 0 || value >= 0;
-  };
+  const isDisabled = value <= 0;
 
   return (
     <div className='flex w-full flex-col items-center md:grid  md:grid-cols-3 md:grid-rows-1 md:gap-5'>
       <InfoCard {...coinFlipBalanceCard} className='mb-4 w-full md:mb-0' />
       <InputForm
         setValue={setValue}
-        isDisabled={isDisabled()}
+        isDisabled={isDisabled}
         value={value}
-        actionText='Set Royalty'
+        actionText='Set Next Ticket Amount'
         isTransactionPending={isTransactionPending}
         transactionStatus={transactionStatus}
         onClick={setRoyalty}
+        placeholder='0'
       />
       <SideText
         topMessage={
           <>
-            Change royalty for the <span className={`text-${colorAccent}`}>{currentNetwork.network.chainName}</span>{' '}
-            coin flip
+            Change next ticket amount for the{' '}
+            <span className={`text-${colorAccent}`}>{currentNetwork.network.chainName}</span> raffle
           </>
         }
         bottomMessage={{
           level: 'INFO',
-          message: (
-            <>
-              This will impact the how fast the pool is filled up. Royalties are sent every winning transactions to the
-              owner account.
-            </>
-          ),
+          message: <>Next ticket amount is applied for once the raffle is restarted.</>,
         }}
       />
     </div>
   );
 };
 
-export default SetRoyaltyCoinFlip;
+export default NextTicketAmount;

@@ -195,7 +195,7 @@ describe('CoinFlipContext', () => {
       await context.flip(betAmount, CoinFace.HEADS);
     });
 
-    expect(context.isTransactionPending).toBe(false);
+    expect(context.isTransactionPending.flip).toBe(false);
     expect(console.error).not.toHaveBeenCalled();
   });
 
@@ -212,7 +212,7 @@ describe('CoinFlipContext', () => {
     expect(toast.dark).toHaveBeenCalledWith(`Something went wrong`, {
       type: toast.TYPE.ERROR,
     });
-    expect(context.isTransactionPending).toBe(false);
+    expect(context.isTransactionPending.flip).toBe(false);
     expect(console.error).toBeCalledTimes(1);
   });
 });

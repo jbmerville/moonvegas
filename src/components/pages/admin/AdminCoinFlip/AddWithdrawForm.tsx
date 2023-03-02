@@ -7,11 +7,11 @@ import { parseTransactionStatus } from '@/components/pages/coinflip/utils';
 import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
-interface EmptyCoinFlipFormPropsType {
+interface AddWithdrawFormPropsType {
   setValue: (value: number) => void;
   value: number;
 }
-const EmptyCoinFlipForm = (props: EmptyCoinFlipFormPropsType) => {
+const AddWithdrawForm = (props: AddWithdrawFormPropsType) => {
   const { setValue, value } = props;
   const { currentNetwork, colorAccent, colorAccentText } = useCurrentNetworkContext();
   const { coinFlipState, withdraw, isTransactionPending, transactionStatus, loadFunds } = useCoinFlipContext();
@@ -48,7 +48,7 @@ const EmptyCoinFlipForm = (props: EmptyCoinFlipFormPropsType) => {
           min='1'
         />
       </div>
-      {isTransactionPending ? (
+      {isTransactionPending.withdraw || isTransactionPending.loadFunds ? (
         <Button disabled={isAddDisabled} className='mt-4'>
           <div className='flex w-full items-center justify-center'>
             <div className='mr-2'>
@@ -77,4 +77,4 @@ const EmptyCoinFlipForm = (props: EmptyCoinFlipFormPropsType) => {
   );
 };
 
-export default EmptyCoinFlipForm;
+export default AddWithdrawForm;

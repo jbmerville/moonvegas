@@ -17,10 +17,18 @@ import { CoinFace, CoinFlipStateType } from '@/types';
 
 export const coinFlipAbi = new utils.Interface(coinFlipArtifacts.abi);
 
+interface CoinFlipContextIsTransactionPendingType {
+  flip: boolean;
+  withdraw: boolean;
+  loadFunds: boolean;
+  setRoyalty: boolean;
+  setMaxPoolBetRatio: boolean;
+}
+
 export interface CoinFlipContextType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   flip: (betAmount: number, choice?: CoinFace, options?: any) => Promise<void>;
-  isTransactionPending: boolean;
+  isTransactionPending: CoinFlipContextIsTransactionPendingType;
   transactionStatus: TransactionState;
   coinFlipState: CoinFlipStateType;
   isCoinFlipStateFetching: boolean;
@@ -56,7 +64,13 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const transactionStatus = flipState.status || withdrawState;
-  const [isTransactionPending, setIsTransactionPending] = useState<boolean>(false);
+  const [isTransactionPending, setIsTransactionPending] = useState<CoinFlipContextIsTransactionPendingType>({
+    flip: false,
+    withdraw: false,
+    loadFunds: false,
+    setRoyalty: false,
+    setMaxPoolBetRatio: false,
+  });
   const [isCoinFlipStateFetching, setIsCoinFlipStateFetching] = useState<boolean>(false);
   const [lastCoinFlipResult, setLastCoinFlipResult] = useState<FlipEventType | undefined>();
 
@@ -118,7 +132,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
       const playerChoice = choice === CoinFace.HEADS;
 
       try {
-        setIsTransactionPending(true);
+        setIsTransactionPending((transaction) => ({ ...transaction, flip: true }));
 
         const result = await sendFlip(playerChoice, { value: price, gasLimit: 10000000 });
         if (result === undefined) {
@@ -140,7 +154,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         console.error('Something went wrong', error);
         return;
       } finally {
-        setIsTransactionPending(false);
+        setIsTransactionPending((transaction) => ({ ...transaction, flip: false }));
       }
     },
     [account, sendFlip, refreshState]
@@ -149,31 +163,17 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   const withdraw = useCallback(
     async (value: number) => {
       try {
-        setIsTransactionPending(true);
+        setIsTransactionPending((transaction) => ({ ...transaction, withdraw: true }));
 
         await sendWithdraw(ethers.utils.parseEther(value.toString()), {
           gasLimit: 500000,
-          accessList: [
-            {
-              address: '0x397c2c9c2841bcc396ecaedbc00cd2cfd07de917', // admin gnosis safe proxy address
-              storageKeys: ['0x0000000000000000000000000000000000000000000000000000000000000000'],
-            },
-            {
-              address: '0xaF5c3455A72ecdfc316Bf00e356182B58585B40E', // proceedsRecipient gnosis safe proxy address
-              storageKeys: ['0x0000000000000000000000000000000000000000000000000000000000000000'],
-            },
-            {
-              address: '0xA5C072fC2D17b4a7D532ee531dccbc25D2FD4Eb5', // admin gnosis safe proxy address
-              storageKeys: [],
-            },
-          ],
         });
         await refreshState();
       } catch (error) {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
         console.error('Something went wrong', error);
       } finally {
-        setIsTransactionPending(false);
+        setIsTransactionPending((transaction) => ({ ...transaction, withdraw: false }));
       }
     },
     [sendWithdraw, refreshState]
@@ -182,15 +182,15 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   const loadFunds = useCallback(
     async (value: number) => {
       try {
-        setIsTransactionPending(true);
+        setIsTransactionPending((transaction) => ({ ...transaction, loadFunds: true }));
 
-        await sendLoadFunds({ value: ethers.utils.parseEther(value.toString()) });
+        await sendLoadFunds({ value: ethers.utils.parseEther(value.toString()), gasLimit: 500000 });
         await refreshState();
       } catch (error) {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
         console.error('Something went wrong', error);
       } finally {
-        setIsTransactionPending(false);
+        setIsTransactionPending((transaction) => ({ ...transaction, loadFunds: false }));
       }
     },
     [sendLoadFunds, refreshState]
@@ -199,7 +199,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   const setRoyalty = useCallback(
     async (value: number) => {
       try {
-        setIsTransactionPending(true);
+        setIsTransactionPending((transaction) => ({ ...transaction, setRoyalty: true }));
 
         if (isPercentageValid(value)) {
           await sendSetRoyalty(value * 10);
@@ -209,7 +209,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
         console.error('Something went wrong', error);
       } finally {
-        setIsTransactionPending(false);
+        setIsTransactionPending((transaction) => ({ ...transaction, setRoyalty: false }));
       }
     },
     [sendSetRoyalty, refreshState]
@@ -218,7 +218,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
   const setMaxPoolBetRatio = useCallback(
     async (value: number) => {
       try {
-        setIsTransactionPending(true);
+        setIsTransactionPending((transaction) => ({ ...transaction, setMaxPoolBetRatio: true }));
 
         if (isPercentageValid(value)) {
           await sendSetMaxPoolBetRatio(value * 10);
@@ -228,7 +228,7 @@ export const CoinFlipProvider = ({ children }: { children: ReactNode }) => {
         toast.dark('Something went wrong', { type: toast.TYPE.ERROR });
         console.error('Something went wrong', error);
       } finally {
-        setIsTransactionPending(false);
+        setIsTransactionPending((transaction) => ({ ...transaction, setMaxPoolBetRatio: false }));
       }
     },
     [sendSetMaxPoolBetRatio, refreshState]

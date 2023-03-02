@@ -15,10 +15,11 @@ interface InputFormPropsType {
   isDisabled: boolean;
   transactionStatus: TransactionState;
   onClick: (value: number) => Promise<void>;
+  placeholder: string;
 }
 const InputForm = (props: InputFormPropsType) => {
-  const { setValue, isDisabled, isTransactionPending, transactionStatus, onClick, actionText } = props;
-  const { currentNetwork, colorAccent, colorAccentText } = useCurrentNetworkContext();
+  const { setValue, isDisabled, isTransactionPending, transactionStatus, onClick, actionText, placeholder } = props;
+  const { colorAccent, colorAccentText } = useCurrentNetworkContext();
 
   return (
     <div className='flex h-full w-full flex-col'>
@@ -28,7 +29,7 @@ const InputForm = (props: InputFormPropsType) => {
           type='number'
           id='first_name'
           className={`block w-full rounded-lg border-2 border-${colorAccent} focus:ring-white-500 bg-moonbeam-grey-dark pl-4 text-white md:p-2.5  md:text-xl`}
-          placeholder='0%'
+          placeholder={placeholder}
           min='0'
           max='100'
         />
@@ -45,7 +46,7 @@ const InputForm = (props: InputFormPropsType) => {
           </div>
         </Button>
       ) : (
-        <Button disabled={isDisabled} onClick={onClick} className='flex w-full justify-center'>
+        <Button disabled={isDisabled} onClick={onClick} className='mt-4 flex w-full justify-center'>
           <div className={`uppercase md:text-xl text-${colorAccentText}`}>{actionText}</div>
         </Button>
       )}

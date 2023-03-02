@@ -57,11 +57,11 @@ const CoinFlipBetAmountSelection = (props: CoinFlipBetAmountSelectionPropsType) 
             ))}
           </div>
           <Button
-            isLoading={isTransactionPending}
+            isLoading={isTransactionPending.flip}
             className={`relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-md p-0.5 text-sm font-medium text-${colorAccentText} md:text-lg `}
             onClick={onFlipClick}
           >
-            {isTransactionPending ? (
+            {isTransactionPending.flip ? (
               <span className='py-2.5 pl-2 font-extrabold uppercase text-white'>
                 {parseTransactionStatus(transactionStatus)}...
               </span>

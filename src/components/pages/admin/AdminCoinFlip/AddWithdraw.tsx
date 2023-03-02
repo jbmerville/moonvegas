@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import InfoCard, { InfoCardPropsType } from '@/components/InfoCards/InfoCard';
-import EmptyCoinFlipForm from '@/components/pages/admin/AdminCoinFlip/EmptyCoinFlipForm';
+import AddWithdrawForm from '@/components/pages/admin/AdminCoinFlip/AddWithdrawForm';
 import SideText from '@/components/pages/admin/SideText';
 
 import { useCoinFlipContext } from '@/contexts/CoinFlipContext';
 import { useCurrentNetworkContext } from '@/contexts/CurrentNetwork';
 
-const EmptyCoinFlip = () => {
+const AddWithdraw = () => {
   const { coinFlipState, isCoinFlipStateFetching } = useCoinFlipContext();
   const { colorAccent, currentNetwork } = useCurrentNetworkContext();
   const [value, setValue] = useState(0);
@@ -33,7 +33,7 @@ const EmptyCoinFlip = () => {
   return (
     <div className='flex w-full flex-col items-center md:grid  md:grid-cols-3 md:grid-rows-1 md:gap-5'>
       <InfoCard {...coinFlipBalanceCard} className='mb-4 w-full md:mb-0' />
-      <EmptyCoinFlipForm setValue={setValue} value={value} />
+      <AddWithdrawForm setValue={setValue} value={value} />
       <SideText
         topMessage={
           <>
@@ -63,4 +63,4 @@ const EmptyCoinFlip = () => {
   );
 };
 
-export default EmptyCoinFlip;
+export default AddWithdraw;
